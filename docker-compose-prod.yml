@@ -1,0 +1,75 @@
+version: '3.3'
+
+services:
+  nginx:
+    image: jwilder/nginx-proxy
+    restart: always
+    ports:
+      - '80:80'
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - ./services/nginx/increase-timeout.conf:/etc/nginx/conf.d/increase-timeout.conf:ro
+      - ./services/nginx/increase-upload-limit.conf:/etc/nginx/conf.d/increase-upload-limit.conf:ro
+
+  db:
+    image: aashreys/mongo-auth:latest
+    restart: always
+    volumes:
+      - db_data_prod:/data/db
+    ports:
+      - '27017:27017'
+    environment:
+      - AUTH=yes
+      - MONGO_DATA_DIR=/data/db
+      - MONGO_LOG_DIR=/dev/null
+      - MONGODB_ADMIN_USER=admin
+      - MONGODB_ADMIN_PASS=fRt8SCCRAvm8ntKg0FeQ2JCHEH1ZhVne
+      - MONGODB_APPLICATION_DATABASE=terasys
+      - MONGODB_APPLICATION_USER=terasys
+      - MONGODB_APPLICATION_PASS=dopaevkPRZ2dDOuK5EayzNa9Ybr7b01p
+
+  # db_backup:
+  #   image: requilence/mongodb-backup
+  #   restart: always
+  #   volumes:
+  #     - ./services/db_backup/backup:/backup
+  #   depends_on:
+  #     - db
+  #   links:
+  #     - db
+  #   environment:
+  #     MONGODB_HOST: db
+  #     MONGODB_PORT: 27017
+  #     MONGODB_USER: admin
+  #     MONGODB_PASS: fRt8SCCRAvm8ntKg0FeQ2JCHEH1ZhVne
+  #     MONGODB_DB: terasys
+  #     MAX_BACKUPS: 14
+  #     INIT_BACKUP: 1
+
+  api:
+    build:
+      context: ./services/api
+      dockerfile: Dockerfile-prod
+    restart: always
+    depends_on:
+      - db
+    links:
+      - db
+    environment:
+      - VIRTUAL_HOST=api.terasys.com
+      - VIRTUAL_PORT=1337
+
+  app:
+    build:
+      context: ./services/app
+      dockerfile: Dockerfile-prod
+    restart: always
+    depends_on:
+      - api
+    environment:
+      - VIRTUAL_HOST=app.terasys.com,www.terasys.com
+      - VIRTUAL_PORT=3000
+
+volumes:
+  ? db_data_prod
+  ? db_backup_data_prod

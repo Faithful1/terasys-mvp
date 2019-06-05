@@ -1,0 +1,35 @@
+{
+  "name": "terasys-api",
+  "version": "0.0.1",
+  "description": "Node server to collect sensor data and server to endpoints",
+  "main": "main.js",
+  "author": "irwynks",
+  "scripts": {
+    "start": "npm run start:dev",
+    "start:dev": "npm run serve:dev",
+    "start:prod": "npm run serve:prod",
+    "serve:dev": "nodemon index.js",
+    "serve:prod": "npm run start"
+  },
+  "dependencies": {
+    "async": "*",
+    "bcryptjs": "^1.0.2",
+    "body-parser": "*",
+    "express": "*",
+    "express-flash": "0.0.2",
+    "express-session": "^1.15.2",
+    "jsonwebtoken": "^7.3.0",
+    "moment": "*",
+    "mongoose": "*",
+    "nodemailer": "^4.0.0",
+    "passport": "^0.3.2",
+    "passport-jwt": "^2.2.1",
+    "passport-local": "^1.0.0",
+    "random-js": "^1.0.8",
+    "socket.io": "*",
+    "underscore": "*"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.0"
+  }
+}

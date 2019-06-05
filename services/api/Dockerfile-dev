@@ -1,0 +1,12 @@
+FROM node:10-alpine
+
+RUN apk add --no-cache tini
+ENTRYPOINT ["/sbin/tini", "--"]
+
+WORKDIR /code
+
+EXPOSE 4000
+
+USER node
+
+CMD ["npm", "start"]
