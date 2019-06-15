@@ -42,8 +42,6 @@ services:
     restart: always
     volumes:
       - ./services/app:/code
-    ports:
-      - "35729:35729"
     depends_on:
       - api
     environment:
