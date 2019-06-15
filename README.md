@@ -34,7 +34,7 @@ You can begin editing code on your host machine, changes will be detected and al
 
 ### 1. run
 
-    docker-compose -f docker-compose-prod up -d
+    docker-compose up -d
 
 ### 2. inspect
 
