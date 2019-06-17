@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import TextField from 'material-ui/TextField';
-import SelectField from 'material-ui/SelectField';
-import MenuItem from 'material-ui/MenuItem';
+import { TextField, SelectField, MenuItem } from 'material-ui';
 import axios from 'axios';
 import ImageResults from '../image-results/ImageResults';
 
