@@ -5,9 +5,9 @@ import ImageResults from '../image-results/ImageResults';
 
 class Search extends Component {
   state = {
+    apiurl: 'https://pixabay.com/api',
     searchText: '',
     amount: 15,
-    apiurl: 'https://pixabay.com/api',
     apikey: '12781134-861f9dac945eb526be64c896f',
     images: []
   };
