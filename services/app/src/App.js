@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import NavBar from './components/navbar/NavBar';
-import SearchDevice from './components/device/SearchDevice';
-import PostDevice from './components/device/PostDeviceForm';
+import SearchDevice from './components/devices/SearchDevice';
+import PostDevice from './components/devices/PostDeviceForm';
 import Navigation from './components/navigation/Navigation';
 
 import './App.css';
