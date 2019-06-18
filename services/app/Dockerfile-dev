@@ -1,0 +1,18 @@
+FROM node:10-alpine
+
+RUN apk update && apk upgrade && apk add --no-cache tini bash git openssh
+ENTRYPOINT ["/sbin/tini", "--"]
+
+WORKDIR /code
+COPY package.json yarn.lock ./
+RUN yarn install --frozen-lockfile
+
+COPY . .
+RUN yarn run build:prod
+
+EXPOSE 3000
+
+USER node
+
+CMD ["yarn", "start"]
+
