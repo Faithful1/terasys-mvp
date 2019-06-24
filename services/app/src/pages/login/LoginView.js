@@ -12,6 +12,8 @@ import {
 } from "@material-ui/core";
 import classnames from "classnames";
 
+import RegisterUser from "../register/RegisterForm";
+
 import logo from "./logo.svg";
 import google from "../../images/google.svg";
 
@@ -111,98 +113,7 @@ const Login = ({ classes, ...props }) => (
         )}
         {props.activeTabId === 1 && (
           <React.Fragment>
-            <Typography variant="h1" className={classes.greeting}>
-              Welcome!
-            </Typography>
-            <Typography variant="h2" className={classes.subGreeting}>
-              Create your account
-            </Typography>
-            <Fade in={props.error}>
-              <Typography color="secondary" className={classes.errorMessage}>
-                Something is wrong with your login or password :(
-              </Typography>
-            </Fade>
-            <TextField
-              id="name"
-              InputProps={{
-                classes: {
-                  underline: classes.textFieldUnderline,
-                  input: classes.textField
-                }
-              }}
-              value={props.nameValue}
-              onChange={e => props.handleInput(e, "name")}
-              margin="normal"
-              placeholder="Full Name"
-              type="email"
-              fullWidth
-            />
-            <TextField
-              id="email"
-              InputProps={{
-                classes: {
-                  underline: classes.textFieldUnderline,
-                  input: classes.textField
-                }
-              }}
-              value={props.loginValue}
-              onChange={e => props.handleInput(e, "login")}
-              margin="normal"
-              placeholder="Email Adress"
-              type="email"
-              fullWidth
-            />
-            <TextField
-              id="password"
-              InputProps={{
-                classes: {
-                  underline: classes.textFieldUnderline,
-                  input: classes.textField
-                }
-              }}
-              value={props.passwordValue}
-              onChange={e => props.handleInput(e, "password")}
-              margin="normal"
-              placeholder="Password"
-              type="password"
-              fullWidth
-            />
-            <div className={classes.creatingButtonContainer}>
-              {props.isLoading ? (
-                <CircularProgress size={26} />
-              ) : (
-                <Button
-                  onClick={props.handleLoginButtonClick}
-                  disabled={
-                    props.loginValue.length === 0 ||
-                    props.passwordValue.length === 0 ||
-                    props.nameValue.length === 0
-                  }
-                  size="large"
-                  variant="contained"
-                  color="primary"
-                  fullWidth
-                  className={classes.createAccountButton}
-                >
-                  Create your account
-                </Button>
-              )}
-            </div>
-            <div className={classes.formDividerContainer}>
-              <div className={classes.formDivider} />
-              <Typography className={classes.formDividerWord}>or</Typography>
-              <div className={classes.formDivider} />
-            </div>
-            <Button
-              size="large"
-              className={classnames(
-                classes.googleButton,
-                classes.googleButtonCreating
-              )}
-            >
-              <img src={google} alt="google" className={classes.googleIcon} />
-              &nbsp;Sign in with Google
-            </Button>
+            <RegisterUser />
           </React.Fragment>
         )}
       </div>
@@ -352,10 +263,10 @@ const styles = theme => ({
   },
   copyright: {
     marginTop: theme.spacing.unit * 4,
-    whiteSpace: 'nowrap',
+    whiteSpace: "nowrap",
     [theme.breakpoints.up("md")]: {
       position: "absolute",
-      bottom: theme.spacing.unit * 2,
+      bottom: theme.spacing.unit * 2
     }
   }
 });

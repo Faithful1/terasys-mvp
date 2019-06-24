@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Button, TextField } from "@material-ui/core";
 import axios from "axios";
+import PageTitle from "../../components/PageTitle";
 
 class CreateDeviceForm extends Component {
   state = {
@@ -33,6 +34,7 @@ class CreateDeviceForm extends Component {
     const { userId, title, body } = this.state;
     return (
       <div>
+        <PageTitle title="Create Device" />
         <form onSubmit={this.submitHandler}>
           <div>
             <TextField
