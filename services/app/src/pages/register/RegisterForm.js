@@ -20,6 +20,28 @@ class RegisterForm extends Component {
     password: "",
     password_confirm: ""
   };
+
+  submitHandler = e => {
+    e.preventDefault();
+    const headers = {
+      "Content-Type": "application/json"
+    };
+    axios
+      .post(`${this.state.apiUrl}`, this.state, { headers: headers })
+      .then(response => {
+        console.log(response);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
+  onChangeHandler = e => {
+    this.setState({
+      [e.target.name]: e.target.value
+    });
+  };
+
   render() {
     const {
       isLoading,
@@ -29,6 +51,7 @@ class RegisterForm extends Component {
       password,
       password_confirm
     } = this.state;
+
     return (
       <form onSubmit={this.submitHandler}>
         <Typography variant="h1" className="greeting">
