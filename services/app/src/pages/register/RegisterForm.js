@@ -1,10 +1,8 @@
 import React, { Component } from "react";
 import axios from "axios";
-
 import {
   CircularProgress,
   Typography,
-  withStyles,
   Button,
   TextField,
   Fade
@@ -18,22 +16,23 @@ class RegisterForm extends Component {
     lastName: "",
     email: "",
     password: "",
-    password_confirm: ""
+    password_confirm: "",
+    errorMessage: "",
+    status: "",
+    errors: ""
   };
 
   submitHandler = e => {
     e.preventDefault();
+
     const headers = {
       "Content-Type": "application/json"
     };
+
     axios
       .post(`${this.state.apiUrl}`, this.state, { headers: headers })
-      .then(response => {
-        console.log(response);
-      })
-      .catch(error => {
-        console.log(error);
-      });
+      .then(response => this.setState({ status: response.data }))
+      .catch(error => this.setState({ errors: error.response.data }));
   };
 
   onChangeHandler = e => {
@@ -49,11 +48,14 @@ class RegisterForm extends Component {
       lastName,
       email,
       password,
-      password_confirm
+      password_confirm,
+      status,
+      errors
     } = this.state;
 
     return (
       <form onSubmit={this.submitHandler}>
+        {errors ? <p>{errors}</p> : <p>{status}</p>}
         <Typography variant="h1" className="greeting">
           Welcome!
         </Typography>
@@ -136,6 +138,11 @@ class RegisterForm extends Component {
             </Button>
           )}
         </div>
+        {errors ? (
+          <h2 color="success">{errors}</h2>
+        ) : (
+          <h2 color="danger">{status}</h2>
+        )}
       </form>
     );
   }
