@@ -1,3 +1,5 @@
+import axios from "axios";
+
 export const initialState = {
   isLoading: false,
   isAuthenticated: !!localStorage.getItem("id_token"),
@@ -30,11 +32,28 @@ export const resetError = () => ({
 export const loginUser = (login, password) => dispatch => {
   dispatch(startLogin());
 
+  const authData = {
+    email: login,
+    pass: password,
+    returnSecureToken: true
+  };
+
+  const loginUrl = "https://www.terasyshub.io/api/v1/login";
+  const headers = {
+    "Content-Type": "application/json"
+  };
+
   if (!!login && !!password) {
-    setTimeout(() => {
-      localStorage.setItem("id_token", "1");
-      dispatch(loginSuccess());
-    }, 2000);
+    axios
+      .post(loginUrl, authData, headers)
+      .then(response => {
+        const token = response.data;
+        setTimeout(() => {
+          localStorage.setItem("id_token", token);
+          dispatch(loginSuccess());
+        }, 2000);
+      })
+      .catch(error => console.log(error.response.data));
   } else {
     dispatch(loginFailure());
   }

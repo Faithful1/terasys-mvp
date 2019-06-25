@@ -10,7 +10,6 @@ import {
   TextField,
   Fade
 } from "@material-ui/core";
-import classnames from "classnames";
 
 import RegisterUser from "../register/RegisterForm";
 
@@ -37,78 +36,80 @@ const Login = ({ classes, ...props }) => (
         </Tabs>
         {props.activeTabId === 0 && (
           <React.Fragment>
-            <Typography variant="h1" className={classes.greeting}>
-              Welcome! Login
-            </Typography>
-            <Button size="large" className={classes.googleButton}>
-              <img src={google} alt="google" className={classes.googleIcon} />
-              &nbsp;Sign in with Google
-            </Button>
-            <div className={classes.formDividerContainer}>
-              <div className={classes.formDivider} />
-              <Typography className={classes.formDividerWord}>or</Typography>
-              <div className={classes.formDivider} />
-            </div>
-            <Fade in={props.error}>
-              <Typography color="secondary" className={classes.errorMessage}>
-                Something is wrong with your login or password :(
+            <form>
+              <Typography variant="h1" className={classes.greeting}>
+                Welcome! Login
               </Typography>
-            </Fade>
-            <TextField
-              id="email"
-              InputProps={{
-                classes: {
-                  underline: classes.textFieldUnderline,
-                  input: classes.textField
-                }
-              }}
-              value={props.loginValue}
-              onChange={e => props.handleInput(e, "login")}
-              margin="normal"
-              placeholder="Email Adress"
-              type="email"
-              fullWidth
-            />
-            <TextField
-              id="password"
-              InputProps={{
-                classes: {
-                  underline: classes.textFieldUnderline,
-                  input: classes.textField
-                }
-              }}
-              value={props.passwordValue}
-              onChange={e => props.handleInput(e, "password")}
-              margin="normal"
-              placeholder="Password"
-              type="password"
-              fullWidth
-            />
-            <div className={classes.formButtons}>
-              {props.isLoading ? (
-                <CircularProgress size={26} className={classes.loginLoader} />
-              ) : (
-                <Button
-                  disabled={
-                    props.loginValue.length === 0 ||
-                    props.passwordValue.length === 0
+              <Button size="large" className={classes.googleButton}>
+                <img src={google} alt="google" className={classes.googleIcon} />
+                &nbsp;Sign in with Google
+              </Button>
+              <div className={classes.formDividerContainer}>
+                <div className={classes.formDivider} />
+                <Typography className={classes.formDividerWord}>or</Typography>
+                <div className={classes.formDivider} />
+              </div>
+              <Fade in={props.error}>
+                <Typography color="secondary" className={classes.errorMessage}>
+                  Something is wrong with your login or password :(
+                </Typography>
+              </Fade>
+              <TextField
+                id="email"
+                InputProps={{
+                  classes: {
+                    underline: classes.textFieldUnderline,
+                    input: classes.textField
                   }
-                  onClick={props.handleLoginButtonClick}
-                  variant="contained"
+                }}
+                value={props.loginValue}
+                onChange={e => props.handleInput(e, "login")}
+                margin="normal"
+                placeholder="Email Adress"
+                type="email"
+                fullWidth
+              />
+              <TextField
+                id="password"
+                InputProps={{
+                  classes: {
+                    underline: classes.textFieldUnderline,
+                    input: classes.textField
+                  }
+                }}
+                value={props.passwordValue}
+                onChange={e => props.handleInput(e, "password")}
+                margin="normal"
+                placeholder="Password"
+                type="password"
+                fullWidth
+              />
+              <div className={classes.formButtons}>
+                {props.isLoading ? (
+                  <CircularProgress size={26} className={classes.loginLoader} />
+                ) : (
+                  <Button
+                    disabled={
+                      props.loginValue.length === 0 ||
+                      props.passwordValue.length === 0
+                    }
+                    onClick={props.handleLoginButtonClick}
+                    variant="contained"
+                    color="primary"
+                    size="large"
+                  >
+                    Login
+                  </Button>
+                )}
+                <Button
                   color="primary"
                   size="large"
+                  className={classes.forgetButton}
                 >
-                  Login
+                  Forget Password
                 </Button>
-              )}
-              <Button
-                color="primary"
-                size="large"
-                className={classes.forgetButton}
-              >
-                Forget Password
-              </Button>
-            </div>
+              </div>
+            </form>
           </React.Fragment>
         )}
         {props.activeTabId === 1 && (
