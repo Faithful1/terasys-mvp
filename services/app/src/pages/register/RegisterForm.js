@@ -4,8 +4,7 @@ import {
   CircularProgress,
   Typography,
   Button,
-  TextField,
-  Fade
+  TextField
 } from "@material-ui/core";
 
 class RegisterForm extends Component {
@@ -55,18 +54,23 @@ class RegisterForm extends Component {
 
     return (
       <form onSubmit={this.submitHandler}>
-        {errors ? <p>{errors}</p> : <p>{status}</p>}
         <Typography variant="h1" className="greeting">
           Welcome!
         </Typography>
         <Typography variant="h2" className="subGreeting">
           Create your account
         </Typography>
-        <Fade>
+
+        {errors ? (
           <Typography color="secondary" className="errorMessage">
-            Something is wrong with your email or password :(
+            {errors}
           </Typography>
-        </Fade>
+        ) : (
+          <Typography color="primary" className="successMessage">
+            {status}
+          </Typography>
+        )}
+
         <TextField
           id="firstname"
           name="firstName"
@@ -122,6 +126,7 @@ class RegisterForm extends Component {
           type="password"
           fullWidth
         />
+
         <div className="creatingButtonContainer">
           {isLoading ? (
             <CircularProgress size={26} />
@@ -138,11 +143,6 @@ class RegisterForm extends Component {
             </Button>
           )}
         </div>
-        {errors ? (
-          <h2 color="success">{errors}</h2>
-        ) : (
-          <h2 color="danger">{status}</h2>
-        )}
       </form>
     );
   }

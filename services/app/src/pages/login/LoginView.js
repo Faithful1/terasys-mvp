@@ -104,6 +104,7 @@ const Login = ({ classes, ...props }) => (
                 <Button
                   color="primary"
                   size="large"
+                  onClick={props.handleForgetButtonClick}
                   className={classes.forgetButton}
                 >
                   Forget Password
