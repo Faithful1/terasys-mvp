@@ -14,7 +14,6 @@ import Maps from "../../pages/maps";
 import Tables from "../../pages/tables";
 import Icons from "../../pages/icons";
 import Charts from "../../pages/charts";
-// import Pictures from "../../pages/getImage/getImage";
 import CreateDevice from "../../pages/devices/CreateDevice.js";
 import GetDevices from "../../pages/devices/getDevices";
 

@@ -1,11 +1,12 @@
-import { createStore, applyMiddleware } from 'redux';
-import ReduxThunk from 'redux-thunk'
+import { createStore, applyMiddleware } from "redux";
+import ReduxThunk from "redux-thunk";
 
-import reducers from './reducers';
+import reducers from "./reducers";
 
-const store = createStore(
-  reducers,
-  applyMiddleware(ReduxThunk)
-);
+import setAuthorizationToken from "../pages/login/components/setAuthorizationToken";
+
+const store = createStore(reducers, applyMiddleware(ReduxThunk));
+
+setAuthorizationToken(localStorage.token);
 
 export default store;

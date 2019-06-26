@@ -1,4 +1,6 @@
 import axios from "axios";
+import jwt from "jsonwebtoken";
+
 import setAuthorizationToken from "./components/setAuthorizationToken";
 
 export const initialState = {
@@ -13,6 +15,7 @@ export const LOGIN_FAILURE = "Login/LOGIN_FAILURE";
 export const RESET_ERROR = "Login/RESET_ERROR";
 export const LOGIN_USER = "Login/LOGIN_USER";
 export const SIGN_OUT_SUCCESS = "Login/SIGN_OUT_SUCCESS";
+export const SET_CURRENT_USER = "Login/SET_CURRENT_USER";
 
 export const startLogin = () => ({
   type: START_LOGIN
@@ -29,6 +32,11 @@ export const loginFailure = () => ({
 
 export const resetError = () => ({
   type: RESET_ERROR
+});
+
+export const setCurrentUser = user => ({
+  type: SET_CURRENT_USER,
+  user
 });
 
 export const loginUser = (login, password) => dispatch => {
@@ -54,7 +62,8 @@ export const loginUser = (login, password) => dispatch => {
       setTimeout(() => {
         localStorage.setItem("id_token", token);
         setAuthorizationToken(token);
-        dispatch(loginSuccess(token));
+        console.log(jwt.decode(token));
+        dispatch(setCurrentUser(jwt.decode(token)));
       }, 2000);
     })
     .catch(error => {

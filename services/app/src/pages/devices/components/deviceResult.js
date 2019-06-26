@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import propTypes from "prop-types";
-import { GridList, GridListTile, Button, Zoom } from "@material-ui/core";
+import { GridList, GridListTile } from "@material-ui/core";
 
 class DeviceResults extends Component {
   render() {

@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
 
-import { InputLabel, TextField, Select, MenuItem } from "@material-ui/core";
 import PageTitle from "../../components/PageTitle";
 
 import DeviceResults from "./components/deviceResult";
@@ -28,7 +27,7 @@ class SearchImage extends Component {
 
         <br />
         {this.state.devices.length > 0 ? (
-          <DeviceResults devices={this.state.devices} />
+          <DeviceResults devices={devices} />
         ) : null}
       </React.Fragment>
     );
