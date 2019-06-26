@@ -49,11 +49,13 @@ const Login = ({ classes, ...props }) => (
                 <Typography className={classes.formDividerWord}>or</Typography>
                 <div className={classes.formDivider} />
               </div>
+
               <Fade in={props.error}>
                 <Typography color="secondary" className={classes.errorMessage}>
                   Something is wrong with your login or password :(
                 </Typography>
               </Fade>
+
               <TextField
                 id="email"
                 InputProps={{
@@ -104,7 +106,6 @@ const Login = ({ classes, ...props }) => (
                 <Button
                   color="primary"
                   size="large"
-                  onClick={props.handleForgetButtonClick}
                   className={classes.forgetButton}
                 >
                   Forget Password
@@ -113,12 +114,14 @@ const Login = ({ classes, ...props }) => (
             </form>
           </React.Fragment>
         )}
+
         {props.activeTabId === 1 && (
           <React.Fragment>
             <RegisterUser />
           </React.Fragment>
         )}
       </div>
+
       <Typography color="primary" className={classes.copyright}>
         © 2019 Terasys Ltd. All rights reserved.
       </Typography>

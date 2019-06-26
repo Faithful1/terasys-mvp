@@ -14,8 +14,9 @@ import Maps from "../../pages/maps";
 import Tables from "../../pages/tables";
 import Icons from "../../pages/icons";
 import Charts from "../../pages/charts";
-import Pictures from "../../pages/getImage/getImage";
+// import Pictures from "../../pages/getImage/getImage";
 import CreateDevice from "../../pages/devices/CreateDevice.js";
+import GetDevices from "../../pages/devices/getDevices";
 
 const Layout = ({ classes, isSidebarOpened, toggleSidebar }) => (
   <div className={classes.root}>
@@ -32,8 +33,7 @@ const Layout = ({ classes, isSidebarOpened, toggleSidebar }) => (
           <div className={classes.fakeToolbar} />
           <Switch>
             <Route path="/app/dashboard" component={Dashboard} />
-
-            <Route path="/app/devices" component={Pictures} />
+            <Route path="/app/devices" component={GetDevices} />
             <Route path="/app/add-device" component={CreateDevice} />
             <Route path="/app/typography" component={Typography} />
             <Route path="/app/tables" component={Tables} />

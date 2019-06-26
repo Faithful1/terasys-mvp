@@ -1,4 +1,5 @@
 import axios from "axios";
+import setAuthorizationToken from "./components/setAuthorizationToken";
 
 export const initialState = {
   isLoading: false,
@@ -17,8 +18,9 @@ export const startLogin = () => ({
   type: START_LOGIN
 });
 
-export const loginSuccess = () => ({
-  type: LOGIN_SUCCESS
+export const loginSuccess = token => ({
+  type: LOGIN_SUCCESS,
+  token: token
 });
 
 export const loginFailure = () => ({
@@ -35,7 +37,8 @@ export const loginUser = (login, password) => dispatch => {
   const authData = {
     email: login,
     pass: password,
-    returnSecureToken: true
+    returnSecureToken: true,
+    error: ""
   };
 
   const loginUrl = "https://www.terasyshub.io/api/v1/login";
@@ -43,20 +46,21 @@ export const loginUser = (login, password) => dispatch => {
     "Content-Type": "application/json"
   };
 
-  if (!!login && !!password) {
-    axios
-      .post(loginUrl, authData, headers)
-      .then(response => {
-        const token = response.data;
-        setTimeout(() => {
-          localStorage.setItem("id_token", token);
-          dispatch(loginSuccess());
-        }, 2000);
-      })
-      .catch(error => console.log(error.response.data));
-  } else {
-    dispatch(loginFailure());
-  }
+  axios
+    .post(loginUrl, authData, headers)
+    .then(response => {
+      console.log(response);
+      const token = response.data;
+      setTimeout(() => {
+        localStorage.setItem("id_token", token);
+        setAuthorizationToken(token);
+        dispatch(loginSuccess(token));
+      }, 2000);
+    })
+    .catch(error => {
+      console.log(error.response.data);
+      dispatch(loginFailure(error.response.data));
+    });
 };
 
 export const signOutSuccess = () => ({

@@ -7,14 +7,14 @@ import {
   FilterNone as UIElementsIcon,
   DeviceHub as DeviceIcon,
   QuestionAnswer as SupportIcon,
-  LibraryBooks as LibraryIcon,
+  // LibraryBooks as LibraryIcon,
   HelpOutline as FAQIcon,
   ArrowBack as ArrowBackIcon
 } from "@material-ui/icons";
 import classNames from "classnames";
 
 import SidebarLink from "./components/SidebarLink/SidebarLinkContainer";
-import Dot from "./components/Dot";
+// import Dot from "./components/Dot";
 
 const structure = [
   { id: 0, label: "Dashboard", link: "/app/dashboard", icon: <HomeIcon /> },
