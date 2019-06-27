@@ -12,7 +12,7 @@ class CreateDeviceForm extends Component {
     mac: "",
     name: "",
     description: "",
-    color: "",
+    properties: { color: "" },
     location: [],
     email: "",
     error: "",
@@ -39,11 +39,11 @@ class CreateDeviceForm extends Component {
       mac,
       name,
       description,
-      color,
       location,
       email,
       error,
-      success
+      success,
+      color
     } = this.state;
 
     return (
@@ -114,11 +114,11 @@ class CreateDeviceForm extends Component {
 
           <div>
             {success ? (
-              <p className="success" variant="h5" gutterBottom>
+              <p className="success" variant="h5">
                 {success}
               </p>
             ) : (
-              <p className="error" variant="h5" gutterBottom>
+              <p className="error" variant="h5">
                 {error}
               </p>
             )}
