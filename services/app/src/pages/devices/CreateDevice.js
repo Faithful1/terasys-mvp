@@ -2,13 +2,21 @@ import React, { Component } from "react";
 import { Button, TextField } from "@material-ui/core";
 import axios from "axios";
 import PageTitle from "../../components/PageTitle";
+import Typography from "@material-ui/core/Typography";
+
+import "./CreateDevice.css";
 
 class CreateDeviceForm extends Component {
   state = {
-    apiurl: "https://jsonplaceholder.typicode.com/posts",
-    userId: "",
-    title: "",
-    body: ""
+    apiurl: "https://www.terasyshub.io/api/v1/devices",
+    mac: "",
+    name: "",
+    description: "",
+    color: "",
+    location: [],
+    email: "",
+    error: "",
+    success: ""
   };
 
   changeHandler = e => {
@@ -22,48 +30,98 @@ class CreateDeviceForm extends Component {
     console.log(this.state);
     axios
       .post(`${this.state.apiurl}`, this.state)
-      .then(response => {
-        console.log(response);
-      })
-      .catch(error => {
-        console.log(error);
-      });
+      .then(response => this.setState({ success: response.data }))
+      .catch(error => this.setState({ error: error.response.data }));
   };
 
   render() {
-    const { userId, title, body } = this.state;
+    const {
+      mac,
+      name,
+      description,
+      color,
+      location,
+      email,
+      error,
+      success
+    } = this.state;
+
     return (
       <div>
-        <PageTitle title="Create Device" />
+        <PageTitle title="Add Device" />
         <form onSubmit={this.submitHandler}>
           <div>
             <TextField
-              name="userId"
-              value={userId}
+              name="mac"
+              value={mac}
               onChange={this.changeHandler}
-              placeholder="User Id"
+              placeholder="mac"
               margin="normal"
             />
           </div>
 
           <div>
             <TextField
-              name="title"
-              value={title}
+              name="name"
+              value={name}
               onChange={this.changeHandler}
-              placeholder="title"
+              placeholder="name"
               margin="normal"
             />
           </div>
 
           <div>
             <TextField
-              name="body"
-              value={body}
+              name="description"
+              value={description}
               onChange={this.changeHandler}
-              placeholder="body"
+              placeholder="description"
               margin="normal"
             />
+          </div>
+
+          <div>
+            <TextField
+              name="color"
+              value={color}
+              onChange={this.changeHandler}
+              placeholder="color"
+              margin="normal"
+            />
+          </div>
+
+          <div>
+            <TextField
+              name="location"
+              value={location}
+              onChange={this.changeHandler}
+              placeholder="location"
+              margin="normal"
+            />
+          </div>
+
+          <div>
+            <TextField
+              name="email"
+              value={email}
+              onChange={this.changeHandler}
+              placeholder="email"
+              margin="normal"
+            />
+          </div>
+
+          <br />
+
+          <div>
+            {success ? (
+              <p className="success" variant="h5" gutterBottom>
+                {success}
+              </p>
+            ) : (
+              <p className="error" variant="h5" gutterBottom>
+                {error}
+              </p>
+            )}
           </div>
 
           <div>
