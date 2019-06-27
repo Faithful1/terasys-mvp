@@ -14,7 +14,6 @@ import {
 import RegisterUser from "../register/RegisterForm";
 
 import logo from "./logo.svg";
-import google from "../../images/google.svg";
 
 const Login = ({ classes, ...props }) => (
   <Grid container className={classes.container}>
@@ -40,10 +39,7 @@ const Login = ({ classes, ...props }) => (
               <Typography variant="h1" className={classes.greeting}>
                 Welcome! Login
               </Typography>
-              <Button size="large" className={classes.googleButton}>
-                <img src={google} alt="google" className={classes.googleIcon} />
-                &nbsp;Sign in with Google
-              </Button>
+
               <div className={classes.formDividerContainer}>
                 <div className={classes.formDivider} />
                 <Typography className={classes.formDividerWord}>or</Typography>

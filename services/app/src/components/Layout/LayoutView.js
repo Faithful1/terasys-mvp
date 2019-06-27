@@ -16,6 +16,8 @@ import Icons from "../../pages/icons";
 import Charts from "../../pages/charts";
 import CreateDevice from "../../pages/devices/CreateDevice.js";
 import GetDevices from "../../pages/devices/getDevices";
+import GenerateDeviceKey from "../../pages/devices/generateDeviceKey";
+import GetDeviceKey from "../../pages/devices/getDeviceKey";
 
 const Layout = ({ classes, isSidebarOpened, toggleSidebar }) => (
   <div className={classes.root}>
@@ -34,6 +36,8 @@ const Layout = ({ classes, isSidebarOpened, toggleSidebar }) => (
             <Route path="/app/dashboard" component={Dashboard} />
             <Route path="/app/devices" component={GetDevices} />
             <Route path="/app/add-device" component={CreateDevice} />
+            <Route path="/app/gen-key" component={GenerateDeviceKey} />
+            <Route path="/app/get-key" component={GetDeviceKey} />
             <Route path="/app/typography" component={Typography} />
             <Route path="/app/tables" component={Tables} />
             <Route path="/app/notifications" component={Notifications} />

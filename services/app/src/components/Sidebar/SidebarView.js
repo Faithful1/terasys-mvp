@@ -7,7 +7,7 @@ import {
   FilterNone as UIElementsIcon,
   DeviceHub as DeviceIcon,
   QuestionAnswer as SupportIcon,
-  // LibraryBooks as LibraryIcon,
+  // KeyboardReturn as KeyIcon,
   HelpOutline as FAQIcon,
   ArrowBack as ArrowBackIcon
 } from "@material-ui/icons";
@@ -25,7 +25,9 @@ const structure = [
     icon: <DeviceIcon />,
     children: [
       { label: "Add Device", link: "/app/add-device" },
-      { label: "Devices", link: "/app/devices" }
+      { label: "Devices", link: "/app/devices" },
+      { label: "Generate Key", link: "/app/gen-key" },
+      { label: "Get Device Key", link: "/app/get-key" }
     ]
   },
   { id: 1, label: "User", link: "/app/typography", icon: <UserIcon /> },

@@ -47,7 +47,7 @@ class SearchImage extends Component {
     const { searchText, amount } = this.state;
     return (
       <React.Fragment>
-        <PageTitle title="All Devices" />
+        <PageTitle title="All Images" />
 
         <TextField
           name="searchText"
