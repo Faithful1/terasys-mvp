@@ -9,9 +9,9 @@ import { setCurrentUser } from "../pages/login/LoginState";
 
 const store = createStore(reducers, applyMiddleware(ReduxThunk));
 
-if (localStorage.token) {
-  setAuthorizationToken(localStorage.token);
-  store.dispatch(setCurrentUser(jwt.decode(localStorage.token)));
+if (localStorage.jwtToken) {
+  setAuthorizationToken(localStorage.jwtToken);
+  store.dispatch(setCurrentUser(jwt.decode(localStorage.jwtToken)));
 }
 
 export default store;

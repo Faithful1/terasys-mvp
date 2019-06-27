@@ -5,7 +5,7 @@ import setAuthorizationToken from "./components/setAuthorizationToken";
 
 export const initialState = {
   isLoading: false,
-  isAuthenticated: !!localStorage.getItem("id_token"),
+  isAuthenticated: !!localStorage.getItem("jwtToken"),
   error: null,
   user: {}
 };
@@ -58,12 +58,10 @@ export const loginUser = (login, password) => dispatch => {
   axios
     .post(loginUrl, authData, headers)
     .then(response => {
-      console.log(response);
       const token = response.data;
       setTimeout(() => {
-        localStorage.setItem("id_token", token);
+        localStorage.setItem("jwtToken", token);
         setAuthorizationToken(token);
-        console.log(jwt.decode(token));
         dispatch(loginSuccess(token));
         dispatch(setCurrentUser(jwt.decode(token)));
       }, 2000);
@@ -79,7 +77,7 @@ export const signOutSuccess = () => ({
 });
 
 export const signOut = () => dispatch => {
-  localStorage.removeItem("id_token");
+  localStorage.removeItem("jwtToken");
   dispatch(signOutSuccess());
 };
 
