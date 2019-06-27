@@ -9,19 +9,24 @@ class DeviceResults extends Component {
 
     if (devices) {
       deviceListContent = (
-        <GridList cols={3}>
+        <div>
           {devices.map(device => (
-            <GridListTile
-              title={device.name}
-              key={device.id}
-              subtitle={
-                <span>
-                  by <strong>{device.description}</strong>
-                </span>
-              }
-            />
+            <p key={device._id}>{device.name}</p>
           ))}
-        </GridList>
+        </div>
+        // <GridList cols={3}>
+        //   {devices.map(device => (
+        //     <GridListTile
+        //       title={device.name}
+        //       key={device._id}
+        //       subtitle={
+        //         <span>
+        //           by <strong>{device.description}</strong>
+        //         </span>
+        //       }
+        //     />
+        //   ))}
+        // </GridList>
       );
     } else {
       deviceListContent = null;
@@ -31,7 +36,6 @@ class DeviceResults extends Component {
   }
 }
 
-// eslint-disable-next-line react/no-typos
 DeviceResults.propTypes = {
   devices: propTypes.array.isRequired
 };

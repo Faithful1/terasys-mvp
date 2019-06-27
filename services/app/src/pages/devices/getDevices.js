@@ -2,36 +2,43 @@ import React, { Component } from "react";
 import axios from "axios";
 
 import PageTitle from "../../components/PageTitle";
+import {
+  GridList,
+  GridListTile,
+  Dialog,
+  IconButton,
+  Button,
+  Zoom
+} from "@material-ui/core";
 
 import DeviceResults from "./components/deviceResult";
 
-class SearchImage extends Component {
+class GetDevices extends Component {
   state = {
     apiUrl: "https://www.terasyshub.io/api/v1/devices/",
-    devices: []
+    devices: [],
+    errors: ""
   };
 
   componentDidMount() {
     axios
       .get(`${this.state.apiUrl}`)
+      // .then(response => console.log(response.data))
       .then(response => this.setState({ devices: response.data }))
-      .catch(error => console.log(error.response.data));
-    console.log("Our data is fetched");
+      .catch(error => this.setState({ errors: error.response.data }));
   }
 
   render() {
     const { devices } = this.state;
+
     return (
       <React.Fragment>
         <PageTitle title="All Devices" />
-
         <br />
-        {this.state.devices.length > 0 ? (
-          <DeviceResults devices={devices} />
-        ) : null}
+        {devices.length > 0 ? <DeviceResults devices={devices} /> : null}
       </React.Fragment>
     );
   }
 }
 
-export default SearchImage;
+export default GetDevices;

@@ -5,7 +5,7 @@ import {
   Select,
   OutlinedInput,
   MenuItem,
-  withStyles,
+  withStyles
 } from "@material-ui/core";
 import {
   ResponsiveContainer,
@@ -73,8 +73,8 @@ const mainChartData = getMainChartData();
 const PieChartData = [
   { name: "Group A", value: 400, color: "primary" },
   { name: "Group B", value: 300, color: "secondary" },
-  { name: "Group C", value: 300, color: "warning" },
-  { name: "Group D", value: 200, color: "success" }
+  { name: "Group C", value: 350, color: "warning" },
+  { name: "Group D", value: 200, color: "primary" }
 ];
 
 const Dashboard = ({ classes, theme, ...props }) => {
@@ -274,9 +274,7 @@ const Dashboard = ({ classes, theme, ...props }) => {
             <Grid container spacing={16}>
               <Grid item xs={6}>
                 <ResponsiveContainer width="100%" height={144}>
-                  <PieChart
-                    margin={{ left: theme.spacing.unit * 2 }}
-                  >
+                  <PieChart margin={{ left: theme.spacing.unit * 2 }}>
                     <Pie
                       data={PieChartData}
                       innerRadius={45}
@@ -291,14 +289,16 @@ const Dashboard = ({ classes, theme, ...props }) => {
                       ))}
                     </Pie>
                   </PieChart>
-                  </ResponsiveContainer>
+                </ResponsiveContainer>
               </Grid>
               <Grid item xs={6}>
                 <div className={classes.pieChartLegendWrapper}>
                   {PieChartData.map(({ name, value, color }, index) => (
-                    <div key={color} className={classes.legendItemContainer}>
+                    <div key={value} className={classes.legendItemContainer}>
                       <Dot color={color} />
-                      <Typography style={{ whiteSpace: 'nowrap' }}>&nbsp;{name}&nbsp;</Typography>
+                      <Typography style={{ whiteSpace: "nowrap" }}>
+                        &nbsp;{name}&nbsp;
+                      </Typography>
                       <Typography color="textSecondary">
                         &nbsp;{value}
                       </Typography>
@@ -320,15 +320,21 @@ const Dashboard = ({ classes, theme, ...props }) => {
                 <div className={classes.mainChartHeaderLabels}>
                   <div className={classes.mainChartHeaderLabel}>
                     <Dot color="warning" />
-                    <Typography className={classes.mainChartLegentElement}>Tablet</Typography>
+                    <Typography className={classes.mainChartLegentElement}>
+                      Tablet
+                    </Typography>
                   </div>
                   <div className={classes.mainChartHeaderLabel}>
                     <Dot color="primary" />
-                    <Typography className={classes.mainChartLegentElement}>Mobile</Typography>
+                    <Typography className={classes.mainChartLegentElement}>
+                      Mobile
+                    </Typography>
                   </div>
                   <div className={classes.mainChartHeaderLabel}>
                     <Dot color="primary" />
-                    <Typography className={classes.mainChartLegentElement}>Desktop</Typography>
+                    <Typography className={classes.mainChartLegentElement}>
+                      Desktop
+                    </Typography>
                   </div>
                 </div>
                 <Select
@@ -337,7 +343,10 @@ const Dashboard = ({ classes, theme, ...props }) => {
                   input={
                     <OutlinedInput
                       labelWidth={0}
-                      classes={{ notchedOutline: classes.mainChartSelectRoot, input: classes.mainChartSelect }}
+                      classes={{
+                        notchedOutline: classes.mainChartSelectRoot,
+                        input: classes.mainChartSelect
+                      }}
                     />
                   }
                   autoWidth
@@ -356,14 +365,14 @@ const Dashboard = ({ classes, theme, ...props }) => {
               >
                 <YAxis
                   ticks={[0, 2500, 5000, 7500]}
-                  tick={{ fill: theme.palette.text.hint + '80', fontSize: 14 }}
-                  stroke={theme.palette.text.hint  + '80'}
+                  tick={{ fill: theme.palette.text.hint + "80", fontSize: 14 }}
+                  stroke={theme.palette.text.hint + "80"}
                   tickLine={false}
                 />
                 <XAxis
                   tickFormatter={i => i + 1}
-                  tick={{ fill: theme.palette.text.hint  + '80', fontSize: 14 }}
-                  stroke={theme.palette.text.hint  + '80'}
+                  tick={{ fill: theme.palette.text.hint + "80", fontSize: 14 }}
+                  stroke={theme.palette.text.hint + "80"}
                   tickLine={false}
                 />
                 <Area
@@ -472,7 +481,7 @@ const styles = theme => ({
   legendElement: {
     display: "flex",
     alignItems: "center",
-    marginRight: theme.spacing.unit * 2,
+    marginRight: theme.spacing.unit * 2
   },
   legendElementText: {
     marginLeft: theme.spacing.unit
@@ -490,7 +499,7 @@ const styles = theme => ({
     width: "100%"
   },
   mainChartBody: {
-    overflowX: 'auto',
+    overflowX: "auto"
   },
   mainChartHeader: {
     width: "100%",
@@ -498,7 +507,7 @@ const styles = theme => ({
     alignItems: "center",
     justifyContent: "space-between",
     [theme.breakpoints.only("xs")]: {
-      flexWrap: 'wrap',
+      flexWrap: "wrap"
     }
   },
   mainChartHeaderLabels: {
@@ -506,27 +515,27 @@ const styles = theme => ({
     alignItems: "center",
     [theme.breakpoints.only("xs")]: {
       order: 3,
-      width: '100%',
-      justifyContent: 'center',
+      width: "100%",
+      justifyContent: "center",
       marginTop: theme.spacing.unit * 3,
-      marginBottom: theme.spacing.unit * 2,
+      marginBottom: theme.spacing.unit * 2
     }
   },
   mainChartHeaderLabel: {
     display: "flex",
     alignItems: "center",
-    marginLeft: theme.spacing.unit * 3,
+    marginLeft: theme.spacing.unit * 3
   },
   mainChartSelectRoot: {
-    borderColor: theme.palette.text.hint + '80 !important',
+    borderColor: theme.palette.text.hint + "80 !important"
   },
   mainChartSelect: {
     padding: 10,
     paddingRight: 25
   },
   mainChartLegentElement: {
-    fontSize: '18px !important',
-    marginLeft: theme.spacing.unit,
+    fontSize: "18px !important",
+    marginLeft: theme.spacing.unit
   }
 });
 

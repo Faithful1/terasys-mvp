@@ -103,7 +103,9 @@ const Header = ({ classes, isSidebarOpened, toggleSidebar, ...props }) => (
           />
         )}
       </IconButton>
-      <Typography variant="h6" weight="medium" className={classes.logotype}>Terasys IoT MVP</Typography>
+      <Typography variant="h6" weight="medium" className={classes.logotype}>
+        Terasys IoT MVP
+      </Typography>
       <div className={classes.grow} />
       <div
         className={classNames(classes.search, {
@@ -137,7 +139,7 @@ const Header = ({ classes, isSidebarOpened, toggleSidebar, ...props }) => (
           badgeContent={
             props.isNotificationsUnread ? notifications.length : null
           }
-          color="warning"
+          color="error"
         >
           <NotificationsIcon classes={{ root: classes.headerIcon }} />
         </Badge>

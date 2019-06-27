@@ -6,7 +6,8 @@ import setAuthorizationToken from "./components/setAuthorizationToken";
 export const initialState = {
   isLoading: false,
   isAuthenticated: !!localStorage.getItem("id_token"),
-  error: null
+  error: null,
+  user: {}
 };
 
 export const START_LOGIN = "Login/START_LOGIN";
@@ -63,6 +64,7 @@ export const loginUser = (login, password) => dispatch => {
         localStorage.setItem("id_token", token);
         setAuthorizationToken(token);
         console.log(jwt.decode(token));
+        dispatch(loginSuccess(token));
         dispatch(setCurrentUser(jwt.decode(token)));
       }, 2000);
     })
