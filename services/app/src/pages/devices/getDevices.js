@@ -15,7 +15,6 @@ class GetDevices extends Component {
   componentDidMount() {
     axios
       .get(`${this.state.apiUrl}`)
-      // .then(response => console.log(response.data))
       .then(response => this.setState({ devices: response.data }))
       .catch(error => this.setState({ errors: error.response.data }));
   }
