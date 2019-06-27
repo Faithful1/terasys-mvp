@@ -2,14 +2,6 @@ import React, { Component } from "react";
 import axios from "axios";
 
 import PageTitle from "../../components/PageTitle";
-import {
-  GridList,
-  GridListTile,
-  Dialog,
-  IconButton,
-  Button,
-  Zoom
-} from "@material-ui/core";
 
 import DeviceResults from "./components/deviceResult";
 
