@@ -126,7 +126,7 @@ class CreateDeviceForm extends Component {
 
           <div>
             <Button type="submit" variant="contained" color="primary">
-              Submit
+              Register Device
             </Button>
           </div>
         </form>
