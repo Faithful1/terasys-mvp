@@ -1,0 +1,17 @@
+root {
+    flex-grow: 1;
+}
+
+paper {
+    padding: 12px;
+    text-align: center;
+    color: secondary;
+}
+
+.error {
+    color: red;
+}
+
+.success {
+    color: green;
+}
