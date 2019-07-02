@@ -42,7 +42,7 @@ const Login = ({ classes, ...props }) => (
 
               <div className={classes.formDividerContainer}>
                 <div className={classes.formDivider} />
-                <Typography className={classes.formDividerWord}>or</Typography>
+                <Typography className={classes.formDividerWord} />
                 <div className={classes.formDivider} />
               </div>
 

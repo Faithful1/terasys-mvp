@@ -14,10 +14,11 @@ import Maps from "../../pages/maps";
 import Tables from "../../pages/tables";
 import Icons from "../../pages/icons";
 import Charts from "../../pages/charts";
-import CreateDevice from "../../pages/devices/CreateDevice.js";
+import CreateDevice from "../../pages/devices/CreateDevice";
 import GetDevices from "../../pages/devices/getDevices";
 import GenerateDeviceKey from "../../pages/devices/generateDeviceKey";
 import GetDeviceKey from "../../pages/devices/getDeviceKey";
+import AdminDashboard from "../../pages/adminDashboard/AdminDashboard";
 
 const Layout = ({ classes, isSidebarOpened, toggleSidebar }) => (
   <div className={classes.root}>
@@ -33,6 +34,7 @@ const Layout = ({ classes, isSidebarOpened, toggleSidebar }) => (
         >
           <div className={classes.fakeToolbar} />
           <Switch>
+            <Route path="/app/admin" component={AdminDashboard} />
             <Route path="/app/dashboard" component={Dashboard} />
             <Route path="/app/devices" component={GetDevices} />
             <Route path="/app/add-device" component={CreateDevice} />

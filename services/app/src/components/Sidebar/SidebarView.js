@@ -20,21 +20,31 @@ const structure = [
   { id: 0, label: "Dashboard", link: "/app/dashboard", icon: <HomeIcon /> },
   {
     id: 2,
-    label: "Device",
+    label: "Device Management",
     link: "/app/devices",
     icon: <DeviceIcon />,
     children: [
       { label: "Add Device", link: "/app/add-device" },
-      { label: "Devices", link: "/app/devices" },
+      { label: "View Devices", link: "/app/devices" },
       { label: "Generate Key", link: "/app/gen-key" },
       { label: "Get Device Key", link: "/app/get-key" }
     ]
   },
-  { id: 1, label: "User", link: "/app/typography", icon: <UserIcon /> },
-  { id: 3, label: "Data", link: "/app/notifications", icon: <DataIcon /> },
+  {
+    id: 1,
+    label: "User Management",
+    link: "/app/typography",
+    icon: <UserIcon />
+  },
+  {
+    id: 3,
+    label: "Data Management",
+    link: "/app/notifications",
+    icon: <DataIcon />
+  },
   {
     id: 4,
-    label: "Data Management",
+    label: "Data",
     link: "/app/ui",
     icon: <UIElementsIcon />,
     children: [
@@ -46,7 +56,7 @@ const structure = [
   { id: 5, type: "divider" },
   // { id: 6, type: "title", label: "HELP" },
   // { id: 7, label: "Library", link: "", icon: <LibraryIcon /> },
-  { id: 8, label: "Support", link: "", icon: <SupportIcon /> },
+  { id: 8, label: "Admin", link: "/app/admin", icon: <SupportIcon /> },
   { id: 9, label: "FAQ", link: "", icon: <FAQIcon /> },
   { id: 10, type: "divider" }
   // { id: 11, type: "title", label: "PROJECTS" },

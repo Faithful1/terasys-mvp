@@ -15,7 +15,6 @@ class DeviceResults extends Component {
   render() {
     let deviceListContent;
     const { devices } = this.props;
-    console.log({ devices });
 
     if (devices) {
       deviceListContent = (
@@ -37,10 +36,16 @@ class DeviceResults extends Component {
                         {device.name}
                       </Typography>
                       <Typography className="pos" color="textSecondary">
-                        {device.__v}
+                        Version: {device.__v}
                       </Typography>
                       <Typography variant="body2" component="p">
                         {device.color}
+                      </Typography>
+                      <Typography variant="body2" component="p">
+                        Description: {device.description}
+                      </Typography>
+                      <Typography variant="body2" component="p">
+                        Version: {device.description}
                       </Typography>
                     </CardContent>
                     <CardActions>
