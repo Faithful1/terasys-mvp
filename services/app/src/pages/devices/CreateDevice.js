@@ -27,7 +27,6 @@ class CreateDeviceForm extends Component {
 
   submitHandler = e => {
     e.preventDefault();
-    console.log(this.state);
     axios
       .post(`${this.state.apiurl}`, this.state)
       .then(response => this.setState({ success: response.data }))
