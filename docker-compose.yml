@@ -1,6 +1,5 @@
 version: '3.3'
 
-
 services:
 
   nginx:
@@ -10,30 +9,6 @@ services:
       - "80:80"
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
-      
-  db:
-    image: mongo:3.4
-    restart: always
-    volumes:
-      - db_data_dev:/data/db
-    ports:
-      - "27017:27017"
-    environment:
-      - MONGO_DATA_DIR=/data/db
-      - MONGO_LOG_DIR=/dev/null
-
-  api:
-    build:
-      context: ./services/api
-      dockerfile: Dockerfile-dev
-    restart: always
-    volumes:
-      - ./services/api:/code
-    depends_on:
-      - db
-    environment:
-      - VIRTUAL_HOST=api.terasys.lh
-      - VIRTUAL_PORT=4000
 
   app:
     build:
@@ -42,10 +17,8 @@ services:
     restart: always
     volumes:
       - ./services/app:/code
-    depends_on:
-      - api
     environment:
-      - VIRTUAL_HOST=app.terasys.lh,www.terasys.lh
+      - VIRTUAL_HOST=app.terasys.lh
       - VIRTUAL_PORT=3000
 
 volumes:
