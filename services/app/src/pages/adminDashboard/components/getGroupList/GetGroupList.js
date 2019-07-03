@@ -6,7 +6,6 @@ import {
   Card,
   CardContent
 } from "@material-ui/core";
-import { FixedSizeList } from "react-window";
 
 import axios from "axios";
 
@@ -49,7 +48,7 @@ class GroupList extends Component {
             <div>
               {groups.length ? (
                 groups.map(group => (
-                  <FixedSizeList
+                  <ListItem
                     button
                     key={group._id}
                     height={400}
@@ -58,7 +57,7 @@ class GroupList extends Component {
                     itemCount={200}
                   >
                     <ListItemText primary={group.name} />
-                  </FixedSizeList>
+                  </ListItem>
                 ))
               ) : (
                 <p class="error">{error}</p>
