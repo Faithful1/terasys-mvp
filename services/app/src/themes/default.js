@@ -89,20 +89,24 @@ export default {
     },
     MuiSelect: {
       icon: {
-        color: "#B9B9B9",
+        color: "#B9B9B9"
       }
     },
     MuiListItem: {
-      button: {
-        '&:hover, &:focus': {
-          backgroundColor: '#F3F5FF',
+      root: {
+        button: {
+          "&:hover, &:focus": {
+            backgroundColor: "#F3F5FF"
+          }
         },
-      },
-      selected: {
-        backgroundColor: '#F3F5FF !important',
-        '&:focus': {
-          backgroundColor: '#F3F5FF',
-        },
+        "&$disabled": {
+          selected: {
+            backgroundColor: "#F3F5FF !important",
+            "&:focus": {
+              backgroundColor: "#F3F5FF"
+            }
+          }
+        }
       }
     },
     MuiTouchRipple: {
@@ -112,18 +116,18 @@ export default {
     },
     MuiTableRow: {
       root: {
-        height: 56,
+        height: 56
       }
     },
     MuiTableCell: {
       root: {
-        borderBottom: '1px solid rgba(224, 224, 224, .5)',
+        borderBottom: "1px solid rgba(224, 224, 224, .5)"
       },
       head: {
-        fontSize: '0.95rem',
+        fontSize: "0.95rem"
       },
       body: {
-        fontSize: '0.95rem',
+        fontSize: "0.95rem"
       }
     }
   }

@@ -7,7 +7,14 @@ import Layout from "./Layout";
 import Error from "../pages/error";
 import Login from "../pages/login";
 
-const theme = createMuiTheme({ ...themes.default, ...overrides });
+const theme = createMuiTheme({
+  ...themes.default,
+  ...overrides,
+  typography: {
+    useNextVariants: true,
+    suppressDeprecationWarnings: true
+  }
+});
 
 const PrivateRoute = ({ component, ...rest }) => {
   return (

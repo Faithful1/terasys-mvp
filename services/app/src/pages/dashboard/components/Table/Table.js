@@ -4,9 +4,9 @@ import {
   TableRow,
   TableHead,
   TableBody,
-  TableCell,
+  TableCell
 } from "@material-ui/core";
-import { Button } from '../../../../components/Wrappers';
+import { Button } from "../../../../components/Wrappers";
 
 const states = {
   sent: "success",
@@ -22,7 +22,7 @@ const TableComponent = ({ data }) => {
       <TableHead>
         <TableRow>
           {keys.map(key => (
-            <TableCell>{key}</TableCell>
+            <TableCell>{key.index}</TableCell>
           ))}
         </TableRow>
       </TableHead>

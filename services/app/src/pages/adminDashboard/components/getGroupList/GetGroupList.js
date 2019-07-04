@@ -60,7 +60,7 @@ class GroupList extends Component {
                   </ListItem>
                 ))
               ) : (
-                <p class="error">{error}</p>
+                <p className="error">{error}</p>
               )}
             </div>
           </CardContent>

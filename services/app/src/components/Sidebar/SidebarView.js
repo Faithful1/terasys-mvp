@@ -4,7 +4,7 @@ import {
   Home as HomeIcon,
   DataUsage as DataIcon,
   People as UserIcon,
-  FilterNone as UIElementsIcon,
+  // FilterNone as UIElementsIcon,
   DeviceHub as DeviceIcon,
   QuestionAnswer as SupportIcon,
   // KeyboardReturn as KeyIcon,
