@@ -17,7 +17,7 @@ class AdminDashboard extends Component {
 
         <div className="root">
           <Grid container spacing={8}>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} sm={6} xl={3}>
               <Paper className="paper">
                 <AddGroup />
               </Paper>

@@ -38,9 +38,7 @@ class GetDevices extends Component {
 
         <br />
 
-        <div className="paper">
-          {devices.length > 0 ? <DeviceResults devices={devices} /> : null}
-        </div>
+        {devices.length > 0 ? <DeviceResults devices={devices} /> : null}
       </React.Fragment>
     );
   }
