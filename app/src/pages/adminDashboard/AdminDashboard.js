@@ -13,7 +13,7 @@ class AdminDashboard extends Component {
   render() {
     return (
       <React.Fragment>
-        <PageTitle title="Admin Dashboard" />
+        <PageTitle title="Admin" />
 
         <div className="root">
           <Grid container spacing={8}>
