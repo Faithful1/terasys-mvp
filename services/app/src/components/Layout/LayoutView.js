@@ -14,7 +14,7 @@ import Maps from "../../pages/maps";
 import Tables from "../../pages/tables";
 import Icons from "../../pages/icons";
 import Charts from "../../pages/charts";
-import CreateDevice from "../../pages/devices/CreateDevice";
+import CreateDevice from "../../pages/devices/CreateDevice/CreateDevice";
 import GetDevices from "../../pages/devices/GetDevices/GetDevices";
 import GenerateDeviceKey from "../../pages/devices/generateDeviceKey";
 import GetDeviceKey from "../../pages/devices/getDeviceKey";
