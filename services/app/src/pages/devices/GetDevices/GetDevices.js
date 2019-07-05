@@ -5,8 +5,6 @@ import PageTitle from "../../../components/PageTitle/PageTitle";
 
 import DeviceResults from "../components/deviceResult";
 
-import { Grid, Paper } from "@material-ui/core";
-
 class GetDevices extends Component {
   _isMounted = false;
 
@@ -30,7 +28,7 @@ class GetDevices extends Component {
   }
 
   render() {
-    const { devices } = this.state;
+    const { devices, error } = this.state;
 
     return (
       <React.Fragment>
@@ -38,7 +36,11 @@ class GetDevices extends Component {
 
         <br />
 
-        {devices.length > 0 ? <DeviceResults devices={devices} /> : null}
+        {devices.length > 0 ? (
+          <DeviceResults devices={devices} />
+        ) : (
+          <div>{error}</div>
+        )}
       </React.Fragment>
     );
   }
