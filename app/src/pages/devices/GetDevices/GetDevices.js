@@ -3,7 +3,9 @@ import axios from "axios";
 
 import PageTitle from "../../../components/PageTitle/PageTitle";
 
-import DeviceResults from "../components/deviceResult";
+import DeviceResults from "../components/deviceResult/deviceResult";
+
+import EditModal from "../components/editModal/editModal";
 
 class GetDevices extends Component {
   _isMounted = false;
@@ -33,7 +35,8 @@ class GetDevices extends Component {
     return (
       <React.Fragment>
         <PageTitle title="All Devices" />
-
+        <br />
+        <EditModal />
         <br />
 
         {devices.length > 0 ? (

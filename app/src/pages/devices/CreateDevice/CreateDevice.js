@@ -13,7 +13,9 @@ class CreateDeviceForm extends Component {
     mac: "",
     name: "",
     description: "",
-    properties: { color: "" },
+    properties: {
+      color: ""
+    },
     location: [],
     email: "",
     error: "",
@@ -42,8 +44,7 @@ class CreateDeviceForm extends Component {
       location,
       email,
       error,
-      success,
-      color
+      success
     } = this.state;
 
     return (
@@ -89,8 +90,12 @@ class CreateDeviceForm extends Component {
                     <div>
                       <TextField
                         name="color"
-                        value={color}
-                        onChange={this.changeHandler}
+                        value={this.state.properties.color}
+                        onChange={e => {
+                          let { properties } = this.state;
+                          properties.color = e.target.value;
+                          this.setState({ properties });
+                        }}
                         placeholder="color"
                         margin="normal"
                       />

@@ -8,9 +8,27 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 
+import EditModal from "../editModal/editModal";
+
 import "./deviceResults.css";
 
 class DeviceResults extends Component {
+  state = {
+    editDeviceData: {
+      editApiurl: "https://www.terasyshub.io/api/v1/devices/:mac-address",
+      mac: "",
+      name: "",
+      description: "",
+      properties: {
+        color: ""
+      }
+    }
+  };
+
+  onEditHandler = (_id, name, description, color) => {
+    console.log(_id);
+  };
+
   render() {
     let deviceListContent;
     const { devices } = this.props;
@@ -48,12 +66,21 @@ class DeviceResults extends Component {
                     <Typography variant="body2" component="p">
                       Description: {device.description}
                     </Typography>
-                    <Typography variant="body2" component="p">
-                      Version: {device.description}
-                    </Typography>
                   </CardContent>
                   <CardActions>
-                    <Button size="small">Learn More</Button>
+                    <Button
+                      size="small"
+                      onClick={this.onEditHandler.bind(
+                        this,
+                        device._id,
+                        device.name,
+                        device.description,
+                        device.color
+                      )}
+                    >
+                      Edit
+                    </Button>
+                    <Button size="small">Delete</Button>
                   </CardActions>
                 </Card>
               </Grid>

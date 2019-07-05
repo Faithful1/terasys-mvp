@@ -37,7 +37,7 @@ const Login = ({ classes, ...props }) => (
           <React.Fragment>
             <form>
               <Typography variant="h1" className={classes.greeting}>
-                Welcome! Login
+                Login
               </Typography>
 
               <div className={classes.formDividerContainer}>
