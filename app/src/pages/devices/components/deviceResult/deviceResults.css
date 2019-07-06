@@ -1,14 +1,17 @@
 .card {
   min-width: 275;
 }
+
 .bullet {
   display: "inline-block";
   margin: "0 2px";
   transform: "scale(0.8)";
 }
+
 .title {
   font-size: 14;
 }
+
 .pos {
   margin-bottom: 12;
 }
@@ -16,6 +19,7 @@
 .root {
   flex-flow: 1;
 }
+
 .paper {
   height: 140;
   width: 100;
@@ -23,6 +27,21 @@
   margin-top: 10;
   margin-bottom: 10;
 }
+
+.modal-paper {
+  width: 400px;
+  outline: none;
+  padding: 32px;
+  position: absolute;
+  box-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.2),
+    0px 5px 8px 0px rgba(0, 0, 0, 0.14),
+    0px 1px 14px 0px rgba(0, 0, 0, 0.12);
+  background-color: #fff;
+  top: 59%;
+  left: 48%;
+  transform: translate(-59%, -48%);
+}
+
 .control {
   padding: theme-spacing(2);
 }
