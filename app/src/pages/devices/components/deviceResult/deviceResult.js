@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import propTypes from "prop-types";
+import axios from "axios";
 
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
@@ -16,9 +17,9 @@ class DeviceResults extends Component {
   state = {
     open: false,
     editDeviceData: {
-      editApiurl: "https://www.terasyshub.io/api/v1/devices/:mac-address",
-      mac: "",
+      editApiurl: "https://www.terasyshub.io/api/v1/devices/",
       id: "_id",
+      mac: "",
       name: "",
       description: "",
       properties: {
@@ -27,23 +28,25 @@ class DeviceResults extends Component {
     }
   };
 
-  handleOpen = () => {
-    this.setState({
-      open: true
-    });
-  };
-
   handleClose = () => {
     this.setState({
       open: false
     });
   };
 
-  onEditHandler = (_id, name, description, color) => {
+  onEditHandler = (id, name, mac, description, color) => {
     this.setState({
       open: true,
-      editDeviceData: { _id, name, description, color }
+      editDeviceData: { id, name, mac, description, color }
     });
+  };
+
+  upDateDeviceHandler = e => {
+    e.preventDefault();
+    axios
+      .PUT(`${this.state.apiurl}`, this.state)
+      .then(response => this.setState({ success: response.data }))
+      .catch(error => this.setState({ error: error.response.data }));
   };
 
   render() {
@@ -92,6 +95,7 @@ class DeviceResults extends Component {
                         this,
                         device._id,
                         device.name,
+                        device.mac,
                         device.description,
                         device.color
                       )}
@@ -106,10 +110,6 @@ class DeviceResults extends Component {
           </Grid>
 
           <div>
-            <Typography gutterBottom>
-              Click to get the full Modal experience!
-            </Typography>
-
             <Modal
               aria-labelledby="simple-modal-title"
               aria-describedby="simple-modal-description"
@@ -118,12 +118,14 @@ class DeviceResults extends Component {
             >
               <div className="modal-paper">
                 <Typography variant="h6" id="modal-title">
-                  Text in a modal
+                  Update Device
                 </Typography>
 
                 <Card className="card">
                   <CardContent>
                     <div>
+                      <Typography>Name</Typography>
+
                       <TextField
                         value={this.state.editDeviceData.name}
                         onChange={e => {
@@ -136,6 +138,8 @@ class DeviceResults extends Component {
                     </div>
 
                     <div>
+                      <Typography>Mac</Typography>
+
                       <TextField
                         name="mac"
                         value={this.state.editDeviceData.mac}
@@ -149,6 +153,7 @@ class DeviceResults extends Component {
                     </div>
 
                     <div>
+                      <Typography>Description</Typography>
                       <TextField
                         value={this.state.editDeviceData.description}
                         onChange={e => {
@@ -161,7 +166,9 @@ class DeviceResults extends Component {
                     </div>
                   </CardContent>
                   <CardActions>
-                    <Button size="small">Update</Button>
+                    <Button size="small" onClick={this.upDateDeviceHandler}>
+                      Update Device
+                    </Button>
                     <Button size="small">cancel</Button>
                   </CardActions>
                 </Card>
