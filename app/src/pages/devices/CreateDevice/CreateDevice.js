@@ -32,7 +32,19 @@ class CreateDeviceForm extends Component {
     e.preventDefault();
     axios
       .post(`${this.state.apiurl}`, this.state)
-      .then(response => this.setState({ success: response.data }))
+      .then(response => {
+        this.setState({
+          success: response.data,
+          mac: "",
+          name: "",
+          description: "",
+          properties: {
+            color: ""
+          },
+          location: [],
+          email: ""
+        });
+      })
       .catch(error => this.setState({ error: error.response.data }));
   };
 
