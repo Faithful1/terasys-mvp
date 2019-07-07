@@ -15,10 +15,12 @@ import "./deviceResults.css";
 
 class DeviceResults extends Component {
   state = {
+    apiUrl: "https://www.terasyshub.io/api/v1/devices/",
+    editApiurl: "https://www.terasyshub.io/api/v1/devices",
     open: false,
+    error: "",
     editDeviceData: {
-      editApiurl: "https://www.terasyshub.io/api/v1/devices/",
-      id: "_id",
+      id: "",
       mac: "",
       name: "",
       description: "",
@@ -27,6 +29,10 @@ class DeviceResults extends Component {
       }
     }
   };
+
+  componentWillMount() {
+    this._refreshDevices();
+  }
 
   handleClose = () => {
     this.setState({
@@ -37,15 +43,47 @@ class DeviceResults extends Component {
   onEditHandler = (id, name, mac, description, color) => {
     this.setState({
       open: true,
-      editDeviceData: { id, name, mac, description, color }
+      devices: [],
+      editDeviceData: {
+        id: id,
+        name: name,
+        mac: mac,
+        description: description,
+        properties: {
+          color
+        }
+      }
     });
   };
 
+  _refreshDevices() {
+    axios
+      .get(`${this.state.apiUrl}`)
+      .then(response => this.setState({ devices: response.data }))
+      .catch(error => this.setState({ errors: error.response.data }));
+  }
+
   upDateDeviceHandler = e => {
     e.preventDefault();
+
+    const headers = {
+      "Content-Type": "application/json"
+    };
     axios
-      .PUT(`${this.state.apiurl}`, this.state)
-      .then(response => this.setState({ success: response.data }))
+      .put(
+        "https://www.terasyshub.io/api/v1/devices/:" +
+          this.state.editDeviceData.mac,
+        this.state.editDeviceData,
+        { headers: headers }
+      )
+      .then(response => {
+        this._refreshDevices();
+        this.setState({
+          success: response.data,
+          open: false
+        });
+      })
+
       .catch(error => this.setState({ error: error.response.data }));
   };
 
@@ -82,7 +120,7 @@ class DeviceResults extends Component {
                       Version: {device.__v}
                     </Typography>
                     <Typography variant="body2" component="p">
-                      {device.color}
+                      {device.properties.color}
                     </Typography>
                     <Typography variant="body2" component="p">
                       Description: {device.description}
@@ -97,7 +135,7 @@ class DeviceResults extends Component {
                         device.name,
                         device.mac,
                         device.description,
-                        device.color
+                        device.properties.color
                       )}
                     >
                       Edit
@@ -127,13 +165,14 @@ class DeviceResults extends Component {
                       <Typography>Name</Typography>
 
                       <TextField
-                        value={this.state.editDeviceData.name}
+                        margin="normal"
+                        placeholder="name"
                         onChange={e => {
                           let { editDeviceData } = this.state;
                           editDeviceData.name = e.target.value;
+                          this.setState({ editDeviceData });
                         }}
-                        margin="normal"
-                        placeholder="name"
+                        value={this.state.editDeviceData.name}
                       />
                     </div>
 
@@ -141,27 +180,43 @@ class DeviceResults extends Component {
                       <Typography>Mac</Typography>
 
                       <TextField
-                        name="mac"
-                        value={this.state.editDeviceData.mac}
+                        margin="normal"
+                        placeholder="mac"
                         onChange={e => {
                           let { editDeviceData } = this.state;
                           editDeviceData.mac = e.target.value;
+                          this.setState({ editDeviceData });
                         }}
-                        margin="normal"
-                        placeholder="mac"
+                        value={this.state.editDeviceData.mac}
                       />
                     </div>
 
                     <div>
                       <Typography>Description</Typography>
                       <TextField
-                        value={this.state.editDeviceData.description}
+                        margin="normal"
+                        placeholder="description"
                         onChange={e => {
                           let { editDeviceData } = this.state;
                           editDeviceData.description = e.target.value;
+                          this.setState({ editDeviceData });
                         }}
+                        value={this.state.editDeviceData.description}
+                      />
+                    </div>
+
+                    <div>
+                      <Typography>Color</Typography>
+
+                      <TextField
                         margin="normal"
-                        placeholder="description"
+                        placeholder="color"
+                        value={this.state.editDeviceData.properties.color}
+                        onChange={e => {
+                          let { editDeviceData } = this.state;
+                          editDeviceData.properties.color = e.target.value;
+                          this.setState({ editDeviceData });
+                        }}
                       />
                     </div>
                   </CardContent>
