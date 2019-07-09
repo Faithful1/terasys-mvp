@@ -15,10 +15,11 @@ import "./deviceResults.css";
 
 class DeviceResults extends Component {
   state = {
-    apiUrl: "https://www.terasyshub.io/api/v1/devices/",
-    editApiurl: "https://www.terasyshub.io/api/v1/devices",
+    getApiUrl: "https://www.terasyshub.io/api/v1/devices/",
     open: false,
-    error: "",
+    errors: "",
+    success: "",
+    devices: [],
     editDeviceData: {
       id: "",
       mac: "",
@@ -56,12 +57,13 @@ class DeviceResults extends Component {
     });
   };
 
-  _refreshDevices() {
+  onDeleteHandler = mac => {
     axios
-      .get(`${this.state.apiUrl}`)
-      .then(response => this.setState({ devices: response.data }))
-      .catch(error => this.setState({ errors: error.response.data }));
-  }
+      .delete("https://www.terasyshub.io/api/v1/devices/:" + mac)
+      .then(response => {
+        this._refreshDevices();
+      });
+  };
 
   upDateDeviceHandler = e => {
     e.preventDefault();
@@ -70,22 +72,38 @@ class DeviceResults extends Component {
       "Content-Type": "application/json"
     };
     axios
-      .put(
+      .patch(
         "https://www.terasyshub.io/api/v1/devices/:" +
           this.state.editDeviceData.mac,
         this.state.editDeviceData,
-        { headers: headers }
+        { headers: headers },
+        console.log(this.state.editDeviceData)
       )
       .then(response => {
+        console.log(response.data);
         this._refreshDevices();
+
         this.setState({
-          success: response.data,
-          open: false
+          open: false,
+          editDeviceData: {
+            id: "",
+            name: "",
+            mac: "",
+            description: "",
+            color: ""
+          }
         });
       })
 
       .catch(error => this.setState({ error: error.response.data }));
   };
+
+  _refreshDevices() {
+    axios
+      .get(`${this.state.getApiUrl}`)
+      .then(response => this.setState({ devices: response.data }))
+      .catch(error => this.setState({ errors: error.response.data }));
+  }
 
   render() {
     let deviceListContent;
@@ -140,7 +158,12 @@ class DeviceResults extends Component {
                     >
                       Edit
                     </Button>
-                    <Button size="small">Delete</Button>
+                    <Button
+                      size="small"
+                      onClick={this.onDeleteHandler.bind(this, device.mac)}
+                    >
+                      Delete
+                    </Button>
                   </CardActions>
                 </Card>
               </Grid>
@@ -224,7 +247,9 @@ class DeviceResults extends Component {
                     <Button size="small" onClick={this.upDateDeviceHandler}>
                       Update Device
                     </Button>
-                    <Button size="small">cancel</Button>
+                    <Button size="small" onClick={this.handleClose}>
+                      cancel
+                    </Button>
                   </CardActions>
                 </Card>
               </div>
