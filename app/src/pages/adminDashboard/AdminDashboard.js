@@ -2,8 +2,7 @@ import React, { Component } from "react";
 
 import PageTitle from "../../components/PageTitle";
 
-import AddGroup from "./components/addGroup/AddGroup";
-import GroupList from "./components/getGroupList/GetGroupList";
+import AddGroup from "../groups/addGroup/AddGroup";
 
 import "./AdminDashboard.css";
 
@@ -20,12 +19,6 @@ class AdminDashboard extends Component {
             <Grid item xs={12} sm={6} xl={3}>
               <Paper className="paper">
                 <AddGroup />
-              </Paper>
-            </Grid>
-
-            <Grid item xs={12} sm={6}>
-              <Paper className="paper">
-                <GroupList />
               </Paper>
             </Grid>
           </Grid>

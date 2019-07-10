@@ -4,7 +4,7 @@ import {
   Home as HomeIcon,
   DataUsage as DataIcon,
   People as UserIcon,
-  // FilterNone as UIElementsIcon,
+  Group as GroupsIcon,
   DeviceHub as DeviceIcon,
   QuestionAnswer as SupportIcon,
   // KeyboardReturn as KeyIcon,
@@ -19,7 +19,7 @@ import SidebarLink from "./components/SidebarLink/SidebarLinkContainer";
 const structure = [
   { id: 0, label: "Dashboard", link: "/app/dashboard", icon: <HomeIcon /> },
   {
-    id: 2,
+    id: 1,
     label: "Device Management",
     link: "/app/devices",
     icon: <DeviceIcon />,
@@ -31,7 +31,7 @@ const structure = [
     ]
   },
   {
-    id: 1,
+    id: 2,
     label: "User Management",
     link: "/app/typography",
     icon: <UserIcon />
@@ -53,12 +53,22 @@ const structure = [
   //     { label: "Maps", link: "/app/ui/maps" }
   //   ]
   // },
-  { id: 5, type: "divider" },
+  { id: 4, type: "divider" },
   // { id: 6, type: "title", label: "HELP" },
   // { id: 7, label: "Library", link: "", icon: <LibraryIcon /> },
-  { id: 8, label: "Admin", link: "/app/admin", icon: <SupportIcon /> },
-  { id: 9, label: "FAQ", link: "", icon: <FAQIcon /> },
-  { id: 10, type: "divider" }
+  {
+    id: 5,
+    label: "Admin",
+    link: "/app/manage-group",
+    icon: <GroupsIcon />,
+    children: [
+      { label: "Add Group", link: "/app/add-group" },
+      { label: "Manage Group", link: "/app/manage-group" }
+    ]
+  },
+  { id: 6, label: "Admin", link: "/app/admin", icon: <SupportIcon /> },
+  { id: 7, label: "FAQ", link: "", icon: <FAQIcon /> },
+  { id: 8, type: "divider" }
   // { id: 11, type: "title", label: "PROJECTS" },
   // {
   //   id: 12,
