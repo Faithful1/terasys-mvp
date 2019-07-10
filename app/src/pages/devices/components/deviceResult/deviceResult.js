@@ -43,12 +43,12 @@ class DeviceResults extends Component {
     });
   };
 
-  onEditHandler = (id, name, mac, description, color) => {
+  onEditHandler = (_id, name, mac, description, color) => {
     this.setState({
       open: true,
       devices: [],
       editDeviceData: {
-        id: id,
+        id: _id,
         name: name,
         mac: mac,
         description: description,
@@ -67,7 +67,7 @@ class DeviceResults extends Component {
       });
   };
 
-  upDateDeviceHandler = e => {
+  updateDeviceHandler = e => {
     e.preventDefault();
 
     const headers = {
@@ -246,7 +246,7 @@ class DeviceResults extends Component {
                     </div>
                   </CardContent>
                   <CardActions>
-                    <Button size="small" onClick={this.upDateDeviceHandler}>
+                    <Button size="small" onClick={this.updateDeviceHandler}>
                       Update Device
                     </Button>
                     <Button size="small" onClick={this.handleClose}>

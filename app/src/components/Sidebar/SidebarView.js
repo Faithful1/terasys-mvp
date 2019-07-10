@@ -66,7 +66,7 @@ const structure = [
       { label: "Manage Group", link: "/app/manage-group" }
     ]
   },
-  { id: 6, label: "Admin", link: "/app/admin", icon: <SupportIcon /> },
+  // { id: 6, label: "Admin", link: "/app/admin", icon: <SupportIcon /> },
   { id: 7, label: "FAQ", link: "", icon: <FAQIcon /> },
   { id: 8, type: "divider" }
   // { id: 11, type: "title", label: "PROJECTS" },
