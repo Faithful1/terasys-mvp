@@ -2,26 +2,21 @@ import React, { Component } from "react";
 import propTypes from "prop-types";
 import axios from "axios";
 
-import {
-  Card,
-  TextField,
-  CardActions,
-  CardContent,
-  Button,
-  Typography,
-  Grid,
-  Modal
-} from "@material-ui/core";
+import Card from "@material-ui/core/Card";
+import CardActions from "@material-ui/core/CardActions";
+import CardContent from "@material-ui/core/CardContent";
+import Button from "@material-ui/core/Button";
+import Typography from "@material-ui/core/Typography";
+import Grid from "@material-ui/core/Grid";
+import Modal from "@material-ui/core/Modal";
+import TextField from "@material-ui/core/TextField";
 
 import "./deviceResults.css";
 
 class DeviceResults extends Component {
   state = {
-    getApiUrl: "https://www.terasyshub.io/api/v1/devices/",
     open: false,
-    errors: "",
-    success: "",
-    devices: [],
+    editApiurl: "https://www.terasyshub.io/api/v1/devices",
     editDeviceData: {
       id: "",
       mac: "",
@@ -33,10 +28,6 @@ class DeviceResults extends Component {
     }
   };
 
-  componentWillMount() {
-    this._refreshDevices();
-  }
-
   handleClose = () => {
     this.setState({
       open: false
@@ -46,25 +37,12 @@ class DeviceResults extends Component {
   onEditHandler = (id, name, mac, description, color) => {
     this.setState({
       open: true,
-      devices: [],
-      editDeviceData: {
-        id: id,
-        name: name,
-        mac: mac,
-        description: description,
-        properties: {
-          color
-        }
-      }
+      id: { id },
+      name: { name },
+      mac: { mac },
+      description: { description },
+      color: { color }
     });
-  };
-
-  onDeleteHandler = mac => {
-    axios
-      .delete("https://www.terasyshub.io/api/v1/devices/:" + mac)
-      .then(response => {
-        this._refreshDevices();
-      });
   };
 
   upDateDeviceHandler = e => {
@@ -74,38 +52,17 @@ class DeviceResults extends Component {
       "Content-Type": "application/json"
     };
     axios
-      .patch(
-        "https://www.terasyshub.io/api/v1/devices/:" +
-          this.state.editDeviceData.mac,
-        this.state.editDeviceData,
-        { headers: headers },
-        console.log(this.state.editDeviceData)
+      .put(
+        "https://www.terasyshub.io/api/v1/devices/:" + this.state.mac,
+        this.state,
+        { headers: headers }
       )
+      .then(response => this.setState({ success: response.data }))
       .then(response => {
         console.log(response.data);
-        this._refreshDevices();
-
-        this.setState({
-          open: false,
-          editDeviceData: {
-            id: "",
-            name: "",
-            mac: "",
-            description: "",
-            color: ""
-          }
-        });
       })
-
       .catch(error => this.setState({ error: error.response.data }));
   };
-
-  _refreshDevices() {
-    axios
-      .get(`${this.state.getApiUrl}`)
-      .then(response => this.setState({ devices: response.data }))
-      .catch(error => this.setState({ errors: error.response.data }));
-  }
 
   render() {
     let deviceListContent;
@@ -123,9 +80,9 @@ class DeviceResults extends Component {
             alignItems="stretch"
           >
             {devices.map(device => (
-              <Grid key={device._id} item xs={12} sm={6} lg={4} xl={3}>
+              <Grid item key={device._id} xs={12} sm={6} lg={4} xl={3}>
                 <Card className="card">
-                  <CardContent>
+                  <CardContent key={device._id}>
                     <Typography
                       className="title"
                       color="textSecondary"
@@ -140,7 +97,7 @@ class DeviceResults extends Component {
                       Version: {device.__v}
                     </Typography>
                     <Typography variant="body2" component="p">
-                      {device.properties.color}
+                      {device.color}
                     </Typography>
                     <Typography variant="body2" component="p">
                       Description: {device.description}
@@ -155,17 +112,12 @@ class DeviceResults extends Component {
                         device.name,
                         device.mac,
                         device.description,
-                        device.properties.color
+                        device.color
                       )}
                     >
                       Edit
                     </Button>
-                    <Button
-                      size="small"
-                      onClick={this.onDeleteHandler.bind(this, device.mac)}
-                    >
-                      Delete
-                    </Button>
+                    <Button size="small">Delete</Button>
                   </CardActions>
                 </Card>
               </Grid>
@@ -193,9 +145,9 @@ class DeviceResults extends Component {
                         margin="normal"
                         placeholder="name"
                         onChange={e => {
-                          let { editDeviceData } = this.state;
-                          editDeviceData.name = e.target.value;
-                          this.setState({ editDeviceData });
+                          let { name } = this.state;
+                          name = e.target.value;
+                          this.setState({ name });
                         }}
                         value={this.state.editDeviceData.name}
                       />
@@ -208,9 +160,9 @@ class DeviceResults extends Component {
                         margin="normal"
                         placeholder="mac"
                         onChange={e => {
-                          let { editDeviceData } = this.state;
-                          editDeviceData.mac = e.target.value;
-                          this.setState({ editDeviceData });
+                          let { mac } = this.state;
+                          mac = e.target.value;
+                          this.setState({ mac });
                         }}
                         value={this.state.editDeviceData.mac}
                       />
@@ -222,25 +174,23 @@ class DeviceResults extends Component {
                         margin="normal"
                         placeholder="description"
                         onChange={e => {
-                          let { editDeviceData } = this.state;
-                          editDeviceData.description = e.target.value;
-                          this.setState({ editDeviceData });
+                          let { description } = this.state;
+                          description = e.target.value;
+                          this.setState({ description });
                         }}
                         value={this.state.editDeviceData.description}
                       />
                     </div>
 
                     <div>
-                      <Typography>Color</Typography>
-
+                      <Typography>Description</Typography>
+                      margin="normal" placeholder="description"
                       <TextField
-                        margin="normal"
-                        placeholder="color"
                         value={this.state.editDeviceData.properties.color}
                         onChange={e => {
                           let { editDeviceData } = this.state;
-                          editDeviceData.properties.color = e.target.value;
-                          this.setState({ editDeviceData });
+                          properties.color = e.target.value;
+                          this.setState({ properties });
                         }}
                       />
                     </div>
@@ -249,9 +199,7 @@ class DeviceResults extends Component {
                     <Button size="small" onClick={this.upDateDeviceHandler}>
                       Update Device
                     </Button>
-                    <Button size="small" onClick={this.handleClose}>
-                      cancel
-                    </Button>
+                    <Button size="small">cancel</Button>
                   </CardActions>
                 </Card>
               </div>
