@@ -1,7 +1,5 @@
 import React, { Component } from "react";
-import propTypes from "prop-types";
 import axios from "axios";
-
 import {
   Card,
   TextField,
@@ -29,8 +27,11 @@ class DeviceResults extends Component {
       }
     },
     open: false,
-    errors: ""
+    error: ""
   };
+  componentDidMount() {
+    this._refreshDevices();
+  }
 
   componentWillMount() {
     this._refreshDevices();
@@ -72,7 +73,7 @@ class DeviceResults extends Component {
       .patch(
         "/api/v1/devices/:" + this.state.editDeviceData.mac,
         this.state.editDeviceData,
-        { headers: headers }
+        { headers }
       )
       .then(response => {
         this._refreshDevices();
@@ -84,13 +85,12 @@ class DeviceResults extends Component {
     axios
       .get(`${this.state.getApiUrl}`)
       .then(response => this.setState({ devices: response.data }))
-      .catch(error => this.setState({ errors: error.response.data }));
+      .catch(error => this.setState({ error: error.response.data }));
   }
 
   render() {
     let deviceListContent;
-    const { devices } = this.props;
-    const { open } = this.state;
+    const { open, devices } = this.state;
 
     if (devices) {
       deviceListContent = (
@@ -233,7 +233,7 @@ class DeviceResults extends Component {
                       Update Device
                     </Button>
                     <Button size="small" onClick={this.handleClose}>
-                      cancel
+                      close
                     </Button>
                   </CardActions>
                 </Card>
@@ -249,9 +249,5 @@ class DeviceResults extends Component {
     return <React.Fragment>{deviceListContent}</React.Fragment>;
   }
 }
-
-DeviceResults.propTypes = {
-  devices: propTypes.array.isRequired
-};
 
 export default DeviceResults;

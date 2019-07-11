@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import propTypes from "prop-types";
-
+import axios from "axios";
 import {
   Button,
   Card,
@@ -15,32 +14,27 @@ import {
   TextField
 } from "@material-ui/core";
 
-import axios from "axios";
-
 import "./GroupResult.css";
 
 class GroupResult extends Component {
   state = {
     apiUrl: "https://www.terasyshub.io/api/v1/groups",
-    open: false,
     groups: [],
-    error: "",
     editGroupData: {
       groupID: "",
       name: "",
       description: ""
-    }
+    },
+    open: false,
+    error: ""
   };
 
-  componentWillMount() {
+  componentDidMount() {
     this._refreshGroups();
   }
 
-  componentDidMount() {
-    axios
-      .get(`${this.state.apiUrl}`)
-      .then(response => this.setState({ groups: response.data }))
-      .catch(error => this.setState({ error: error.response.data }));
+  componentWillMount() {
+    this._refreshGroups();
   }
 
   handleClose = () => {
@@ -56,8 +50,7 @@ class GroupResult extends Component {
         groupID: _id,
         name: name,
         description: description
-      },
-      groups: []
+      }
     });
   };
 
@@ -76,14 +69,6 @@ class GroupResult extends Component {
       )
       .then(response => {
         this._refreshGroups();
-        this.setState({
-          open: false,
-          editGroupData: {
-            groupID: "",
-            name: "",
-            description: ""
-          }
-        });
       })
       .catch(error => this.setState({ error: error.response.data }));
   };
@@ -92,13 +77,12 @@ class GroupResult extends Component {
     axios
       .get(`${this.state.apiUrl}`)
       .then(response => this.setState({ groups: response.data }))
-      .catch(error => this.setState({ errors: error.response.data }));
+      .catch(error => this.setState({ error: error.response.data }));
   }
 
   render() {
     let groupListContent;
-    const { error, open } = this.state;
-    const { groups } = this.props;
+    const { error, open, groups } = this.state;
 
     if (groups) {
       groupListContent = (
@@ -111,56 +95,52 @@ class GroupResult extends Component {
             justify="center"
             alignItems="stretch"
           >
-            {groups.length ? (
-              groups.map(group => (
-                <Grid key={group._id} item xs={12} sm={6} lg={4} xl={3}>
-                  <Card className="card">
-                    <CardContent>
-                      <Typography variant="h5" component="h2">
-                        {group.name}
-                      </Typography>
-                      <Typography variant="body2" component="p">
-                        Description: {group.description}
-                      </Typography>
-                      <br />
-                      Admin:
-                      {group.admins.map((admin, index) => (
-                        <List key={index}>
-                          <ListItem>
-                            <ListItemText>{admin}</ListItemText>
-                          </ListItem>
-                        </List>
-                      ))}
-                      Devices:
-                      {group.devices.map((device, index) => (
-                        <List key={index}>
-                          <ListItem>
-                            <ListItemText>{device}</ListItemText>
-                          </ListItem>
-                        </List>
-                      ))}
-                    </CardContent>
-                    <CardActions>
-                      <Button
-                        size="small"
-                        onClick={this.onEditHandler.bind(
-                          this,
-                          group._id,
-                          group.name,
-                          group.description
-                        )}
-                      >
-                        Edit
-                      </Button>
-                      <Button size="small">Delete</Button>
-                      <Button size="small">Read more</Button>
-                    </CardActions>
-                  </Card>
-                </Grid>
-              ))
-            ) : (
-              <p className="error">{error}</p>
-            )}
+            {groups.map(group => (
+              <Grid key={group._id} item xs={12} sm={6} lg={4} xl={3}>
+                <Card className="card">
+                  <CardContent>
+                    <Typography variant="h5" component="h2">
+                      {group.name}
+                    </Typography>
+                    <Typography variant="body2" component="p">
+                      Description: {group.description}
+                    </Typography>
+                    <br />
+                    Admin:
+                    {group.admins.map((admin, index) => (
+                      <List key={index}>
+                        <ListItem>
+                          <ListItemText>{admin}</ListItemText>
+                        </ListItem>
+                      </List>
+                    ))}
+                    Devices:
+                    {group.devices.map((device, index) => (
+                      <List key={index}>
+                        <ListItem>
+                          <ListItemText>{device}</ListItemText>
+                        </ListItem>
+                      </List>
+                    ))}
+                  </CardContent>
+                  <CardActions>
+                    <Button
+                      size="small"
+                      onClick={this.onEditHandler.bind(
+                        this,
+                        group._id,
+                        group.name,
+                        group.description
+                      )}
+                    >
+                      Edit
+                    </Button>
+                    <Button size="small">Delete</Button>
+                    <Button size="small">Read more</Button>
+                  </CardActions>
+                </Card>
+              </Grid>
+            ))}
           </Grid>
 
           {/* modal for handling group update */}
@@ -212,7 +192,7 @@ class GroupResult extends Component {
                       Update Group
                     </Button>
                     <Button size="small" onClick={this.handleClose}>
-                      cancel
+                      close
                     </Button>
                   </CardActions>
                 </Card>
@@ -227,9 +207,5 @@ class GroupResult extends Component {
     return <React.Fragment>{groupListContent}</React.Fragment>;
   }
 }
-
-GroupResult.propTypes = {
-  groups: propTypes.array.isRequired
-};
 
 export default GroupResult;
