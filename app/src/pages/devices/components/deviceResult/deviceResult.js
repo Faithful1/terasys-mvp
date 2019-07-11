@@ -18,9 +18,6 @@ import "./deviceResults.css";
 class DeviceResults extends Component {
   state = {
     getApiUrl: "https://www.terasyshub.io/api/v1/devices/",
-    open: false,
-    errors: "",
-    success: "",
     devices: [],
     editDeviceData: {
       id: "",
@@ -30,7 +27,9 @@ class DeviceResults extends Component {
       properties: {
         color: ""
       }
-    }
+    },
+    open: false,
+    errors: ""
   };
 
   componentWillMount() {
@@ -46,7 +45,6 @@ class DeviceResults extends Component {
   onEditHandler = (_id, name, mac, description, color) => {
     this.setState({
       open: true,
-      devices: [],
       editDeviceData: {
         id: _id,
         name: name,
@@ -60,43 +58,26 @@ class DeviceResults extends Component {
   };
 
   onDeleteHandler = mac => {
-    axios
-      .delete("https://www.terasyshub.io/api/v1/devices/:" + mac)
-      .then(response => {
-        this._refreshDevices();
-      });
+    axios.delete("/api/v1/devices/:" + mac).then(response => {
+      this._refreshDevices();
+    });
   };
 
   updateDeviceHandler = e => {
     e.preventDefault();
-
     const headers = {
       "Content-Type": "application/json"
     };
     axios
       .patch(
-        "https://www.terasyshub.io/api/v1/devices/:" +
-          this.state.editDeviceData.mac,
+        "/api/v1/devices/:" + this.state.editDeviceData.mac,
         this.state.editDeviceData,
-        { headers: headers },
-        console.log(this.state.editDeviceData)
+        { headers: headers }
       )
       .then(response => {
         console.log(response.data);
         this._refreshDevices();
-
-        this.setState({
-          open: false,
-          editDeviceData: {
-            id: "",
-            name: "",
-            mac: "",
-            description: "",
-            color: ""
-          }
-        });
       })
-
       .catch(error => this.setState({ error: error.response.data }));
   };
 

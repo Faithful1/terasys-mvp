@@ -6,7 +6,7 @@ import {
   People as UserIcon,
   Group as GroupsIcon,
   DeviceHub as DeviceIcon,
-  QuestionAnswer as SupportIcon,
+  // QuestionAnswer as SupportIcon,
   // KeyboardReturn as KeyIcon,
   HelpOutline as FAQIcon,
   ArrowBack as ArrowBackIcon

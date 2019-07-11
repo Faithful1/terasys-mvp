@@ -23,9 +23,9 @@ class GetDevices extends Component {
       .catch(error => this.setState({ errors: error.response.data }));
   }
 
-  componentWillUnmount() {
-    this._isMounted = false;
-  }
+  // componentWillUnmount() {
+  //   this._isMounted = false;
+  // }
 
   render() {
     const { devices, error } = this.state;
