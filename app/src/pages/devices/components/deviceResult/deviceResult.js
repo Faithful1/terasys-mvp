@@ -75,7 +75,6 @@ class DeviceResults extends Component {
         { headers: headers }
       )
       .then(response => {
-        console.log(response.data);
         this._refreshDevices();
       })
       .catch(error => this.setState({ error: error.response.data }));
@@ -96,6 +95,8 @@ class DeviceResults extends Component {
     if (devices) {
       deviceListContent = (
         <React.Fragment>
+          {/* Grid for getting all devices */}
+
           <Grid
             container
             spacing={24}
@@ -153,6 +154,7 @@ class DeviceResults extends Component {
             ))}
           </Grid>
 
+          {/* modal for handling device update */}
           <div>
             <Modal
               aria-labelledby="simple-modal-title"

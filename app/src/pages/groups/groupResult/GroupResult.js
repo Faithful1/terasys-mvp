@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import propTypes from "prop-types";
+
 import {
   Button,
   Card,
@@ -70,11 +72,9 @@ class GroupResult extends Component {
       .patch(
         `/api/v1/groups/${this.state.editGroupData.groupID}`,
         this.state.editGroupData,
-        { headers },
-        console.log(this.state.editGroupData)
+        { headers }
       )
       .then(response => {
-        console.log(response.data);
         this._refreshGroups();
         this.setState({
           open: false,
@@ -103,6 +103,7 @@ class GroupResult extends Component {
     if (groups) {
       groupListContent = (
         <React.Fragment>
+          {/* Grid that displays all existing groups */}
           <Grid
             container
             spacing={24}
@@ -162,6 +163,7 @@ class GroupResult extends Component {
             )}
           </Grid>
 
+          {/* modal for handling group update */}
           <div>
             <Modal
               aria-labelledby="simple-modal-title"
@@ -225,5 +227,9 @@ class GroupResult extends Component {
     return <React.Fragment>{groupListContent}</React.Fragment>;
   }
 }
+
+GroupResult.propTypes = {
+  groups: propTypes.array.isRequired
+};
 
 export default GroupResult;
