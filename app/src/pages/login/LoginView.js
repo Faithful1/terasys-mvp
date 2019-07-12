@@ -19,7 +19,7 @@ const Login = ({ classes, ...props }) => (
   <Grid container className={classes.container}>
     <div className={classes.logotypeContainer}>
       <img src={logo} alt="logo" className={classes.logotypeImage} />
-      <Typography className={classes.logotypeText}>Terasys Admin</Typography>
+      <Typography className={classes.logotypeText}>Terasys IoT</Typography>
     </div>
     <div className={classes.formContainer}>
       <div className={classes.form}>
