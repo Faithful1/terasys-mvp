@@ -3,12 +3,12 @@ import { Drawer, IconButton, List, withStyles } from "@material-ui/core";
 import {
   Home as HomeIcon,
   DataUsage as DataIcon,
-  People as UserIcon,
+  // People as UserIcon,
   Group as GroupsIcon,
   DeviceHub as DeviceIcon,
   // QuestionAnswer as SupportIcon,
   // KeyboardReturn as KeyIcon,
-  HelpOutline as FAQIcon,
+  // HelpOutline as FAQIcon,
   ArrowBack as ArrowBackIcon
 } from "@material-ui/icons";
 import classNames from "classnames";
@@ -30,12 +30,12 @@ const structure = [
       { label: "Get Device Key", link: "/app/get-key" }
     ]
   },
-  {
-    id: 2,
-    label: "User Management",
-    link: "/app/typography",
-    icon: <UserIcon />
-  },
+  // {
+  //   id: 2,
+  //   label: "User Management",
+  //   link: "/app/typography",
+  //   icon: <UserIcon />
+  // },
   {
     id: 3,
     label: "Data Management",
@@ -67,7 +67,7 @@ const structure = [
     ]
   },
   // { id: 6, label: "Admin", link: "/app/admin", icon: <SupportIcon /> },
-  { id: 7, label: "FAQ", link: "", icon: <FAQIcon /> },
+  // { id: 7, label: "FAQ", link: "", icon: <FAQIcon /> },
   { id: 8, type: "divider" }
   // { id: 11, type: "title", label: "PROJECTS" },
   // {
