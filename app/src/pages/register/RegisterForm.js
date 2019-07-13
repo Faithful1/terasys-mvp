@@ -9,13 +9,16 @@ import {
 
 class RegisterForm extends Component {
   state = {
-    apiUrl: "https://www.terasyshub.io/api/v1/register",
+    apiUrl: "https://www.terasyshub.io/api/v1/registerAdmin",
     isLoading: false,
-    firstName: "",
-    lastName: "",
-    email: "",
     password: "",
     password_confirm: "",
+    email: "",
+    profile: {
+      firstname: "",
+      lastname: ""
+    },
+    key: "8JadZIptT2ysZPKQUAdBWw.lwewT8M4",
     errorMessage: "",
     status: "",
     errors: ""
@@ -30,6 +33,7 @@ class RegisterForm extends Component {
 
     axios
       .post(`${this.state.apiUrl}`, this.state, { headers: headers })
+      .then(response => console.log(response.data))
       .then(response => this.setState({ status: response.data }))
       .catch(error => this.setState({ errors: error.response.data }));
   };
@@ -43,8 +47,6 @@ class RegisterForm extends Component {
   render() {
     const {
       isLoading,
-      firstName,
-      lastName,
       email,
       password,
       password_confirm,
@@ -58,7 +60,7 @@ class RegisterForm extends Component {
           Welcome!
         </Typography>
         <Typography variant="h2" className="subGreeting">
-          Create your account
+          Create superadmin account
         </Typography>
 
         {errors ? (
@@ -73,26 +75,36 @@ class RegisterForm extends Component {
 
         <TextField
           id="firstname"
-          name="firstName"
+          name="firstname"
           className="textFieldUnderline textField"
-          value={firstName}
-          onChange={this.onChangeHandler}
+          value={this.state.profile.firstname}
+          onChange={e => {
+            let { profile } = this.state;
+            profile.firstname = e.target.value;
+            this.setState({ profile });
+          }}
           margin="normal"
           placeholder="First Name"
           type="text"
           fullWidth
         />
+
         <TextField
           id="lastname"
-          name="lastName"
+          name="lastname"
           className="textFieldUnderline textField"
-          value={lastName}
-          onChange={this.onChangeHandler}
+          value={this.state.profile.lastname}
+          onChange={e => {
+            let { profile } = this.state;
+            profile.lastname = e.target.value;
+            this.setState({ profile });
+          }}
           margin="normal"
           placeholder="Last Name"
           type="text"
           fullWidth
         />
+
         <TextField
           id="email"
           name="email"
