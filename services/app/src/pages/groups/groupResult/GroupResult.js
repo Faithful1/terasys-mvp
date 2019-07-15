@@ -120,7 +120,7 @@ class GroupResult extends Component {
         headers: headers
       })
       .then(response => {
-        console.log(response.data);
+        this._refreshGroups();
       })
       .catch(error => this.setState({ errors: error.response.data }));
   };
