@@ -20,13 +20,15 @@ class GroupResult extends Component {
   state = {
     apiUrl: "https://www.terasyshub.io/api/v1/groups",
     addDeviceUrl: "https://www.terasyshub.io/api/v1/devices",
-    groups: [],
+
     openModalForUpdateGroup: false,
     openModalForAddDevice: false,
+    isLoading: false,
+
+    groups: [],
+    groupName: "",
     error: "",
     success: "",
-    isLoading: false,
-    groupName: "",
 
     editGroupData: {
       groupID: "",
@@ -34,18 +36,16 @@ class GroupResult extends Component {
       description: ""
     },
 
-    addDeviceToGroup: {
-      gid: "",
-      mac: "",
-      name: "",
-      description: "",
-      email: "",
-      location: [],
-      properties: {
-        color: ""
-      },
-      admin: false
-    }
+    gid: "",
+    mac: "",
+    name: "",
+    description: "",
+    email: "",
+    properties: {
+      color: ""
+    },
+    location: [],
+    admin: false
   };
 
   componentDidMount() {
@@ -92,34 +92,31 @@ class GroupResult extends Component {
     });
   };
 
+  changeHandler = e => {
+    this.setState({
+      [e.target.name]: e.target.value
+    });
+  };
+
   onDeviceAddHandler = (_id, name) => {
     this.setState({
       openModalForAddDevice: true,
       groupName: name,
-      addDeviceToGroup: {
-        gid: _id
-      }
-    });
-  };
-
-  onChangeHandler = e => {
-    console.log(e.target.name);
-    console.log(e.target.value);
-
-    this.SetState({
-      [e.target.name]: e.target.value
+      gid: _id
     });
   };
 
   onSubmitDevice = e => {
     e.preventDefault();
 
+    console.log(this.state);
+
     const headers = {
       "Content-Type": "application/json"
     };
 
     axios
-      .post(`${this.state.addDeviceUrl}`, this.state.addDeviceToGroup, {
+      .post(`${this.state.addDeviceUrl}`, this.state, {
         headers: headers
       })
       .then(response => {
@@ -289,7 +286,7 @@ class GroupResult extends Component {
                       <div>
                         <TextField
                           name="mac"
-                          value={this.state.addDeviceToGroup.mac}
+                          value={this.state.mac}
                           onChange={this.changeHandler}
                           placeholder="mac"
                           margin="normal"
@@ -299,7 +296,7 @@ class GroupResult extends Component {
                       <div>
                         <TextField
                           name="name"
-                          value={this.state.addDeviceToGroup.name}
+                          value={this.state.name}
                           onChange={this.changeHandler}
                           placeholder="name"
                           margin="normal"
@@ -309,7 +306,7 @@ class GroupResult extends Component {
                       <div>
                         <TextField
                           name="description"
-                          value={this.state.addDeviceToGroup.description}
+                          value={this.state.description}
                           onChange={this.changeHandler}
                           placeholder="description"
                           margin="normal"
@@ -319,7 +316,7 @@ class GroupResult extends Component {
                       <div>
                         <TextField
                           name="email"
-                          value={this.state.addDeviceToGroup.email}
+                          value={this.state.email}
                           onChange={this.changeHandler}
                           placeholder="email"
                           margin="normal"
@@ -329,7 +326,7 @@ class GroupResult extends Component {
                       <div>
                         <TextField
                           name="location"
-                          value={this.state.addDeviceToGroup.location}
+                          value={this.state.location}
                           onChange={this.changeHandler}
                           placeholder="location"
                           margin="normal"
