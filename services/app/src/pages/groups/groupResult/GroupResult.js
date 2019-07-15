@@ -11,8 +11,7 @@ import {
   ListItem,
   List,
   Modal,
-  TextField,
-  CircularProgress
+  TextField
 } from "@material-ui/core";
 
 import "./GroupResult.css";
@@ -72,7 +71,9 @@ class GroupResult extends Component {
 
     axios
       .patch(
-        `/api/v1/groups/${this.state.editGroupData.groupID}`,
+        `https://www.terasyshub.io/api/v1/groups/${
+          this.state.editGroupData.groupID
+        }`,
         this.state.editGroupData,
         { headers }
       )

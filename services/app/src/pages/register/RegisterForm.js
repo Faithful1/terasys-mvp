@@ -57,10 +57,7 @@ class RegisterForm extends Component {
     return (
       <form onSubmit={this.submitHandler}>
         <Typography variant="h1" className="greeting">
-          Welcome!
-        </Typography>
-        <Typography variant="h2" className="subGreeting">
-          Create superadmin account
+          SuperAdmin
         </Typography>
 
         {errors ? (
