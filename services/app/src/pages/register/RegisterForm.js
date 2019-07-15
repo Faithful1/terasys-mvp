@@ -57,7 +57,7 @@ class RegisterForm extends Component {
     return (
       <form onSubmit={this.submitHandler}>
         <Typography variant="h1" className="greeting">
-          SuperAdmin
+          Admin
         </Typography>
 
         {errors ? (

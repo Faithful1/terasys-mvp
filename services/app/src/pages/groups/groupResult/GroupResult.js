@@ -71,9 +71,7 @@ class GroupResult extends Component {
 
     axios
       .patch(
-        `https://www.terasyshub.io/api/v1/groups/${
-          this.state.editGroupData.groupID
-        }`,
+        `/api/v1/groups/${this.state.editGroupData.groupID}`,
         this.state.editGroupData,
         { headers }
       )

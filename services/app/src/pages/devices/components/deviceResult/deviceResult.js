@@ -59,11 +59,9 @@ class DeviceResults extends Component {
   };
 
   onDeleteHandler = mac => {
-    axios
-      .delete("https://www.terasyshub.io/api/v1/devices/:" + mac)
-      .then(response => {
-        this._refreshDevices();
-      });
+    axios.delete("/api/v1/devices/:" + mac).then(response => {
+      this._refreshDevices();
+    });
   };
 
   updateDeviceHandler = e => {
@@ -73,8 +71,7 @@ class DeviceResults extends Component {
     };
     axios
       .patch(
-        "https://www.terasyshub.io/api/v1/devices/:" +
-          this.state.editDeviceData.mac,
+        "/api/v1/devices/:" + this.state.editDeviceData.mac,
         this.state.editDeviceData,
         { headers }
       )
