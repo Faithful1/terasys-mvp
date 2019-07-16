@@ -20,9 +20,11 @@ class GroupResult extends Component {
   state = {
     apiUrl: "https://www.terasyshub.io/api/v1/groups",
     addDeviceUrl: "https://www.terasyshub.io/api/v1/devices",
+    addUserUrl: "https://www.terasyshub.io/api/v1/register",
 
     openModalForUpdateGroup: false,
     openModalForAddDevice: false,
+    openModalForAddUser: false,
     isLoading: false,
 
     groups: [],
@@ -45,6 +47,13 @@ class GroupResult extends Component {
       color: ""
     },
     location: [],
+
+    password: " ",
+    password_confirm: "",
+    profile: {
+      firstname: "",
+      lastname: ""
+    },
     admin: false
   };
 
@@ -59,7 +68,8 @@ class GroupResult extends Component {
   handleClose = () => {
     this.setState({
       openModalForUpdateGroup: false,
-      openModalForAddDevice: false
+      openModalForAddDevice: false,
+      openModalForAdduser: false
     });
   };
 
@@ -81,31 +91,6 @@ class GroupResult extends Component {
       .catch(error => this.setState({ error: error.response.data }));
   };
 
-  onEditHandler = (_id, name, description) => {
-    this.setState({
-      openModalForUpdateGroup: true,
-      editGroupData: {
-        groupID: _id,
-        name: name,
-        description: description
-      }
-    });
-  };
-
-  changeHandler = e => {
-    this.setState({
-      [e.target.name]: e.target.value
-    });
-  };
-
-  onDeviceAddHandler = (_id, name) => {
-    this.setState({
-      openModalForAddDevice: true,
-      groupName: name,
-      gid: _id
-    });
-  };
-
   onSubmitDevice = e => {
     e.preventDefault();
 
@@ -125,6 +110,64 @@ class GroupResult extends Component {
       .catch(error => this.setState({ errors: error.response.data }));
   };
 
+  onSubmitUser = e => {
+    e.preventDefault();
+
+    console.log(this.state);
+
+    const headers = {
+      "Content-Type": "application/json"
+    };
+
+    axios
+      .post(`${this.state.addUserUrl}`, this.state, {
+        headers: headers
+      })
+      .then(response => {
+        this._refreshGroups();
+      })
+      .catch(error => this.setState({ errors: error.response.data }));
+  };
+
+  onEditHandler = (_id, name, description) => {
+    this.setState({
+      openModalForUpdateGroup: true,
+      editGroupData: {
+        groupID: _id,
+        name: name,
+        description: description
+      }
+    });
+  };
+
+  onDeviceAddHandler = (_id, name, email) => {
+    this.setState({
+      openModalForAddDevice: true,
+      groupName: name,
+      gid: _id,
+      email: email
+    });
+  };
+
+  onUserAddHandler = _id => {
+    this.setState({
+      openModalForAddUser: true,
+      gid: _id
+    });
+  };
+
+  changeAddDeviceHandler = e => {
+    this.setState({
+      [e.target.name]: e.target.value
+    });
+  };
+
+  changeAddUserHandler = e => {
+    this.setState({
+      [e.target.name]: e.target.value
+    });
+  };
+
   _refreshGroups() {
     axios
       .get(`${this.state.apiUrl}`)
@@ -137,7 +180,7 @@ class GroupResult extends Component {
     const {
       openModalForUpdateGroup,
       openModalForAddDevice,
-      groupName,
+      openModalForAddUser,
       groups,
       success,
       error
@@ -196,13 +239,15 @@ class GroupResult extends Component {
                     </Button>
                     <Button
                       size="small"
-                      onClick={this.onDeviceAddHandler.bind(
-                        this,
-                        group._id,
-                        group.name
-                      )}
+                      onClick={this.onDeviceAddHandler.bind(this, group._id)}
                     >
                       Add Device
+                    </Button>
+                    <Button
+                      size="small"
+                      onClick={this.onUserAddHandler.bind(this, group._id)}
+                    >
+                      Add User
                     </Button>
                   </CardActions>
                 </Card>
@@ -277,7 +322,7 @@ class GroupResult extends Component {
             >
               <div className="modal-paper">
                 <Typography variant="h6" id="modal-title">
-                  Add device to {groupName}
+                  Add device to group
                 </Typography>
 
                 <Card className="card">
@@ -287,7 +332,7 @@ class GroupResult extends Component {
                         <TextField
                           name="mac"
                           value={this.state.mac}
-                          onChange={this.changeHandler}
+                          onChange={this.changeAddDeviceHandler}
                           placeholder="mac"
                           margin="normal"
                         />
@@ -297,7 +342,7 @@ class GroupResult extends Component {
                         <TextField
                           name="name"
                           value={this.state.name}
-                          onChange={this.changeHandler}
+                          onChange={this.changeAddDeviceHandler}
                           placeholder="name"
                           margin="normal"
                         />
@@ -307,7 +352,7 @@ class GroupResult extends Component {
                         <TextField
                           name="description"
                           value={this.state.description}
-                          onChange={this.changeHandler}
+                          onChange={this.changeAddDeviceHandler}
                           placeholder="description"
                           margin="normal"
                         />
@@ -317,7 +362,7 @@ class GroupResult extends Component {
                         <TextField
                           name="email"
                           value={this.state.email}
-                          onChange={this.changeHandler}
+                          onChange={this.changeAddDeviceHandler}
                           placeholder="email"
                           margin="normal"
                         />
@@ -327,7 +372,7 @@ class GroupResult extends Component {
                         <TextField
                           name="location"
                           value={this.state.location}
-                          onChange={this.changeHandler}
+                          onChange={this.changeAddDeviceHandler}
                           placeholder="location"
                           margin="normal"
                         />
@@ -355,6 +400,102 @@ class GroupResult extends Component {
                   <CardActions>
                     <Button size="small" onClick={this.addDeviceHandler}>
                       Update Group
+                    </Button>
+                    <Button size="small" onClick={this.handleClose}>
+                      close
+                    </Button>
+                  </CardActions>
+                </Card>
+              </div>
+            </Modal>
+          </div>
+
+          {/* modal for adding user/admin to group */}
+          <div>
+            <Modal
+              aria-labelledby="simple-modal-title"
+              aria-describedby="simple-modal-description"
+              open={openModalForAddUser}
+              onClose={this.handleClose}
+            >
+              <div className="modal-paper">
+                <Typography variant="h6" id="modal-title">
+                  Add User to group
+                </Typography>
+
+                <Card className="card">
+                  <CardContent>
+                    <form onSubmit={this.onSubmitUser}>
+                      <div>
+                        <TextField
+                          name="email"
+                          value={this.state.email}
+                          onChange={this.changeAddUserHandler}
+                          placeholder="email"
+                          margin="normal"
+                        />
+                      </div>
+
+                      <div>
+                        <TextField
+                          name="password"
+                          value={this.state.password}
+                          onChange={this.changeAddUserHandler}
+                          placeholder="password"
+                          margin="normal"
+                        />
+                      </div>
+
+                      <div>
+                        <TextField
+                          name="password_confirm"
+                          value={this.state.password_confirm}
+                          onChange={this.changeAddUserHandler}
+                          placeholder="confirm password"
+                          margin="normal"
+                        />
+                      </div>
+                      <div>
+                        <TextField
+                          name="firstname"
+                          value={this.state.profile.firstname}
+                          onChange={this.changeAddUserHandler}
+                          placeholder="firstname"
+                          margin="normal"
+                        />
+                      </div>
+                      <div>
+                        <TextField
+                          name="lastname"
+                          value={this.state.profile.lastname}
+                          onChange={this.changeAddUserHandler}
+                          placeholder="lastname"
+                          margin="normal"
+                        />
+                      </div>
+
+                      <br />
+
+                      <div>
+                        {success ? (
+                          <p className="success" variant="h5">
+                            {success}
+                          </p>
+                        ) : (
+                          <p className="error" variant="h5">
+                            {error}
+                          </p>
+                        )}
+                      </div>
+
+                      <Button type="submit" variant="contained" color="primary">
+                        Add User
+                      </Button>
+                    </form>
+                  </CardContent>
+                  <CardActions>
+                    <Button size="small" onClick={this.onSubmitUser}>
+                      add User
                     </Button>
                     <Button size="small" onClick={this.handleClose}>
                       close
