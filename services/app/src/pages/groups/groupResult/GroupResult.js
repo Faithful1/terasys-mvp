@@ -199,7 +199,6 @@ class GroupResult extends Component {
       error,
       isLoading,
 
-      gid,
       mac,
       name,
       description,
@@ -361,7 +360,7 @@ class GroupResult extends Component {
                       <div>
                         <TextField
                           name="mac"
-                          value={this.state.mac}
+                          value={mac}
                           onChange={this.changeAddDeviceHandler}
                           placeholder="mac"
                           margin="normal"
@@ -371,7 +370,7 @@ class GroupResult extends Component {
                       <div>
                         <TextField
                           name="name"
-                          value={this.state.name}
+                          value={name}
                           onChange={this.changeAddDeviceHandler}
                           placeholder="name"
                           margin="normal"
@@ -381,7 +380,7 @@ class GroupResult extends Component {
                       <div>
                         <TextField
                           name="description"
-                          value={this.state.description}
+                          value={description}
                           onChange={this.changeAddDeviceHandler}
                           placeholder="description"
                           margin="normal"
@@ -390,10 +389,14 @@ class GroupResult extends Component {
 
                       <div>
                         <TextField
-                          name="email"
-                          value={this.state.email}
-                          onChange={this.changeAddDeviceHandler}
-                          placeholder="email"
+                          name="color"
+                          value={color}
+                          onChange={e => {
+                            let { properties } = this.state;
+                            properties.color = e.target.value;
+                            this.setState({ properties });
+                          }}
+                          placeholder="color"
                           margin="normal"
                         />
                       </div>
@@ -401,12 +404,24 @@ class GroupResult extends Component {
                       <div>
                         <TextField
                           name="location"
-                          value={this.state.location}
+                          value={location}
                           onChange={this.changeAddDeviceHandler}
                           placeholder="location"
                           margin="normal"
                         />
                       </div>
+
+                      <TextField
+                        id="email"
+                        name="email"
+                        className="textFieldUnderline textField"
+                        value={email}
+                        onChange={this.changeAddDeviceHandler}
+                        margin="normal"
+                        placeholder="Email Address"
+                        type="email"
+                        fullWidth
+                      />
 
                       <br />
 
