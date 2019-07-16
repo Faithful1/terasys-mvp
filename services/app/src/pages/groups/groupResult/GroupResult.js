@@ -12,7 +12,9 @@ import {
   List,
   Modal,
   TextField,
-  CircularProgress
+  CircularProgress,
+  FormControlLabel,
+  Checkbox
 } from "@material-ui/core";
 
 import "./GroupResult.css";
@@ -56,7 +58,7 @@ class GroupResult extends Component {
       firstname: "",
       lastname: ""
     },
-    admin: true
+    admin: false
   };
 
   componentDidMount() {
@@ -138,7 +140,18 @@ class GroupResult extends Component {
       .then(response => {
         this._refreshGroups();
       })
-      .then(response => this.setState({ success: response.data }))
+      .then(response =>
+        this.setState({
+          success: response.data,
+          password: "",
+          password_confirm: "",
+          profile: {
+            firstname: "",
+            lastname: ""
+          },
+          admin: false
+        })
+      )
       .catch(error => this.setState({ error: error.response.data }));
   };
 
@@ -178,6 +191,12 @@ class GroupResult extends Component {
   changeAddUserHandler = e => {
     this.setState({
       [e.target.name]: e.target.value
+    });
+  };
+
+  handleIsUserAdmin = e => {
+    this.setState({
+      admin: e.target.checked
     });
   };
 
@@ -436,16 +455,19 @@ class GroupResult extends Component {
                           </p>
                         )}
                       </div>
-
-                      <Button type="submit" variant="contained" color="primary">
-                        Add Device
-                      </Button>
                     </form>
                   </CardContent>
                   <CardActions>
-                    <Button size="small" onClick={this.addDeviceHandler}>
-                      Update Group
-                    </Button>
+                    <div className="creatingButtonContainer">
+                      {isLoading ? (
+                        <CircularProgress size={26} />
+                      ) : (
+                        <Button size="small" onClick={this.addDeviceHandler}>
+                          add User
+                        </Button>
+                      )}
+                    </div>
+
                     <Button
                       size="small"
                       onClick={this.handleCloseAddDeviceToGroupModal}
@@ -562,27 +584,32 @@ class GroupResult extends Component {
                         />
                       </div>
 
-                      <br />
-
-                      <div className="creatingButtonContainer">
-                        {isLoading ? (
-                          <CircularProgress size={26} />
-                        ) : (
-                          <Button
-                            type="submit"
-                            variant="contained"
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            checked={admin}
+                            onChange={this.handleIsUserAdmin}
+                            value="admin"
                             color="primary"
-                          >
-                            Add User
-                          </Button>
-                        )}
-                      </div>
+                          />
+                        }
+                        label="Is Admin"
+                      />
+
+                      <br />
                     </form>
                   </CardContent>
                   <CardActions>
-                    <Button size="small" onClick={this.onSubmitUser}>
-                      add User
-                    </Button>
+                    <div className="creatingButtonContainer">
+                      {isLoading ? (
+                        <CircularProgress size={26} />
+                      ) : (
+                        <Button size="small" onClick={this.onSubmitUser}>
+                          add User
+                        </Button>
+                      )}
+                    </div>
+
                     <Button
                       size="small"
                       onClick={this.handleCloseAddUserToGroupModal}
