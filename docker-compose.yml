@@ -18,7 +18,7 @@ services:
     volumes:
       - ./services/app:/code
     environment:
-      - VIRTUAL_HOST=app.terasys.lh
+      - VIRTUAL_HOST=app-staging.terasys.com
       - VIRTUAL_PORT=3000
 
 volumes:
