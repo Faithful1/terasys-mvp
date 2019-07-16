@@ -13,13 +13,13 @@ services:
   app:
     build:
       context: ./services/app
-      dockerfile: Dockerfile-dev
+      dockerfile: Dockerfile-prod
     restart: always
     volumes:
       - ./services/app:/code
     environment:
-      - VIRTUAL_HOST=app.terasys.lh
-      - VIRTUAL_PORT=3003
+      - VIRTUAL_HOST=app-staging.terasys.com
+      - VIRTUAL_PORT=4000
 
 volumes:
   db_data_dev:
