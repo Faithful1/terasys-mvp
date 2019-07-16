@@ -22,4 +22,4 @@ services:
       - VIRTUAL_PORT=4000
 
 volumes:
-  db_data_dev:
+  db_data_prod:
