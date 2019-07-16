@@ -19,7 +19,7 @@ services:
       - ./services/app:/code
     environment:
       - VIRTUAL_HOST=app-staging.terasys.com
-      - VIRTUAL_PORT=4000
+      - VIRTUAL_PORT=3000
 
 volumes:
-  db_data_prod:
+  db_data_dev:

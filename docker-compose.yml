@@ -19,7 +19,7 @@ services:
       - ./services/app:/code
     environment:
       - VIRTUAL_HOST=app.terasys.lh
-      - VIRTUAL_PORT=3003
+      - VIRTUAL_PORT=3000
 
 volumes:
   db_data_dev:
