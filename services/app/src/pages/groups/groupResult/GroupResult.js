@@ -462,7 +462,7 @@ class GroupResult extends Component {
                       {isLoading ? (
                         <CircularProgress size={26} />
                       ) : (
-                        <Button size="small" onClick={this.addDeviceHandler}>
+                        <Button size="small" onClick={this.onSubmitDevice}>
                           add User
                         </Button>
                       )}
