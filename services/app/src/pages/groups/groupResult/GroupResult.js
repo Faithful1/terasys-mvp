@@ -11,7 +11,8 @@ import {
   ListItem,
   List,
   Modal,
-  TextField
+  TextField,
+  CircularProgress
 } from "@material-ui/core";
 
 import "./GroupResult.css";
@@ -55,7 +56,7 @@ class GroupResult extends Component {
       firstname: "",
       lastname: ""
     },
-    admin: false
+    admin: true
   };
 
   componentDidMount() {
@@ -137,7 +138,8 @@ class GroupResult extends Component {
       .then(response => {
         this._refreshGroups();
       })
-      .catch(error => this.setState({ errors: error.response.data }));
+      .then(response => this.setState({ success: response.data }))
+      .catch(error => this.setState({ error: error.response.data }));
   };
 
   onEditHandler = (_id, name, description) => {
@@ -195,8 +197,20 @@ class GroupResult extends Component {
       groups,
       success,
       error,
+      isLoading,
 
-      gid
+      gid,
+      mac,
+      name,
+      description,
+      email,
+      properties: { color },
+      location,
+
+      password,
+      password_confirm,
+      profile: { firstname, lastname },
+      admin
     } = this.state;
 
     if (groups) {
@@ -442,75 +456,112 @@ class GroupResult extends Component {
                   Add User to group
                 </Typography>
 
+                {error ? (
+                  <Typography color="secondary" className="errorMessage">
+                    {error}
+                  </Typography>
+                ) : (
+                  <Typography color="primary" className="successMessage">
+                    {success}
+                  </Typography>
+                )}
+
                 <Card className="card">
                   <CardContent>
                     <form onSubmit={this.onSubmitUser}>
                       <div>
                         <TextField
+                          id="email"
                           name="email"
-                          value={this.state.email}
+                          className="textFieldUnderline textField"
+                          value={email}
                           onChange={this.changeAddUserHandler}
-                          placeholder="email"
                           margin="normal"
+                          placeholder="Email Address"
+                          type="email"
+                          fullWidth
                         />
                       </div>
 
                       <div>
                         <TextField
+                          id="password"
                           name="password"
-                          value={this.state.password}
+                          value={password}
+                          className="textFieldUnderline textField"
                           onChange={this.changeAddUserHandler}
-                          placeholder="password"
                           margin="normal"
+                          placeholder="Password"
+                          type="password"
+                          fullWidth
                         />
                       </div>
 
                       <div>
                         <TextField
+                          id="password_confirm"
                           name="password_confirm"
-                          value={this.state.password_confirm}
+                          value={password_confirm}
+                          className="textFieldUnderline textField"
                           onChange={this.changeAddUserHandler}
-                          placeholder="confirm password"
                           margin="normal"
+                          placeholder="Confirm Password"
+                          type="password"
+                          fullWidth
                         />
                       </div>
 
                       <div>
                         <TextField
+                          id="firstname"
                           name="firstname"
-                          value={this.state.profile.firstname}
-                          onChange={this.changeAddUserHandler}
-                          placeholder="firstname"
+                          className="textFieldUnderline textField"
+                          value={firstname}
+                          onChange={e => {
+                            let { profile } = this.state;
+                            profile.firstname = e.target.value;
+                            this.setState({ profile });
+                          }}
                           margin="normal"
+                          placeholder="First Name"
+                          type="text"
+                          fullWidth
                         />
                       </div>
+
                       <div>
                         <TextField
+                          id="lastname"
                           name="lastname"
-                          value={this.state.profile.lastname}
-                          onChange={this.changeAddUserHandler}
-                          placeholder="lastname"
+                          className="textFieldUnderline textField"
+                          value={lastname}
+                          onChange={e => {
+                            let { profile } = this.state;
+                            profile.lastname = e.target.value;
+                            this.setState({ profile });
+                          }}
                           margin="normal"
+                          placeholder="Last Name"
+                          type="text"
+                          fullWidth
                         />
                       </div>
 
                       <br />
 
-                      <div>
-                        {success ? (
-                          <p className="success" variant="h5">
-                            {success}
-                          </p>
+                      <div className="creatingButtonContainer">
+                        {isLoading ? (
+                          <CircularProgress size={26} />
                         ) : (
-                          <p className="error" variant="h5">
-                            {error}
-                          </p>
+                          <Button
+                            type="submit"
+                            variant="contained"
+                            color="primary"
+                          >
+                            Add User
+                          </Button>
                         )}
                       </div>
-
-                      <Button type="submit" variant="contained" color="primary">
-                        Add User
-                      </Button>
                     </form>
                   </CardContent>
                   <CardActions>
