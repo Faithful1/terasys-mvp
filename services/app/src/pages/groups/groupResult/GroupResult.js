@@ -25,6 +25,7 @@ class GroupResult extends Component {
     openModalForUpdateGroup: false,
     openModalForAddDevice: false,
     openModalForAddUser: false,
+
     isLoading: false,
 
     groups: [],
@@ -65,11 +66,21 @@ class GroupResult extends Component {
     this._refreshGroups();
   }
 
-  handleClose = () => {
+  handleCloseUpdateGroupModal = () => {
     this.setState({
-      openModalForUpdateGroup: false,
-      openModalForAddDevice: false,
-      openModalForAdduser: false
+      openModalForUpdateGroup: false
+    });
+  };
+
+  handleCloseAddDeviceToGroupModal = () => {
+    this.setState({
+      openModalForAddDevice: false
+    });
+  };
+
+  handleCloseAddUserToGroupModal = () => {
+    this.setState({
+      openModalForAddUser: false
     });
   };
 
@@ -183,7 +194,9 @@ class GroupResult extends Component {
       openModalForAddUser,
       groups,
       success,
-      error
+      error,
+
+      gid
     } = this.state;
 
     if (groups) {
@@ -261,7 +274,7 @@ class GroupResult extends Component {
               aria-labelledby="simple-modal-title"
               aria-describedby="simple-modal-description"
               open={openModalForUpdateGroup}
-              onClose={this.handleClose}
+              onClose={this.handleCloseUpdateGroupModal}
             >
               <div className="modal-paper">
                 <Typography variant="h6" id="modal-title">
@@ -303,7 +316,10 @@ class GroupResult extends Component {
                     <Button size="small" onClick={this.updateGroupHandler}>
                       Update Group
                     </Button>
-                    <Button size="small" onClick={this.handleClose}>
+                    <Button
+                      size="small"
+                      onClick={this.handleCloseUpdateGroupModal}
+                    >
                       close
                     </Button>
                   </CardActions>
@@ -318,7 +334,7 @@ class GroupResult extends Component {
               aria-labelledby="simple-modal-title"
               aria-describedby="simple-modal-description"
               open={openModalForAddDevice}
-              onClose={this.handleClose}
+              onClose={this.handleCloseAddDeviceToGroupModal}
             >
               <div className="modal-paper">
                 <Typography variant="h6" id="modal-title">
@@ -401,7 +417,10 @@ class GroupResult extends Component {
                     <Button size="small" onClick={this.addDeviceHandler}>
                       Update Group
                     </Button>
-                    <Button size="small" onClick={this.handleClose}>
+                    <Button
+                      size="small"
+                      onClick={this.handleCloseAddDeviceToGroupModal}
+                    >
                       close
                     </Button>
                   </CardActions>
@@ -416,7 +435,7 @@ class GroupResult extends Component {
               aria-labelledby="simple-modal-title"
               aria-describedby="simple-modal-description"
               open={openModalForAddUser}
-              onClose={this.handleClose}
+              onClose={this.handleCloseAddUserToGroupModal}
             >
               <div className="modal-paper">
                 <Typography variant="h6" id="modal-title">
@@ -455,6 +474,7 @@ class GroupResult extends Component {
                           margin="normal"
                         />
                       </div>
+
                       <div>
                         <TextField
                           name="firstname"
@@ -497,7 +517,10 @@ class GroupResult extends Component {
                     <Button size="small" onClick={this.onSubmitUser}>
                       add User
                     </Button>
-                    <Button size="small" onClick={this.handleClose}>
+                    <Button
+                      size="small"
+                      onClick={this.handleCloseAddUserToGroupModal}
+                    >
                       close
                     </Button>
                   </CardActions>
