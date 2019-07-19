@@ -1,160 +1,224 @@
-import React, { Component } from "react";
+import React from "react";
+
 import axios from "axios";
+import Yup from "yup";
+
+import { Formik, Field, Form } from "formik";
+import { TextField } from "formik-material-ui";
+
 import {
-  CircularProgress,
   Typography,
   Button,
-  TextField
+  withStyles,
+  LinearProgress
 } from "@material-ui/core";
 
-class RegisterForm extends Component {
-  state = {
-    apiUrl: "https://www.terasyshub.io/api/v1/registerAdmin",
-    isLoading: false,
-    password: "",
-    password_confirm: "",
-    email: "",
-    profile: {
-      firstname: "",
-      lastname: ""
-    },
-    key: "8JadZIptT2ysZPKQUAdBWw.lwewT8M4",
-    errorMessage: "",
-    status: "",
-    errors: ""
-  };
-
-  submitHandler = e => {
-    e.preventDefault();
-
-    const headers = {
-      "Content-Type": "application/json"
-    };
-
-    axios
-      .post(`${this.state.apiUrl}`, this.state, { headers: headers })
-      .then(response => console.log(response.data))
-      .then(response => this.setState({ status: response.data }))
-      .catch(error => this.setState({ errors: error.response.data }));
-  };
-
-  onChangeHandler = e => {
-    this.setState({
-      [e.target.name]: e.target.value
-    });
-  };
-
-  render() {
-    const {
-      isLoading,
-      email,
-      password,
-      password_confirm,
-      status,
-      errors
-    } = this.state;
-
-    return (
-      <form onSubmit={this.submitHandler}>
-        <Typography variant="h1" className="greeting">
-          Admin
+const RegisterForm = ({ classes }) => (
+  <Formik
+    initialValues={{
+      registerUrl: "https://www.terasyshub.io/api/v1/registerAdmin",
+      addUser: {
+        profile: {
+          firstname: "",
+          lastname: ""
+        },
+        email: "",
+        password: "",
+        confirm_password: ""
+      }
+    }}
+    onSubmit={values => {
+      console.log(values.addUser);
+      // axios.post(values.registerUrl, values.addUser);
+    }}
+    render={({ isSubmitting, values }) => (
+      <Form>
+        <Typography variant="h1" className={classes.subGreeting}>
+          Super Admin
         </Typography>
 
-        {errors ? (
-          <Typography color="secondary" className="errorMessage">
-            {errors}
-          </Typography>
-        ) : (
-          <Typography color="primary" className="successMessage">
-            {status}
-          </Typography>
-        )}
+        <div className={classes.formDividerContainer}>
+          <div className={classes.formDivider} />
+        </div>
 
-        <TextField
-          id="firstname"
-          name="firstname"
+        <Field
+          name="addUser.profile.firstname"
           className="textFieldUnderline textField"
-          value={this.state.profile.firstname}
-          onChange={e => {
-            let { profile } = this.state;
-            profile.firstname = e.target.value;
-            this.setState({ profile });
-          }}
+          component={TextField}
           margin="normal"
           placeholder="First Name"
           type="text"
           fullWidth
         />
 
-        <TextField
-          id="lastname"
-          name="lastname"
+        <Field
+          name="addUser.profile.lastname"
           className="textFieldUnderline textField"
-          value={this.state.profile.lastname}
-          onChange={e => {
-            let { profile } = this.state;
-            profile.lastname = e.target.value;
-            this.setState({ profile });
-          }}
+          component={TextField}
           margin="normal"
           placeholder="Last Name"
           type="text"
           fullWidth
         />
 
-        <TextField
-          id="email"
-          name="email"
-          className="textFieldUnderline textField"
-          value={email}
-          onChange={this.onChangeHandler}
+        <Field
+          name="addUser.email"
+          component={TextField}
           margin="normal"
-          placeholder="Email Address"
+          placeholder="Email Adress"
           type="email"
           fullWidth
+          InputProps={{
+            classes: {
+              underline: classes.textFieldUnderline,
+              input: classes.textField
+            }
+          }}
         />
-        <TextField
-          id="password"
-          name="password"
-          value={password}
-          className="textFieldUnderline textField"
-          onChange={this.onChangeHandler}
+
+        <Field
+          name="addUser.password"
+          component={TextField}
           margin="normal"
           placeholder="Password"
           type="password"
+          InputProps={{
+            classes: {
+              underline: classes.textFieldUnderline,
+              input: classes.textField
+            }
+          }}
           fullWidth
         />
-        <TextField
-          id="password_confirm"
-          name="password_confirm"
-          value={password_confirm}
-          className="textFieldUnderline textField"
-          onChange={this.onChangeHandler}
+
+        <Field
+          name="addUser.confirm_password"
+          component={TextField}
           margin="normal"
           placeholder="Confirm Password"
           type="password"
+          InputProps={{
+            classes: {
+              underline: classes.textFieldUnderline,
+              input: classes.textField
+            }
+          }}
           fullWidth
         />
 
-        <div className="creatingButtonContainer">
-          {isLoading ? (
-            <CircularProgress size={26} />
-          ) : (
-            <Button
-              type="submit"
-              size="large"
-              variant="contained"
-              color="primary"
-              fullWidth
-              className="createAccountButton"
-            >
-              Create your account
-            </Button>
-          )}
-        </div>
-      </form>
-    );
-  }
-}
+        <br />
+        {isSubmitting && <LinearProgress />}
+        <br />
 
-export default RegisterForm;
+        <div className="creatingButtonContainer">
+          <Button
+            disabled={
+              values.addUser.email.length === 0 ||
+              values.addUser.password.length === 0 ||
+              values.addUser.confirm_password.length === 0 ||
+              isSubmitting
+            }
+            type="submit"
+            size="large"
+            variant="contained"
+            color="primary"
+            fullWidth
+            className="createAccountButton"
+          >
+            Create your account
+          </Button>
+        </div>
+      </Form>
+    )}
+  />
+);
+
+const styles = theme => ({
+  container: {
+    height: "100vh",
+    width: "100vw",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    position: "absolute",
+    top: 0,
+    left: 0
+  },
+
+  formContainer: {
+    width: "40%",
+    height: "100%",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    [theme.breakpoints.down("md")]: {
+      width: "50%"
+    }
+  },
+  form: {
+    width: 320
+  },
+  greeting: {
+    fontWeight: 500,
+    textAlign: "center",
+    marginTop: theme.spacing.unit * 4
+  },
+  subGreeting: {
+    fontWeight: 500,
+    textAlign: "center",
+    marginTop: theme.spacing.unit * 2
+  },
+  creatingButtonContainer: {
+    marginTop: theme.spacing.unit * 2.5,
+    height: 46,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  createAccountButton: {
+    height: 46,
+    textTransform: "none"
+  },
+  formDividerContainer: {
+    marginTop: theme.spacing.unit * 4,
+    marginBottom: theme.spacing.unit * 4,
+    display: "flex",
+    alignItems: "center"
+  },
+  formDividerWord: {
+    paddingLeft: theme.spacing.unit * 2,
+    paddingRight: theme.spacing.unit * 2
+  },
+  formDivider: {
+    flexGrow: 1,
+    height: 1,
+    backgroundColor: theme.palette.text.hint + "40"
+  },
+  errorMessage: {
+    textAlign: "center"
+  },
+  textFieldUnderline: {
+    "&:before": {
+      borderBottomColor: theme.palette.primary.light
+    },
+    "&:after": {
+      borderBottomColor: theme.palette.primary.main
+    },
+    "&:hover:before": {
+      borderBottomColor: `${theme.palette.primary.light} !important`
+    }
+  },
+  textField: {
+    borderBottomColor: theme.palette.background.light
+  },
+  formButtons: {
+    width: "100%",
+    marginTop: theme.spacing.unit * 4,
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center"
+  }
+});
+
+export default withStyles(styles, { withTheme: true })(RegisterForm);
