@@ -69,6 +69,7 @@ class GroupResult extends Component {
     this._refreshGroups();
   }
 
+  /* handle close of modals */
   handleCloseUpdateGroupModal = () => {
     this.setState({
       openModalForUpdateGroup: false
@@ -87,6 +88,7 @@ class GroupResult extends Component {
     });
   };
 
+  /* handle submission events */
   updateGroupHandler = e => {
     e.preventDefault();
     const headers = {
@@ -155,6 +157,7 @@ class GroupResult extends Component {
       .catch(error => this.setState({ error: error.response.data }));
   };
 
+  /* handle update binds from form */
   onEditHandler = (_id, name, description) => {
     this.setState({
       openModalForUpdateGroup: true,
@@ -182,6 +185,7 @@ class GroupResult extends Component {
     });
   };
 
+  /* handle updates after submit */
   changeAddDeviceHandler = e => {
     this.setState({
       [e.target.name]: e.target.value
@@ -200,6 +204,7 @@ class GroupResult extends Component {
     });
   };
 
+  /* handle refresh of groups */
   _refreshGroups() {
     axios
       .get(`${this.state.apiUrl}`)
