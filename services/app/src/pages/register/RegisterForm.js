@@ -105,13 +105,20 @@ class RegisterForm extends Component {
 
     axios
       .post(`${this.state.apiUrl}`, this.state, { headers: headers })
-      .then(response => console.log(response.data))
       .then(response =>
         this.setState({
           status: response.data,
-          isLoading: false
+          isLoading: false,
+          password: "",
+          password_confirm: "",
+          email: "",
+          profile: {
+            firstname: "",
+            lastname: ""
+          }
         })
       )
+
       .catch(error =>
         this.setState({
           errors: error.response.data,

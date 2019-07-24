@@ -110,8 +110,6 @@ class GroupResult extends Component {
   onSubmitDevice = e => {
     e.preventDefault();
 
-    console.log(this.state);
-
     const headers = {
       "Content-Type": "application/json"
     };
@@ -128,8 +126,6 @@ class GroupResult extends Component {
 
   onSubmitUser = e => {
     e.preventDefault();
-
-    console.log(this.state);
 
     const headers = {
       "Content-Type": "application/json"
