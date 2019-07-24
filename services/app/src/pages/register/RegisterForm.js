@@ -2,11 +2,79 @@ import React, { Component } from "react";
 import axios from "axios";
 
 import {
-  CircularProgress,
+  LinearProgress,
   Typography,
   Button,
-  TextField
+  TextField,
+  withStyles
 } from "@material-ui/core";
+
+const styles = {
+  container: {
+    height: "100vh",
+    width: "100vw",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    position: "absolute",
+    top: 0,
+    left: 0
+  },
+
+  formContainer: {
+    width: "40%",
+    height: "100%",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  form: {
+    width: 320
+  },
+  greeting: {
+    fontWeight: 500,
+    textAlign: "center",
+    marginTop: "32px"
+  },
+  subGreeting: {
+    fontWeight: 500,
+    textAlign: "center"
+  },
+  creatingButtonContainer: {
+    height: 46,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  createAccountButton: {
+    height: 46,
+    textTransform: "none"
+  },
+  formDividerContainer: {
+    display: "flex",
+    alignItems: "center"
+  },
+
+  formDivider: {
+    flexGrow: 1,
+    height: 1
+  },
+  errorMessage: {
+    textAlign: "center"
+  },
+
+  textField: {
+    borderBottomColor: "1px solid #222"
+  },
+  formButtons: {
+    width: "100%",
+    marginTop: 32,
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center"
+  }
+};
 
 class RegisterForm extends Component {
   state = {
@@ -27,6 +95,10 @@ class RegisterForm extends Component {
   submitHandler = e => {
     e.preventDefault();
 
+    this.setState({
+      isLoading: true
+    });
+
     const headers = {
       "Content-Type": "application/json"
     };
@@ -34,8 +106,18 @@ class RegisterForm extends Component {
     axios
       .post(`${this.state.apiUrl}`, this.state, { headers: headers })
       .then(response => console.log(response.data))
-      .then(response => this.setState({ status: response.data }))
-      .catch(error => this.setState({ errors: error.response.data }));
+      .then(response =>
+        this.setState({
+          status: response.data,
+          isLoading: false
+        })
+      )
+      .catch(error =>
+        this.setState({
+          errors: error.response.data,
+          isLoading: false
+        })
+      );
   };
 
   onChangeHandler = e => {
@@ -56,7 +138,7 @@ class RegisterForm extends Component {
 
     return (
       <form onSubmit={this.submitHandler}>
-        <Typography variant="h1" className="greeting">
+        <Typography variant="h1" style={styles.subGreeting}>
           Admin
         </Typography>
 
@@ -70,10 +152,14 @@ class RegisterForm extends Component {
           </Typography>
         )}
 
+        <div style={styles.formDividerContainer}>
+          <div style={styles.formDivider} />
+        </div>
+
         <TextField
           id="firstname"
           name="firstname"
-          className="textFieldUnderline textField"
+          styles={styles.textField}
           value={this.state.profile.firstname}
           onChange={e => {
             let { profile } = this.state;
@@ -89,7 +175,7 @@ class RegisterForm extends Component {
         <TextField
           id="lastname"
           name="lastname"
-          className="textFieldUnderline textField"
+          styles={styles.textField}
           value={this.state.profile.lastname}
           onChange={e => {
             let { profile } = this.state;
@@ -105,7 +191,7 @@ class RegisterForm extends Component {
         <TextField
           id="email"
           name="email"
-          className="textFieldUnderline textField"
+          styles={styles.textField}
           value={email}
           onChange={this.onChangeHandler}
           margin="normal"
@@ -117,7 +203,7 @@ class RegisterForm extends Component {
           id="password"
           name="password"
           value={password}
-          className="textFieldUnderline textField"
+          styles={styles.textField}
           onChange={this.onChangeHandler}
           margin="normal"
           placeholder="Password"
@@ -128,7 +214,7 @@ class RegisterForm extends Component {
           id="password_confirm"
           name="password_confirm"
           value={password_confirm}
-          className="textFieldUnderline textField"
+          styles={styles.textField}
           onChange={this.onChangeHandler}
           margin="normal"
           placeholder="Confirm Password"
@@ -138,15 +224,21 @@ class RegisterForm extends Component {
 
         <div className="creatingButtonContainer">
           {isLoading ? (
-            <CircularProgress size={26} />
+            <LinearProgress size={26} />
           ) : (
             <Button
+              disabled={
+                email.length === 0 ||
+                password.length === 0 ||
+                password_confirm.length === 0 ||
+                isLoading
+              }
               type="submit"
               size="large"
               variant="contained"
               color="primary"
+              styles={styles.createAccountButton}
               fullWidth
-              className="createAccountButton"
             >
               Create your account
             </Button>
@@ -157,4 +249,4 @@ class RegisterForm extends Component {
   }
 }
 
-export default RegisterForm;
+export default withStyles(styles, { withTheme: true })(RegisterForm);
