@@ -88,7 +88,7 @@ class GroupResult extends Component {
     });
   };
 
-  /* handle submission events */
+  /* handle Patch after submission */
   updateGroupHandler = e => {
     e.preventDefault();
     const headers = {
@@ -185,7 +185,7 @@ class GroupResult extends Component {
     });
   };
 
-  /* handle updates after submit */
+  /* handle setstate for targets and values */
   changeAddDeviceHandler = e => {
     this.setState({
       [e.target.name]: e.target.value
