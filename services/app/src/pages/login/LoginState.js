@@ -68,7 +68,8 @@ export const loginUser = (login, password) => dispatch => {
     })
     .catch(error => {
       console.log(error.response.data);
-      dispatch(loginFailure(error.response.data));
+      const error_message = error.response.data;
+      dispatch(loginFailure(error_message));
     });
 };
 
@@ -99,6 +100,7 @@ export default function LoginReducer(state = initialState, { type, payload }) {
       return {
         ...state,
         isLoading: false,
+        isAuthenticated: false,
         error: true
       };
     case RESET_ERROR:

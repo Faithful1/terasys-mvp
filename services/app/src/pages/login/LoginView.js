@@ -46,11 +46,20 @@ const Login = ({ classes, ...props }) => (
                 <div className={classes.formDivider} />
               </div>
 
-              <Fade in={props.error}>
-                <Typography color="secondary" className={classes.errorMessage}>
-                  Something is wrong with your login or password :(
+              {props.error ? (
+                <Fade in={props.error}>
+                  <Typography
+                    color="secondary"
+                    className={classes.errorMessage}
+                  >
+                    Please enter correct details or contact admin :(
+                  </Typography>
+                </Fade>
+              ) : (
+                <Typography color="primary" className="successMessage">
+                  {props.status}
                 </Typography>
-              </Fade>
+              )}
 
               <TextField
                 id="email"
