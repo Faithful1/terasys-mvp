@@ -181,6 +181,12 @@ class GroupResult extends Component {
     });
   };
 
+  onDeleteHandler = _id => {
+    axios.delete("/api/v1/groups/:" + _id).then(response => {
+      this._refreshGroups();
+    });
+  };
+
   /* handle setstate for targets and values */
   changeAddDeviceHandler = e => {
     this.setState({
@@ -294,6 +300,12 @@ class GroupResult extends Component {
                       onClick={this.onUserAddHandler.bind(this, group._id)}
                     >
                       Add User
+                    </Button>
+                    <Button
+                      size="small"
+                      onClick={this.onDeleteHandler.bind(this, group._id)}
+                    >
+                      Delete
                     </Button>
                   </CardActions>
                 </Card>
