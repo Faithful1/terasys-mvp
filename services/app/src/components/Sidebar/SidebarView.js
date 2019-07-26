@@ -25,9 +25,7 @@ const structure = [
     icon: <DeviceIcon />,
     children: [
       { label: "Add Device", link: "/app/add-device" },
-      { label: "View Devices", link: "/app/devices" },
-      { label: "Generate Key", link: "/app/gen-key" },
-      { label: "Get Device Key", link: "/app/get-key" }
+      { label: "View Devices", link: "/app/devices" }
     ]
   },
   // {
@@ -63,7 +61,9 @@ const structure = [
     icon: <GroupsIcon />,
     children: [
       { label: "Add Group", link: "/app/add-group" },
-      { label: "Manage Group", link: "/app/manage-group" }
+      { label: "Manage Group", link: "/app/manage-group" },
+      { label: "Generate Key", link: "/app/gen-key" },
+      { label: "Get Device Key", link: "/app/get-key" }
     ]
   },
   // { id: 6, label: "Admin", link: "/app/admin", icon: <SupportIcon /> },
