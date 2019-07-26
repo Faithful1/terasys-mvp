@@ -24,7 +24,7 @@ const structure = [
     link: "/app/devices",
     icon: <DeviceIcon />,
     children: [
-      { label: "Add Device", link: "/app/add-device" },
+      // { label: "Add Device", link: "/app/add-device" },
       { label: "View Devices", link: "/app/devices" }
     ]
   },
@@ -34,12 +34,12 @@ const structure = [
   //   link: "/app/typography",
   //   icon: <UserIcon />
   // },
-  {
-    id: 3,
-    label: "Data Management",
-    link: "/app/notifications",
-    icon: <DataIcon />
-  },
+  // {
+  //   id: 3,
+  //   label: "Data Management",
+  //   link: "/app/notifications",
+  //   icon: <DataIcon />
+  // },
   // {
   //   id: 4,
   //   label: "Data",
@@ -62,8 +62,8 @@ const structure = [
     children: [
       { label: "Add Group", link: "/app/add-group" },
       { label: "Manage Group", link: "/app/manage-group" },
-      { label: "Generate Key", link: "/app/gen-key" },
-      { label: "Get Device Key", link: "/app/get-key" }
+      { label: "Generate Key", link: "/app/gen-key" }
+      // { label: "Get Device Key", link: "/app/get-key" }
     ]
   },
   // { id: 6, label: "Admin", link: "/app/admin", icon: <SupportIcon /> },
