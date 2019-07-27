@@ -1,0 +1,25 @@
+version: '3.3'
+
+services:
+
+  nginx:
+    image: jwilder/nginx-proxy
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+
+  app:
+    build:
+      context: ./services/app
+      dockerfile: Dockerfile-prod
+    restart: always
+    volumes:
+      - ./services/app:/code
+    environment:
+      - VIRTUAL_HOST=app-staging.terasys.com
+      - VIRTUAL_PORT=3000
+
+volumes:
+  db_data_dev:
