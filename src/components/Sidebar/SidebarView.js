@@ -1,7 +1,7 @@
 import React from "react";
 import { Drawer, IconButton, List, withStyles } from "@material-ui/core";
 import {
-  // Home as HomeIcon,
+  Home as HomeIcon,
   // DataUsage as DataIcon,
   // People as UserIcon,
   Group as GroupsIcon,
@@ -17,7 +17,7 @@ import SidebarLink from "./components/SidebarLink/SidebarLinkContainer";
 // import Dot from "./components/Dot";
 
 const structure = [
-  // { id: 0, label: "Dashboard", link: "/app/dashboard", icon: <HomeIcon /> },
+  { id: 0, label: "Dashboard", link: "/app/dashboard", icon: <HomeIcon /> },
   {
     id: 1,
     label: "Device Management",
