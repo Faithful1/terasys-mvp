@@ -40,7 +40,7 @@
     ]
   },
   "scripts": {
-    "start": "CHOKIDAR_USEPOLLING=true react-scripts start",
+    "start": "PORT=4000 CHOKIDAR_USEPOLLING=true react-scripts start",
     "start:prod": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
