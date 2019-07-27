@@ -2,7 +2,7 @@ import React from "react";
 import { Drawer, IconButton, List, withStyles } from "@material-ui/core";
 import {
   Home as HomeIcon,
-  DataUsage as DataIcon,
+  // DataUsage as DataIcon,
   // People as UserIcon,
   Group as GroupsIcon,
   DeviceHub as DeviceIcon,
