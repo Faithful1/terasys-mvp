@@ -87,7 +87,7 @@ class RegisterForm extends Component {
       firstname: "",
       lastname: ""
     },
-    key: "8JadZIptT2ysZPKQUAdBWw.lwewT8M4",
+    key: `${process.env.REACT_APP_ADMIN_KEY}`,
     status: "",
     errors: ""
   };
