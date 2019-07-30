@@ -17,8 +17,8 @@ class Dashboard extends Component {
     metric: "",
     macAddress: "",
     viewport: {
-      latitude: 45.4211,
-      longitude: -75.6983,
+      latitude: 9.59396,
+      longitude: 8.105306,
       width: "100vw",
       height: "100vh",
       zoom: 10
