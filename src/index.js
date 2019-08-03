@@ -6,6 +6,8 @@ import * as serviceWorker from "./serviceWorker";
 
 import store from "./store";
 
+// check token expiry and remove token from localstorage and refresh window 
+
 ReactDOM.render(
   <Provider store={store}>
     <App />

@@ -60,10 +60,16 @@ export const loginUser = (login, password) => dispatch => {
     .then(response => {
       const token = response.data;
       setTimeout(() => {
+        const decodedToken = jwt.decode(token);
+
+        // const exp = decodedToken.exp;
+        // const expiresIn = milliseconds between now and exp
+        // setTimeout(signOut, expiresIn - 60000)
+
         localStorage.setItem("jwtToken", token);
         setAuthorizationToken(token);
         dispatch(loginSuccess(token));
-        dispatch(setCurrentUser(jwt.decode(token)));
+        dispatch(setCurrentUser(decodedToken));
       }, 2000);
     })
     .catch(error => {
