@@ -4,7 +4,7 @@ import axios from "axios";
 
 import { Grid } from "@material-ui/core";
 import { ResponsiveContainer } from "recharts";
-import { TextField } from "@material-ui/core";
+import { TextField, CircularProgress, Button, Select } from "@material-ui/core";
 
 import Widget from "../../components/Widget";
 import PageTitle from "../../components/PageTitle";
@@ -12,18 +12,10 @@ import { Typography } from "../../components/Wrappers";
 
 class Dashboard extends Component {
   state = {
-    getApiUrl: "https://www.terasyshub.io/api/v1/data/:temperature:mac-address",
     deviceData: [],
+    isLoading: false,
     error: "",
     metricsChoice: "",
-    metric: [
-      {
-        type: "temperature"
-      },
-      {
-        type: "humidity"
-      }
-    ],
     macAddress: "",
     viewport: {
       latitude: 6.5244,
@@ -34,30 +26,56 @@ class Dashboard extends Component {
     }
   };
 
-  componentDidMount() {
+  submitHandler = e => {
+    e.preventDefault();
+
+    const { metricsChoice, macAddress } = this.state;
+
+    this.setState({
+      isLoading: true
+    });
+
+    const headers = {
+      "Content-Type": "application/json"
+    };
+
     axios
-      .get(`${this.state.getApiUrl}`)
-      .then(response => this.setState({ devices: response.data }))
+      .get(
+        `https://www.terasyshub.io/api/v1/data/:${metricsChoice}/:${macAddress}`,
+        { headers: headers }
+      )
       .then(response => console.log(response.data))
-      .catch(error => this.setState({ error: error.response.data }))
-      .catch(error => console.log(error.response.data));
-  }
+      .then(response =>
+        this.setState({
+          deviceData: response.data,
+          isLoading: false,
+          metricsChoice: "",
+          macAddress: ""
+        })
+      )
+      .catch(error =>
+        this.setState({
+          error: error.response.data,
+          isLoading: false
+        })
+      );
+  };
 
   onChangeHandler = e => {
     this.setState({
-      metricsChoice: e.target.value
+      [e.target.name]: e.target.value
     });
-  };
-
-  handleOptionChange = (e, index, value) => {
-    this.setState({
-      metricsChoice: value
-    });
-    console.log(this.state.metricsChoice);
+    console.log(this.state);
   };
 
   render() {
-    const { viewport, macAddress, metric, metricsChoice } = this.state;
+    const {
+      viewport,
+      macAddress,
+      error,
+      metricsChoice,
+      isLoading
+    } = this.state;
 
     return (
       <React.Fragment>
@@ -74,11 +92,13 @@ class Dashboard extends Component {
               }
             >
               <ResponsiveContainer width="100%" minWidth={500} height={250}>
-                <form
-                  onSubmit={this.submitHandler}
-                  noValidate
-                  autoComplete="off"
-                >
+                <form onSubmit={this.submitHandler}>
+                  {error ? (
+                    <Typography color="secondary" className="errors">
+                      {error}
+                    </Typography>
+                  ) : null}
+
                   <TextField
                     id="standard-search"
                     label="Enter Mac Address"
@@ -86,9 +106,42 @@ class Dashboard extends Component {
                     value={macAddress}
                     onChange={this.onChangeHandler}
                     type="search"
-                    margin="normal"
+                    margin="dense"
                     helperText="Enter Mac Address"
                   />
+                  <br />
+                  <br />
+                  <Select
+                    native
+                    name="metricsChoice"
+                    value={metricsChoice}
+                    onChange={this.onChangeHandler.bind(this)}
+                    inputProps={{
+                      id: "metrics"
+                    }}
+                    margin="dense"
+                  >
+                    <option value="none" />
+                    <option value="temperature">temperature</option>
+                    <option value="humidity">humidity</option>
+                  </Select>
+
+                  <br />
+                  <br />
+                  <div className="creatingButtonContainer">
+                    {isLoading ? (
+                      <CircularProgress size={26} />
+                    ) : (
+                      <Button
+                        type="submit"
+                        size="large"
+                        variant="contained"
+                        color="primary"
+                      >
+                        Search Device
+                      </Button>
+                    )}
+                  </div>
                 </form>
               </ResponsiveContainer>
             </Widget>
