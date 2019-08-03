@@ -41,10 +41,9 @@ class Dashboard extends Component {
 
     axios
       .get(
-        `https://www.terasyshub.io/api/v1/data/:${metricsChoice}/:${macAddress}`,
+        `https://www.terasyshub.io/api/v1/data/${metricsChoice}/${macAddress}`,
         { headers: headers }
       )
-      .then(response => console.log(response.data))
       .then(response =>
         this.setState({
           deviceData: response.data,
@@ -65,12 +64,12 @@ class Dashboard extends Component {
     this.setState({
       [e.target.name]: e.target.value
     });
-    console.log(this.state);
   };
 
   render() {
     const {
       viewport,
+      // deviceData,
       macAddress,
       error,
       metricsChoice,
@@ -115,7 +114,7 @@ class Dashboard extends Component {
                     native
                     name="metricsChoice"
                     value={metricsChoice}
-                    onChange={this.onChangeHandler.bind(this)}
+                    onChange={this.onChangeHandler}
                     inputProps={{
                       id: "metrics"
                     }}
@@ -160,10 +159,14 @@ class Dashboard extends Component {
               <ResponsiveContainer width="100%" minWidth={500} height={500}>
                 <ReactMapGL
                   {...viewport}
+                  // center={[currentMarker.lng, currentMarker.lat]}
                   mapStyle="mapbox://styles/faithfulanere/cjypfi4ql51wk1dm04hs0y102"
                   mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
                   onViewportChange={viewport => this.setState({ viewport })}
                 >
+                  {/* {
+                    _.map(deviceData, ({ _id, location: { lon, lat } }) => <Marker lng={lon} lat={lat} onClick={() => this.setState({ currentMarker: _id })} />)
+                  } */}
                   Markers here
                 </ReactMapGL>
               </ResponsiveContainer>
