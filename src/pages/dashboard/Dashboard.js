@@ -11,6 +11,8 @@ import Widget from "../../components/Widget";
 import PageTitle from "../../components/PageTitle";
 import { Typography } from "../../components/Wrappers";
 
+import markerImage from "./skateboarding.svg";
+
 class Dashboard extends Component {
   state = {
     deviceData: [],
@@ -20,11 +22,11 @@ class Dashboard extends Component {
     selectedDevice: "",
     macAddress: "",
     viewport: {
-      latitude: 6.5244,
-      longitude: 3.3792,
+      latitude: 9.0820,
+      longitude: 8.6753,
       width: "100vw",
       height: "100vh",
-      zoom: 10,
+      zoom: 13,
       bearing: 0,
       pitch: 0
     }
@@ -183,7 +185,7 @@ class Dashboard extends Component {
                         }}
                       >
                         <img
-                          src="./src/images/skateboarding.svg"
+                          src={markerImage}
                           alt="devices"
                         />
                       </button>
