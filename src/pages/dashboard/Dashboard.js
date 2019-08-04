@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import ReactMapGL, { marker } from "react-map-gl";
+import ReactMapGL, { Marker } from "react-map-gl";
 import axios from "axios";
+import _ from "lodash";
 
 import { Grid } from "@material-ui/core";
 import { ResponsiveContainer } from "recharts";
@@ -69,7 +70,7 @@ class Dashboard extends Component {
   render() {
     const {
       viewport,
-      // deviceData,
+      deviceData,
       macAddress,
       error,
       metricsChoice,
@@ -159,15 +160,23 @@ class Dashboard extends Component {
               <ResponsiveContainer width="100%" minWidth={500} height={500}>
                 <ReactMapGL
                   {...viewport}
-                  // center={[currentMarker.lng, currentMarker.lat]}
-                  mapStyle="mapbox://styles/faithfulanere/cjypfi4ql51wk1dm04hs0y102"
                   mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
+                  // mapStyle="mapbox://styles/mapbox/streets-v11"
+                  mapStyle="mapbox://styles/mapbox/light-v10"
                   onViewportChange={viewport => this.setState({ viewport })}
                 >
+                  {deviceData.map(data => (
+                    <Marker
+                      key={data._id}
+                      longitude={data.location.lon}
+                      latitude={data.location.lat}
+                    >
+                      <Typography>DEVICES</Typography>
+                    </Marker>
+                  ))}
                   {/* {
                     _.map(deviceData, ({ _id, location: { lon, lat } }) => <Marker lng={lon} lat={lat} onClick={() => this.setState({ currentMarker: _id })} />)
                   } */}
-                  Markers here
                 </ReactMapGL>
               </ResponsiveContainer>
             </Widget>
