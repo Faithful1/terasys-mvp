@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import ReactMapGL, { Marker, Popup } from "react-map-gl";
 import axios from "axios";
-import _ from "lodash";
 
 import { Grid } from "@material-ui/core";
 import { ResponsiveContainer } from "recharts";
@@ -11,7 +10,7 @@ import Widget from "../../components/Widget";
 import PageTitle from "../../components/PageTitle";
 import { Typography } from "../../components/Wrappers";
 
-import markerImage from "./skateboarding.svg";
+import markerImage from "./device.svg";
 
 class Dashboard extends Component {
   state = {
@@ -22,13 +21,11 @@ class Dashboard extends Component {
     selectedDevice: "",
     macAddress: "",
     viewport: {
-      latitude: 9.0820,
+      latitude: 9.082,
       longitude: 8.6753,
       width: "100vw",
       height: "100vh",
-      zoom: 13,
-      bearing: 0,
-      pitch: 0
+      zoom: 5
     }
   };
 
@@ -177,18 +174,14 @@ class Dashboard extends Component {
                       longitude={data.location.lon}
                       latitude={data.location.lat}
                     >
-                      <button
-                        className="marker-btn"
+                      <img
                         onClick={e => {
                           e.preventDefault();
                           this.setState({ selectedDevice: data });
                         }}
-                      >
-                        <img
-                          src={markerImage}
-                          alt="devices"
-                        />
-                      </button>
+                        src={markerImage}
+                        alt="devices"
+                      />
                     </Marker>
                   ))}
 
@@ -196,18 +189,26 @@ class Dashboard extends Component {
                     <Popup
                       tipSize={5}
                       anchor="top"
-                      latitude={selectedDevice.location.lon}
-                      longitude={selectedDevice.location.lat}
+                      latitude={selectedDevice.location.lat}
+                      longitude={selectedDevice.location.lon}
                       onClose={() => {
                         this.setState({ selectedDevice: null });
                       }}
                     >
-                      <Typography>{selectedDevice.mac}</Typography>
-                      <Typography>{selectedDevice.timestamp}</Typography>
-                      <Typography>{selectedDevice.location.lon}</Typography>
-                      <Typography>{selectedDevice.location.lat}</Typography>
-                      <Typography>{selectedDevice.type}</Typography>
-                      <Typography>{selectedDevice.value}</Typography>
+                      <Typography>
+                        Mac:
+                        {selectedDevice.mac}
+                        TimeStamp:
+                        {selectedDevice.timestamp}
+                        Longitude:
+                        {selectedDevice.location.lon}
+                        <h4>Latitude:</h4>
+                        {selectedDevice.location.lat}
+                        <h4>Type:</h4>
+                        {selectedDevice.type}
+                        <h4>Value:</h4>
+                        {selectedDevice.value}
+                      </Typography>
                     </Popup>
                   ) : null}
                 </ReactMapGL>
