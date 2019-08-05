@@ -202,13 +202,12 @@ class Dashboard extends Component {
                       }}
                     >
                       <Typography>
-                        Mac:
-                        {selectedDevice.mac} | TimeStamp:
-                        {selectedDevice.timestamp} | Longitude:
-                        {selectedDevice.location.lon} | Latitude:
-                        {selectedDevice.location.lat} | Type:
-                        {selectedDevice.type} | Value:
-                        {selectedDevice.value}
+                        Mac:{selectedDevice.mac} <br />
+                        TimeStamp: {selectedDevice.timestamp} <br />
+                        Longitude: {selectedDevice.location.lon} <br />
+                        Latitude: {selectedDevice.location.lat} <br />
+                        Type: {selectedDevice.type} <br />
+                        Value: {selectedDevice.value}
                       </Typography>
                     </Popup>
                   ) : null}
