@@ -4,7 +4,13 @@ import axios from "axios";
 
 import { Grid } from "@material-ui/core";
 import { ResponsiveContainer } from "recharts";
-import { TextField, CircularProgress, Button, Select } from "@material-ui/core";
+import {
+  TextField,
+  CircularProgress,
+  Button,
+  Select,
+  FormHelperText
+} from "@material-ui/core";
 
 import Widget from "../../components/Widget";
 import PageTitle from "../../components/PageTitle";
@@ -82,7 +88,7 @@ class Dashboard extends Component {
 
     return (
       <React.Fragment>
-        <PageTitle title="Terasys IoT Dashboard" />
+        <PageTitle title="Dashboard" />
         <Grid container spacing={32}>
           <Grid item xs={12}>
             <Widget
@@ -103,8 +109,8 @@ class Dashboard extends Component {
                   ) : null}
 
                   <TextField
+                    required
                     id="standard-search"
-                    label="Enter Mac Address"
                     name="macAddress"
                     value={macAddress}
                     onChange={this.onChangeHandler}
@@ -116,18 +122,18 @@ class Dashboard extends Component {
                   <br />
                   <Select
                     native
+                    required
                     name="metricsChoice"
                     value={metricsChoice}
                     onChange={this.onChangeHandler}
-                    inputProps={{
-                      id: "metrics"
-                    }}
+                    inputProps={{ required: true }}
                     margin="dense"
                   >
                     <option value="none" />
                     <option value="temperature">temperature</option>
                     <option value="humidity">humidity</option>
                   </Select>
+                  <FormHelperText>Select Metrics</FormHelperText>
 
                   <br />
                   <br />

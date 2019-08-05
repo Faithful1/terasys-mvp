@@ -62,9 +62,13 @@ export const loginUser = (login, password) => dispatch => {
       setTimeout(() => {
         const decodedToken = jwt.decode(token);
 
-        // const exp = decodedToken.exp;
-        // const expiresIn = milliseconds between now and exp
-        // setTimeout(signOut, expiresIn - 60000)
+        const exp = decodedToken.exp;
+        const current_time = Date.now().valueOf() / 1000;
+
+        if (exp < current_time) {
+          localStorage.removeItem("jwtToken");
+          dispatch(signOutSuccess());
+        }
 
         localStorage.setItem("jwtToken", token);
         setAuthorizationToken(token);
