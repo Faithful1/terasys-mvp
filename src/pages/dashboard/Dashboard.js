@@ -203,16 +203,11 @@ class Dashboard extends Component {
                     >
                       <Typography>
                         Mac:
-                        {selectedDevice.mac}
-                        TimeStamp:
-                        {selectedDevice.timestamp}
-                        Longitude:
-                        {selectedDevice.location.lon}
-                        <h4>Latitude:</h4>
-                        {selectedDevice.location.lat}
-                        <h4>Type:</h4>
-                        {selectedDevice.type}
-                        <h4>Value:</h4>
+                        {selectedDevice.mac} | TimeStamp:
+                        {selectedDevice.timestamp} | Longitude:
+                        {selectedDevice.location.lon} | Latitude:
+                        {selectedDevice.location.lat} | Type:
+                        {selectedDevice.type} | Value:
                         {selectedDevice.value}
                       </Typography>
                     </Popup>
