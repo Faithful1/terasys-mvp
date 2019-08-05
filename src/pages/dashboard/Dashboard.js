@@ -9,7 +9,10 @@ import {
   CircularProgress,
   Button,
   Select,
-  FormHelperText
+  FormHelperText,
+  MenuItem,
+  FormControl,
+  InputLabel
 } from "@material-ui/core";
 
 import Widget from "../../components/Widget";
@@ -118,25 +121,34 @@ class Dashboard extends Component {
                     margin="dense"
                     helperText="Enter Mac Address"
                   />
-                  <br />
-                  <br />
-                  <Select
-                    native
-                    required
-                    name="metricsChoice"
-                    value={metricsChoice}
-                    onChange={this.onChangeHandler}
-                    inputProps={{ required: true }}
-                    margin="dense"
-                  >
-                    <option value="none" />
-                    <option value="temperature">temperature</option>
-                    <option value="humidity">humidity</option>
-                  </Select>
-                  <FormHelperText>Select Metrics</FormHelperText>
 
                   <br />
                   <br />
+
+                  <FormControl required>
+                    <InputLabel htmlFor="metric-native-required">
+                      Metric
+                    </InputLabel>
+                    <Select
+                      native
+                      name="metricsChoice"
+                      value={metricsChoice}
+                      onChange={this.onChangeHandler}
+                      margin="dense"
+                      inputProps={{
+                        id: "metric-native-required"
+                      }}
+                    >
+                      <option value="" />
+                      <option value="temperature">temperature</option>
+                      <option value="humidity">humidity</option>
+                    </Select>
+                    <FormHelperText>Select Metrics</FormHelperText>
+                  </FormControl>
+
+                  <br />
+                  <br />
+
                   <div className="creatingButtonContainer">
                     {isLoading ? (
                       <CircularProgress size={26} />
