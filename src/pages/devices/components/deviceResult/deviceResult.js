@@ -11,7 +11,7 @@ import {
   Modal
 } from "@material-ui/core";
 
-import "./deviceResults.css";
+import "./deviceResult.css";
 
 class DeviceResults extends Component {
   state = {

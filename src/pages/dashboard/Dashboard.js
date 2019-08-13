@@ -1,236 +1,192 @@
-import React, { Component } from "react";
-import ReactMapGL, { Marker, Popup } from "react-map-gl";
-import axios from "axios";
-
-import { Grid } from "@material-ui/core";
-import { ResponsiveContainer } from "recharts";
+import React from "react";
 import {
-  TextField,
-  CircularProgress,
-  Button,
+  Grid,
   Select,
-  FormHelperText,
+  OutlinedInput,
   MenuItem,
-  FormControl,
-  InputLabel
+  withStyles
 } from "@material-ui/core";
 
+import DeviceStat from "./components/DeviceStat/DeviceStat";
 import Widget from "../../components/Widget";
 import PageTitle from "../../components/PageTitle";
 import { Typography } from "../../components/Wrappers";
+import Dot from "../../components/Sidebar/components/Dot";
 
-import markerImage from "./device.svg";
-
-class Dashboard extends Component {
-  state = {
-    deviceData: [],
-    isLoading: false,
-    error: "",
-    metricsChoice: "",
-    selectedDevice: "",
-    macAddress: "",
-    viewport: {
-      latitude: 9.082,
-      longitude: 8.6753,
-      width: "100vw",
-      height: "100vh",
-      zoom: 5
-    }
-  };
-
-  submitHandler = e => {
-    e.preventDefault();
-
-    const { metricsChoice, macAddress } = this.state;
-
-    this.setState({
-      isLoading: true
-    });
-
-    const headers = {
-      "Content-Type": "application/json"
-    };
-
-    axios
-      .get(
-        `https://www.terasyshub.io/api/v1/data/${metricsChoice}/${macAddress}`,
-        { headers: headers }
-      )
-      .then(response =>
-        this.setState({
-          deviceData: response.data,
-          isLoading: false,
-          metricsChoice: "",
-          macAddress: ""
-        })
-      )
-      .catch(error =>
-        this.setState({
-          error: error.response.data,
-          isLoading: false
-        })
-      );
-  };
-
-  onChangeHandler = e => {
-    this.setState({
-      [e.target.name]: e.target.value
-    });
-  };
-
-  render() {
-    const {
-      viewport,
-      deviceData,
-      macAddress,
-      error,
-      metricsChoice,
-      isLoading,
-      selectedDevice
-    } = this.state;
-
-    return (
-      <React.Fragment>
-        <PageTitle title="Dashboard" />
-        <Grid container spacing={32}>
-          <Grid item xs={12}>
-            <Widget
-              header={
-                <div>
-                  <Typography variant="h5" color="textSecondary">
-                    Search
-                  </Typography>
-                </div>
-              }
-            >
-              <ResponsiveContainer width="100%" minWidth={500} height={250}>
-                <form onSubmit={this.submitHandler}>
-                  {error ? (
-                    <Typography color="secondary" className="errors">
-                      {error}
+const Dashboard = ({ classes, theme, ...props }) => {
+  return (
+    <React.Fragment>
+      <PageTitle title="Dashboard" />
+      <Grid container spacing={32}>
+        <Grid item xs={12}>
+          <Widget
+            bodyClass={classes.mainChartBody}
+            header={
+              <div className={classes.mainChartHeader}>
+                <Typography variant="headline" color="textSecondary">
+                  View Live Data
+                </Typography>
+                <div className={classes.mainChartHeaderLabels}>
+                  <div className={classes.mainChartHeaderLabel}>
+                    <Dot color="warning" />
+                    <Typography className={classes.mainChartLegentElement}>
+                      Tablet
                     </Typography>
-                  ) : null}
-
-                  <TextField
-                    required
-                    id="standard-search"
-                    name="macAddress"
-                    value={macAddress}
-                    onChange={this.onChangeHandler}
-                    type="search"
-                    margin="dense"
-                    helperText="Enter Mac Address"
-                  />
-
-                  <br />
-                  <br />
-
-                  <FormControl required>
-                    <InputLabel htmlFor="metric-native-required">
-                      Metric
-                    </InputLabel>
-                    <Select
-                      native
-                      name="metricsChoice"
-                      value={metricsChoice}
-                      onChange={this.onChangeHandler}
-                      margin="dense"
-                      inputProps={{
-                        id: "metric-native-required"
-                      }}
-                    >
-                      <option value="" />
-                      <option value="temperature">temperature</option>
-                      <option value="humidity">humidity</option>
-                    </Select>
-                    <FormHelperText>Select Metrics</FormHelperText>
-                  </FormControl>
-
-                  <br />
-                  <br />
-
-                  <div className="creatingButtonContainer">
-                    {isLoading ? (
-                      <CircularProgress size={26} />
-                    ) : (
-                      <Button
-                        type="submit"
-                        size="large"
-                        variant="contained"
-                        color="primary"
-                      >
-                        Search Device
-                      </Button>
-                    )}
                   </div>
-                </form>
-              </ResponsiveContainer>
-            </Widget>
-          </Grid>
-
-          <Grid item xs={12}>
-            <Widget
-              header={
-                <div>
-                  <Typography variant="h5" color="textSecondary">
-                    Live Data From Device
-                  </Typography>
+                  <div className={classes.mainChartHeaderLabel}>
+                    <Dot color="primary" />
+                    <Typography className={classes.mainChartLegentElement}>
+                      Mobile
+                    </Typography>
+                  </div>
+                  <div className={classes.mainChartHeaderLabel}>
+                    <Dot color="primary" />
+                    <Typography className={classes.mainChartLegentElement}>
+                      Desktop
+                    </Typography>
+                  </div>
                 </div>
-              }
-            >
-              <ResponsiveContainer width="100%" minWidth={500} height={500}>
-                <ReactMapGL
-                  {...viewport}
-                  mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
-                  // mapStyle="mapbox://styles/mapbox/streets-v11"
-                  mapStyle="mapbox://styles/mapbox/light-v10"
-                  onViewportChange={viewport => this.setState({ viewport })}
-                >
-                  {deviceData.map(data => (
-                    <Marker
-                      key={data._id}
-                      longitude={data.location.lon}
-                      latitude={data.location.lat}
-                    >
-                      <img
-                        onClick={e => {
-                          e.preventDefault();
-                          this.setState({ selectedDevice: data });
-                        }}
-                        src={markerImage}
-                        alt="devices"
-                      />
-                    </Marker>
-                  ))}
-
-                  {selectedDevice ? (
-                    <Popup
-                      tipSize={5}
-                      anchor="top"
-                      latitude={selectedDevice.location.lat}
-                      longitude={selectedDevice.location.lon}
-                      onClose={() => {
-                        this.setState({ selectedDevice: null });
+                <Select
+                  value={props.mainChartState}
+                  onChange={e => props.setMainChartState(e.target.value)}
+                  input={
+                    <OutlinedInput
+                      labelWidth={0}
+                      classes={{
+                        notchedOutline: classes.mainChartSelectRoot,
+                        input: classes.mainChartSelect
                       }}
-                    >
-                      <Typography>
-                        Mac:{selectedDevice.mac} <br />
-                        TimeStamp: {selectedDevice.timestamp} <br />
-                        Longitude: {selectedDevice.location.lon} <br />
-                        Latitude: {selectedDevice.location.lat} <br />
-                        Type: {selectedDevice.type} <br />
-                        Value: {selectedDevice.value}
-                      </Typography>
-                    </Popup>
-                  ) : null}
-                </ReactMapGL>
-              </ResponsiveContainer>
-            </Widget>
-          </Grid>
+                    />
+                  }
+                  autoWidth
+                >
+                  <MenuItem value="daily">Daily</MenuItem>
+                  <MenuItem value="weekly">Weekly</MenuItem>
+                  <MenuItem value="monthly">Monthly</MenuItem>
+                </Select>
+              </div>
+            }
+          >
+            <DeviceStat />
+          </Widget>
         </Grid>
-      </React.Fragment>
-    );
-  }
-}
+      </Grid>
+    </React.Fragment>
+  );
+};
 
-export default Dashboard;
+const styles = theme => ({
+  card: {
+    minHeight: "100%",
+    display: "flex",
+    flexDirection: "column"
+  },
+  visitsNumberContainer: {
+    display: "flex",
+    alignItems: "center",
+    flexGrow: 1,
+    paddingBottom: theme.spacing.unit
+  },
+  progressSection: {
+    marginBottom: theme.spacing.unit
+  },
+  progressTitle: {
+    marginBottom: theme.spacing.unit * 2
+  },
+  progress: {
+    marginBottom: theme.spacing.unit,
+    backgroundColor: theme.palette.primary.main
+  },
+  pieChartLegendWrapper: {
+    height: "100%",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "flex-end",
+    marginRight: theme.spacing.unit
+  },
+  legendItemContainer: {
+    display: "flex",
+    alignItems: "center",
+    marginBottom: theme.spacing.unit
+  },
+  fullHeightBody: {
+    display: "flex",
+    flexGrow: 1,
+    flexDirection: "column",
+    justifyContent: "space-between"
+  },
+  tableWidget: {
+    overflowX: "auto"
+  },
+  progressBar: {
+    backgroundColor: theme.palette.warning.main
+  },
+  performanceLegendWrapper: {
+    display: "flex",
+    flexGrow: 1,
+    alignItems: "center",
+    marginBottom: theme.spacing.unit
+  },
+  legendElement: {
+    display: "flex",
+    alignItems: "center",
+    marginRight: theme.spacing.unit * 2
+  },
+  legendElementText: {
+    marginLeft: theme.spacing.unit
+  },
+  serverOverviewElement: {
+    display: "flex",
+    alignItems: "center",
+    maxWidth: "100%"
+  },
+  serverOverviewElementText: {
+    minWidth: 145,
+    paddingRight: theme.spacing.unit * 2
+  },
+  serverOverviewElementChartWrapper: {
+    width: "100%"
+  },
+  mainChartBody: {
+    overflowX: "auto"
+  },
+  mainChartHeader: {
+    width: "100%",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    [theme.breakpoints.only("xs")]: {
+      flexWrap: "wrap"
+    }
+  },
+  mainChartHeaderLabels: {
+    display: "flex",
+    alignItems: "center",
+    [theme.breakpoints.only("xs")]: {
+      order: 3,
+      width: "100%",
+      justifyContent: "center",
+      marginTop: theme.spacing.unit * 3,
+      marginBottom: theme.spacing.unit * 2
+    }
+  },
+  mainChartHeaderLabel: {
+    display: "flex",
+    alignItems: "center",
+    marginLeft: theme.spacing.unit * 3
+  },
+  mainChartSelectRoot: {
+    borderColor: theme.palette.text.hint + "80 !important"
+  },
+  mainChartSelect: {
+    padding: 10,
+    paddingRight: 25
+  },
+  mainChartLegentElement: {
+    fontSize: "18px !important",
+    marginLeft: theme.spacing.unit
+  }
+});
+
+export default withStyles(styles, { withTheme: true })(Dashboard);
