@@ -21,45 +21,43 @@ import { Typography } from "../../components/Wrappers";
 
 class Dashboard extends Component {
   state = {
+    isLoading: false,
     getApiUrl: "https://www.terasyshub.io/api/v1/devices/",
     devices: [],
+    deviceName: "",
 
     deviceData: [],
-    isLoading: false,
     error: "",
     metricsChoice: "",
     macAddress: ""
   };
 
-  componentDidMount() {
+  componentWillMount() {
     this._getDevices();
   }
 
-  submitHandler = e => {
-    e.preventDefault();
+  submitHandler = mac => {
+    const { metricsChoice } = this.state;
+    console.log(mac);
 
-    const { metricsChoice, macAddress } = this.state;
-
-    this.setState({
-      isLoading: true
-    });
+    console.log(this.state);
 
     const headers = {
       "Content-Type": "application/json"
     };
 
     axios
-      .get(
-        `https://www.terasyshub.io/api/v1/data/${metricsChoice}/${macAddress}`,
-        { headers: headers }
-      )
-      .then(response =>
-        this.setState({
-          deviceData: response.data,
-          isLoading: false,
-          metricsChoice: "",
-          macAddress: ""
-        })
+      .get(`https://www.terasyshub.io/api/v1/data/${metricsChoice}/${mac}`, {
+        headers: headers
+      })
+      .then(
+        response => console.log(response.data)
+        // this.setState({
+        //   deviceData: response.data,
+        //   isLoading: false,
+        //   metricsChoice: "",
+        //   macAddress: ""
+        // })
       )
       .catch(error =>
         this.setState({
@@ -84,6 +82,7 @@ class Dashboard extends Component {
 
   render() {
     const {
+      deviceName,
       devices,
       deviceData,
       macAddress,
@@ -122,8 +121,8 @@ class Dashboard extends Component {
                       </InputLabel>
                       <Select
                         native
-                        name="macAddress"
-                        value={macAddress}
+                        name="metricsChoice"
+                        value={metricsChoice}
                         onChange={this.onChangeHandler}
                         margin="dense"
                         inputProps={{
@@ -141,24 +140,24 @@ class Dashboard extends Component {
                     <br />
 
                     <FormControl required>
-                      <InputLabel htmlFor="metric-native-required">
-                        Metric
+                      <InputLabel htmlFor="device-native-required">
+                        Device
                       </InputLabel>
                       <Select
                         native
-                        name="metricsChoice"
-                        value={metricsChoice}
+                        name="deviceName"
+                        value={deviceName}
                         onChange={this.onChangeHandler}
                         margin="dense"
                         inputProps={{
-                          id: "metric-native-required"
+                          id: "device-native-required"
                         }}
                       >
                         <option value="" />
                         <option value={device.name}>{device.name}</option>
                       </Select>
 
-                      <FormHelperText>Select Metrics</FormHelperText>
+                      <FormHelperText>Select Device</FormHelperText>
                     </FormControl>
 
                     <br />
