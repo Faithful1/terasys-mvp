@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import ReactMapGL, { Marker, Popup } from "react-map-gl";
 import axios from "axios";
 import _ from "lodash";
 
@@ -51,15 +52,15 @@ class Dashboard extends Component {
           headers: headers
         }
       )
-      .then(response =>
-        this.setState({
-          deviceData: response.data,
-          isLoading: false,
-          metricsChoice: "",
-          macAddress: ""
-        })
+      .then(
+        response => console.log(response.data)
+        // this.setState({
+        //   deviceData: response.data,
+        //   isLoading: false,
+        //   metricsChoice: "",
+        //   macAddress: ""
+        // })
       )
-      .then(response => console.log(response.data))
       .catch(error =>
         this.setState({
           error: error.response.data,
@@ -87,6 +88,7 @@ class Dashboard extends Component {
       deviceName,
       devices,
       deviceData,
+      macAddress,
       error,
       metricsChoice,
       isLoading
