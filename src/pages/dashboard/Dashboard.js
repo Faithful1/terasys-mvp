@@ -91,57 +91,63 @@ class Dashboard extends Component {
       isLoading
     } = this.state;
 
+    let optionItems = devices.map(device => (
+      <option key={device._id} value={device.name}>
+        {device.name}
+      </option>
+    ));
+
     return (
       <React.Fragment>
         <PageTitle title="Dashboard" />
 
         <Grid container spacing={32}>
-          {devices.map(device => (
-            <Grid key={device._id} item xs={12}>
-              <Widget
-                header={
-                  <div>
-                    <Typography variant="h5" color="textSecondary">
-                      Search
+          <Grid item xs={12}>
+            <Widget
+              header={
+                <div>
+                  <Typography variant="h5" color="textSecondary">
+                    Search
+                  </Typography>
+                </div>
+              }
+            >
+              <ResponsiveContainer width="100%" minWidth={500} height={250}>
+                <form>
+                  {error ? (
+                    <Typography color="secondary" className="errors">
+                      {error}
                     </Typography>
-                  </div>
-                }
-              >
-                <ResponsiveContainer width="100%" minWidth={500} height={250}>
+                  ) : null}
+
+                  <FormControl required>
+                    <InputLabel htmlFor="metric-native-required">
+                      Metric
+                    </InputLabel>
+                    <Select
+                      native
+                      name="metricsChoice"
+                      value={metricsChoice}
+                      onChange={this.onChangeHandler}
+                      margin="dense"
+                      inputProps={{
+                        id: "metric-native-required"
+                      }}
+                    >
+                      <option value="" />
+                      <option value="temperature">temperature</option>
+                      <option value="humidity">humidity</option>
+                    </Select>
+                    <FormHelperText>Select Metrics</FormHelperText>
+                  </FormControl>
+
+                  <br />
+                  <br />
+
                   <div>
-                    {error ? (
-                      <Typography color="secondary" className="errors">
-                        {error}
-                      </Typography>
-                    ) : null}
-
-                    <FormControl required>
-                      <InputLabel htmlFor="metric-native-required">
-                        Metric
-                      </InputLabel>
-                      <Select
-                        native
-                        name="metricsChoice"
-                        value={metricsChoice}
-                        onChange={this.onChangeHandler}
-                        margin="dense"
-                        inputProps={{
-                          id: "metric-native-required"
-                        }}
-                      >
-                        <option value="" />
-                        <option value="temperature">temperature</option>
-                        <option value="humidity">humidity</option>
-                      </Select>
-                      <FormHelperText>Select Metrics</FormHelperText>
-                    </FormControl>
-
-                    <br />
-                    <br />
-
                     <FormControl required>
                       <InputLabel htmlFor="device-native-required">
-                        Device
+                        device
                       </InputLabel>
                       <Select
                         native
@@ -154,7 +160,7 @@ class Dashboard extends Component {
                         }}
                       >
                         <option value="" />
-                        <option value={device.name}>{device.name}</option>
+                        {optionItems}
                       </Select>
 
                       <FormHelperText>Select Device</FormHelperText>
@@ -172,17 +178,17 @@ class Dashboard extends Component {
                           size="large"
                           variant="contained"
                           color="primary"
-                          onClick={this.submitHandler.bind(this, device.mac)}
+                          onClick={this.submitHandler}
                         >
                           Search Device
                         </Button>
                       )}
                     </div>
                   </div>
-                </ResponsiveContainer>
-              </Widget>
-            </Grid>
-          ))}
+                </form>
+              </ResponsiveContainer>
+            </Widget>
+          </Grid>
 
           <Grid item xs={12}>
             <Widget
