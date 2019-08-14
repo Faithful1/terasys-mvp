@@ -1,16 +1,14 @@
 import React, { Component } from "react";
-import ReactMapGL, { Marker, Popup } from "react-map-gl";
 import axios from "axios";
+import _ from "lodash";
 
 import { Grid } from "@material-ui/core";
 import { ResponsiveContainer } from "recharts";
 import {
-  TextField,
   CircularProgress,
   Button,
   Select,
   FormHelperText,
-  MenuItem,
   FormControl,
   InputLabel
 } from "@material-ui/core";
@@ -36,9 +34,9 @@ class Dashboard extends Component {
     this._getDevices();
   }
 
-  submitHandler = mac => {
-    const { metricsChoice } = this.state;
-    console.log(mac);
+  submitHandler = e => {
+    e.preventDefault();
+    const { metricsChoice, macAddress } = this.state;
 
     console.log(this.state);
 
@@ -47,18 +45,21 @@ class Dashboard extends Component {
     };
 
     axios
-      .get(`https://www.terasyshub.io/api/v1/data/${metricsChoice}/${mac}`, {
-        headers: headers
-      })
-      .then(
-        response => console.log(response.data)
-        // this.setState({
-        //   deviceData: response.data,
-        //   isLoading: false,
-        //   metricsChoice: "",
-        //   macAddress: ""
-        // })
+      .get(
+        `https://www.terasyshub.io/api/v1/data/${metricsChoice}/${macAddress}`,
+        {
+          headers: headers
+        }
       )
+      .then(response =>
+        this.setState({
+          deviceData: response.data,
+          isLoading: false,
+          metricsChoice: "",
+          macAddress: ""
+        })
+      )
+      .then(response => console.log(response.data))
       .catch(error =>
         this.setState({
           error: error.response.data,
@@ -71,6 +72,7 @@ class Dashboard extends Component {
     this.setState({
       [e.target.name]: e.target.value
     });
+    console.log(this.state);
   };
 
   _getDevices() {
@@ -85,14 +87,13 @@ class Dashboard extends Component {
       deviceName,
       devices,
       deviceData,
-      macAddress,
       error,
       metricsChoice,
       isLoading
     } = this.state;
 
     let optionItems = devices.map(device => (
-      <option key={device._id} value={device.name}>
+      <option key={device._id} value={device.mac}>
         {device.name}
       </option>
     ));
@@ -126,9 +127,12 @@ class Dashboard extends Component {
                     </InputLabel>
                     <Select
                       native
-                      name="metricsChoice"
                       value={metricsChoice}
-                      onChange={this.onChangeHandler}
+                      onChange={e =>
+                        this.setState({
+                          metricsChoice: e.target.value
+                        })
+                      }
                       margin="dense"
                       inputProps={{
                         id: "metric-native-required"
@@ -151,9 +155,16 @@ class Dashboard extends Component {
                       </InputLabel>
                       <Select
                         native
-                        name="deviceName"
                         value={deviceName}
-                        onChange={this.onChangeHandler}
+                        onChange={e =>
+                          this.setState({
+                            deviceName: e.target.value,
+                            macAddress: _.find(
+                              devices,
+                              device => device.mac == e.target.value
+                            ).mac
+                          })
+                        }
                         margin="dense"
                         inputProps={{
                           id: "device-native-required"
