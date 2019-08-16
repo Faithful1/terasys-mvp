@@ -33,7 +33,7 @@ const DeviceStat = ({ classes, theme, ...props }) => {
             <LineChart
               width={500}
               height={300}
-              data={props.HumidityContent}
+              data={props.TemperatureContent}
               margin={{
                 top: 5,
                 right: 30,
@@ -43,7 +43,10 @@ const DeviceStat = ({ classes, theme, ...props }) => {
             >
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="timestamp" />
-              <YAxis />
+              <YAxis
+                domain={[0, "dataMax"]}
+                ticks={[0, 5, 10, 15, 20, 25, 30, 35, 40]}
+              />
               <Tooltip />
               <Legend />
               <Line
@@ -63,7 +66,7 @@ const DeviceStat = ({ classes, theme, ...props }) => {
             <LineChart
               width={500}
               height={300}
-              data={props.TemperatureContent}
+              data={props.HumidityContent}
               margin={{
                 top: 5,
                 right: 30,
@@ -73,7 +76,7 @@ const DeviceStat = ({ classes, theme, ...props }) => {
             >
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="timestamp" />
-              <YAxis />
+              <YAxis ticks={[0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]} />
               <Tooltip />
               <Legend />
               <Line

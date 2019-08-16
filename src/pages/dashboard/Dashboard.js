@@ -55,8 +55,9 @@ class Dashboard extends Component {
         { headers }
       )
       .then(response => {
+        const tempRecord = response.data.reverse();
         this.setState({
-          deviceTemperatureData: response.data,
+          deviceTemperatureData: tempRecord,
           isLoading: false
         });
       })
@@ -73,8 +74,9 @@ class Dashboard extends Component {
         { headers }
       )
       .then(response => {
+        const humidityRecord = response.data.reverse();
         this.setState({
-          deviceHumidityData: response.data,
+          deviceHumidityData: humidityRecord,
           isLoading: false
         });
       })
