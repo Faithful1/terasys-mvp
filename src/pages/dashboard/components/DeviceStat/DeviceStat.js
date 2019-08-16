@@ -1,12 +1,6 @@
 import React from "react";
 
-import {
-  Grid,
-  Select,
-  OutlinedInput,
-  MenuItem,
-  withStyles
-} from "@material-ui/core";
+import { Grid, withStyles } from "@material-ui/core";
 import {
   ResponsiveContainer,
   LineChart,
@@ -20,7 +14,6 @@ import {
 
 import Widget from "../../../../components/Widget";
 import { Typography } from "../../../../components/Wrappers";
-import Dot from "../../../../components/Sidebar/components/Dot";
 
 const DeviceStat = ({ classes, theme, ...props }) => {
   return (
@@ -33,26 +26,6 @@ const DeviceStat = ({ classes, theme, ...props }) => {
               <Typography variant="headline" color="textSecondary">
                 View Live Data
               </Typography>
-              <div className={classes.mainChartHeaderLabels}>
-                <div className={classes.mainChartHeaderLabel}>
-                  <Dot color="warning" />
-                  <Typography className={classes.mainChartLegentElement}>
-                    Tablet
-                  </Typography>
-                </div>
-                <div className={classes.mainChartHeaderLabel}>
-                  <Dot color="primary" />
-                  <Typography className={classes.mainChartLegentElement}>
-                    Mobile
-                  </Typography>
-                </div>
-                <div className={classes.mainChartHeaderLabel}>
-                  <Dot color="primary" />
-                  <Typography className={classes.mainChartLegentElement}>
-                    Desktop
-                  </Typography>
-                </div>
-              </div>
             </div>
           }
         >
@@ -74,6 +47,7 @@ const DeviceStat = ({ classes, theme, ...props }) => {
               <Tooltip />
               <Legend />
               <Line
+                name="Temperature"
                 type="monotone"
                 dataKey="value"
                 stroke="#8884d8"
@@ -81,7 +55,10 @@ const DeviceStat = ({ classes, theme, ...props }) => {
               />
             </LineChart>
           </ResponsiveContainer>
-
+          <br />
+          <br />
+          <br />
+          <br />
           <ResponsiveContainer width="100%" minWidth={500} height={350}>
             <LineChart
               width={500}
@@ -99,7 +76,12 @@ const DeviceStat = ({ classes, theme, ...props }) => {
               <YAxis />
               <Tooltip />
               <Legend />
-              <Line type="monotone" dataKey="value" stroke="#82ca9d" />
+              <Line
+                name="Humidity"
+                type="monotone"
+                dataKey="value"
+                stroke="#82ca9d"
+              />
             </LineChart>
           </ResponsiveContainer>
         </Widget>
@@ -113,6 +95,12 @@ const styles = theme => ({
     minHeight: "100%",
     display: "flex",
     flexDirection: "column"
+  },
+  temperatureColor: {
+    backgroundColor: "#8884d8"
+  },
+  humidityColor: {
+    backgroundColor: "#82ca9d"
   },
   visitsNumberContainer: {
     display: "flex",

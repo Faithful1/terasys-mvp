@@ -12,15 +12,6 @@ import {
   FormControl,
   InputLabel
 } from "@material-ui/core";
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend
-} from "recharts";
 import Widget from "../../components/Widget";
 import PageTitle from "../../components/PageTitle";
 import { Typography } from "../../components/Wrappers";
@@ -51,8 +42,7 @@ class Dashboard extends Component {
     const {
       deviceTemperatureMetric,
       deviceHumidityMetric,
-      macAddress,
-      metricsChoice
+      macAddress
     } = this.state;
 
     const headers = {
@@ -115,7 +105,6 @@ class Dashboard extends Component {
       devices,
       isLoading,
       deviceName,
-      metricsChoice,
       deviceHumidityData,
       deviceTemperatureData
     } = this.state;
@@ -141,40 +130,13 @@ class Dashboard extends Component {
                 </div>
               }
             >
-              <ResponsiveContainer width="100%" minWidth={500} height={250}>
+              <ResponsiveContainer width="100%" minWidth={500} height={150}>
                 <form>
                   {error ? (
                     <Typography color="secondary" className="errors">
                       {error}
                     </Typography>
                   ) : null}
-
-                  <FormControl required>
-                    <InputLabel htmlFor="metric-native-required">
-                      Metric
-                    </InputLabel>
-                    <Select
-                      native
-                      value={metricsChoice}
-                      onChange={e =>
-                        this.setState({
-                          metricsChoice: e.target.value
-                        })
-                      }
-                      margin="dense"
-                      inputProps={{
-                        id: "metric-native-required"
-                      }}
-                    >
-                      <option value="" />
-                      <option value="temperature">temperature</option>
-                      <option value="humidity">humidity</option>
-                    </Select>
-                    <FormHelperText>Select Metrics</FormHelperText>
-                  </FormControl>
-
-                  <br />
-                  <br />
 
                   <div>
                     <FormControl required>
