@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import ReactMapGL, { Marker, Popup } from "react-map-gl";
 import axios from "axios";
 import _ from "lodash";
 
@@ -13,19 +12,162 @@ import {
   FormControl,
   InputLabel
 } from "@material-ui/core";
-
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  Brush,
+  AreaChart,
+  Area
+} from "recharts";
 import Widget from "../../components/Widget";
 import PageTitle from "../../components/PageTitle";
 import { Typography } from "../../components/Wrappers";
 
+const data = [
+  {
+    _id: "59cb88a08b7bad4aae8bd5d5",
+    mac: "5c:cf:7f:c4:10:36",
+    value: 28.3,
+    unit: "C",
+    timestamp: 1506510995,
+    type: "temperature",
+    __v: 0,
+    location: {
+      lon: 3.38236,
+      lat: 6.497492
+    }
+  },
+  {
+    _id: "59cb7bd38b7bad4aae8bd5bd",
+    mac: "5c:cf:7f:c4:10:36",
+    value: 27.9,
+    unit: "C",
+    timestamp: 1506507720,
+    type: "temperature",
+    __v: 0,
+    location: {
+      lon: 3.38236,
+      lat: 6.497492
+    }
+  },
+  {
+    _id: "59cb7b908b7bad4aae8bd5bb",
+    mac: "5c:cf:7f:c4:10:36",
+    value: 27.9,
+    unit: "C",
+    timestamp: 1506507660,
+    type: "temperature",
+    __v: 0,
+    location: {
+      lon: 3.38236,
+      lat: 6.497492
+    }
+  },
+  {
+    _id: "59cb7b548b7bad4aae8bd5b9",
+    mac: "5c:cf:7f:c4:10:36",
+    value: 27.9,
+    unit: "C",
+    timestamp: 1506507600,
+    type: "temperature",
+    __v: 0,
+    location: {
+      lon: 3.38236,
+      lat: 6.497492
+    }
+  },
+  {
+    _id: "59cb7b178b7bad4aae8bd5b5",
+    mac: "5c:cf:7f:c4:10:36",
+    value: 27.8,
+    unit: "C",
+    timestamp: 1506507540,
+    type: "temperature",
+    __v: 0,
+    location: {
+      lon: 3.38236,
+      lat: 6.497492
+    }
+  },
+  {
+    _id: "59cb7adb8b7bad4aae8bd5b3",
+    mac: "5c:cf:7f:c4:10:36",
+    value: 27.8,
+    unit: "C",
+    timestamp: 1506507480,
+    type: "temperature",
+    __v: 0,
+    location: {
+      lon: 3.38236,
+      lat: 6.497492
+    }
+  },
+  {
+    _id: "59cb7ab68b7bad4aae8bd5b1",
+    mac: "5c:cf:7f:c4:10:36",
+    value: 27.8,
+    unit: "C",
+    timestamp: 1506507420,
+    type: "temperature",
+    __v: 0,
+    location: {
+      lon: 3.38236,
+      lat: 6.497492
+    }
+  },
+  {
+    _id: "59cb7a2b8b7bad4aae8bd5af",
+    mac: "5c:cf:7f:c4:10:36",
+    value: 27.8,
+    unit: "C",
+    timestamp: 1506507300,
+    type: "temperature",
+    __v: 0,
+    location: {
+      lon: 3.38236,
+      lat: 6.497492
+    }
+  },
+  {
+    _id: "59cb79ef8b7bad4aae8bd5ab",
+    mac: "5c:cf:7f:c4:10:36",
+    value: 27.8,
+    unit: "C",
+    timestamp: 1506507240,
+    type: "temperature",
+    __v: 0,
+    location: {
+      lon: 3.38236,
+      lat: 6.497492
+    }
+  },
+  {
+    _id: "59cb78838b7bad4aae8bd5a4",
+    mac: "5c:cf:7f:c4:10:36",
+    value: 27.5,
+    unit: "C",
+    timestamp: 1506506880,
+    type: "temperature",
+    __v: 0,
+    location: {
+      lon: 3.38236,
+      lat: 6.497492
+    }
+  }
+];
 class Dashboard extends Component {
   state = {
     isLoading: false,
     getApiUrl: "https://www.terasyshub.io/api/v1/devices/",
     devices: [],
+    deviceViewData: [],
     deviceName: "",
 
-    deviceData: [],
     error: "",
     metricsChoice: "",
     macAddress: ""
@@ -39,8 +181,6 @@ class Dashboard extends Component {
     e.preventDefault();
     const { metricsChoice, macAddress } = this.state;
 
-    console.log(this.state);
-
     const headers = {
       "Content-Type": "application/json"
     };
@@ -52,14 +192,11 @@ class Dashboard extends Component {
           headers: headers
         }
       )
-      .then(
-        response => console.log(response.data)
-        // this.setState({
-        //   deviceData: response.data,
-        //   isLoading: false,
-        //   metricsChoice: "",
-        //   macAddress: ""
-        // })
+      .then(response =>
+        this.setState({
+          deviceViewData: response.data,
+          isLoading: false
+        })
       )
       .catch(error =>
         this.setState({
@@ -73,7 +210,6 @@ class Dashboard extends Component {
     this.setState({
       [e.target.name]: e.target.value
     });
-    console.log(this.state);
   };
 
   _getDevices() {
@@ -84,11 +220,12 @@ class Dashboard extends Component {
   }
 
   render() {
+    let viewDeviceDataContent;
+
     const {
       deviceName,
       devices,
-      deviceData,
-      macAddress,
+      deviceViewData,
       error,
       metricsChoice,
       isLoading
@@ -99,6 +236,41 @@ class Dashboard extends Component {
         {device.name}
       </option>
     ));
+
+    if (deviceViewData) {
+      viewDeviceDataContent = (
+        <ResponsiveContainer width="100%" minWidth={500} height={500}>
+          <Typography variant="h5" color="textSecondary">
+            <LineChart
+              width={500}
+              height={300}
+              data={deviceViewData}
+              margin={{
+                top: 5,
+                right: 30,
+                left: 20,
+                bottom: 5
+              }}
+            >
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="timestamp" />
+              <YAxis />
+              <Tooltip />
+              <Legend />
+              <Line
+                type="monotone"
+                dataKey="value"
+                stroke="#8884d8"
+                activeDot={{ r: 8 }}
+              />
+              <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
+            </LineChart>
+          </Typography>
+        </ResponsiveContainer>
+      );
+    } else {
+      viewDeviceDataContent = null;
+    }
 
     return (
       <React.Fragment>
@@ -163,7 +335,7 @@ class Dashboard extends Component {
                             deviceName: e.target.value,
                             macAddress: _.find(
                               devices,
-                              device => device.mac == e.target.value
+                              device => device.mac === e.target.value
                             ).mac
                           })
                         }
@@ -213,11 +385,7 @@ class Dashboard extends Component {
                 </div>
               }
             >
-              <ResponsiveContainer width="100%" minWidth={500} height={500}>
-                <Typography variant="h5" color="textSecondary">
-                  Device
-                </Typography>
-              </ResponsiveContainer>
+              {viewDeviceDataContent}
             </Widget>
           </Grid>
         </Grid>

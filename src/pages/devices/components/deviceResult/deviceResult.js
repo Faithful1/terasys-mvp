@@ -96,7 +96,6 @@ class DeviceResults extends Component {
       deviceListContent = (
         <React.Fragment>
           {/* Grid for getting all devices */}
-
           <Grid
             container
             spacing={24}
