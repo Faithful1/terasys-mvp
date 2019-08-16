@@ -60,7 +60,7 @@ const DeviceStat = ({ classes, theme, ...props }) => {
             <LineChart
               width={500}
               height={300}
-              data={props.Content}
+              data={props.HumidityContent}
               margin={{
                 top: 5,
                 right: 30,
@@ -79,7 +79,27 @@ const DeviceStat = ({ classes, theme, ...props }) => {
                 stroke="#8884d8"
                 activeDot={{ r: 8 }}
               />
-              <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
+            </LineChart>
+          </ResponsiveContainer>
+
+          <ResponsiveContainer width="100%" minWidth={500} height={350}>
+            <LineChart
+              width={500}
+              height={300}
+              data={props.TemperatureContent}
+              margin={{
+                top: 5,
+                right: 30,
+                left: 20,
+                bottom: 5
+              }}
+            >
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="timestamp" />
+              <YAxis />
+              <Tooltip />
+              <Legend />
+              <Line type="monotone" dataKey="value" stroke="#82ca9d" />
             </LineChart>
           </ResponsiveContainer>
         </Widget>

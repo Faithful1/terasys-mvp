@@ -30,13 +30,16 @@ class Dashboard extends Component {
   state = {
     isLoading: false,
     getApiUrl: "https://www.terasyshub.io/api/v1/devices/",
-    devices: [],
-    deviceViewData: [],
-    deviceName: "",
 
-    error: "",
+    devices: [],
+    deviceTemperatureData: [],
+    deviceHumidityData: [],
+
+    deviceTemperatureMetric: "temperature",
+    deviceHumidityMetric: "humidity",
     metricsChoice: "",
-    macAddress: ""
+    macAddress: "",
+    error: ""
   };
 
   componentWillMount() {
@@ -45,7 +48,12 @@ class Dashboard extends Component {
 
   submitHandler = e => {
     e.preventDefault();
-    const { metricsChoice, macAddress } = this.state;
+    const {
+      deviceTemperatureMetric,
+      deviceHumidityMetric,
+      macAddress,
+      metricsChoice
+    } = this.state;
 
     const headers = {
       "Content-Type": "application/json"
@@ -53,17 +61,33 @@ class Dashboard extends Component {
 
     axios
       .get(
-        `https://www.terasyshub.io/api/v1/data/${metricsChoice}/${macAddress}`,
-        {
-          headers: headers
-        }
+        `https://www.terasyshub.io/api/v1/data/${deviceTemperatureMetric}/${macAddress}`,
+        { headers }
       )
-      .then(response =>
+      .then(response => {
         this.setState({
-          deviceViewData: response.data,
+          deviceTemperatureData: response.data,
+          isLoading: false
+        });
+      })
+      .catch(error =>
+        this.setState({
+          error: error.response.data,
           isLoading: false
         })
+      );
+
+    axios
+      .get(
+        `https://www.terasyshub.io/api/v1/data/${deviceHumidityMetric}/${macAddress}`,
+        { headers }
       )
+      .then(response => {
+        this.setState({
+          deviceHumidityData: response.data,
+          isLoading: false
+        });
+      })
       .catch(error =>
         this.setState({
           error: error.response.data,
@@ -87,12 +111,13 @@ class Dashboard extends Component {
 
   render() {
     const {
-      deviceName,
-      devices,
-      deviceViewData,
       error,
+      devices,
+      isLoading,
+      deviceName,
       metricsChoice,
-      isLoading
+      deviceHumidityData,
+      deviceTemperatureData
     } = this.state;
 
     let optionItems = devices.map(device => (
@@ -205,7 +230,10 @@ class Dashboard extends Component {
           </Grid>
 
           <Grid item xs={12}>
-            <DeviceStat Content={deviceViewData} />
+            <DeviceStat
+              TemperatureContent={deviceTemperatureData}
+              HumidityContent={deviceHumidityData}
+            />
           </Grid>
         </Grid>
       </React.Fragment>
