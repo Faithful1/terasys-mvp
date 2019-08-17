@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import _ from "lodash";
+import moment from "moment";
 
 import { Grid } from "@material-ui/core";
 import { ResponsiveContainer } from "recharts";
@@ -55,7 +56,13 @@ class Dashboard extends Component {
         { headers }
       )
       .then(response => {
-        const tempRecord = response.data.reverse();
+        const newTemperatureDevice = _.map(response.data, tempData => ({
+          ...tempData,
+          timestamp: moment.unix(tempData.timestamp).format("YYYY-MM-DD HH:mm")
+        }));
+
+        const tempRecord = newTemperatureDevice.reverse();
+
         this.setState({
           deviceTemperatureData: tempRecord,
           isLoading: false
@@ -74,7 +81,12 @@ class Dashboard extends Component {
         { headers }
       )
       .then(response => {
-        const humidityRecord = response.data.reverse();
+        const newHumidityDevice = _.map(response.data, tempData => ({
+          ...tempData,
+          timestamp: moment.unix(tempData.timestamp).format("YYYY-MM-DD HH:mm")
+        }));
+
+        const humidityRecord = newHumidityDevice.reverse();
         this.setState({
           deviceHumidityData: humidityRecord,
           isLoading: false
