@@ -116,7 +116,7 @@ class GroupResult extends Component {
 
     axios
       .post(`${this.state.addDeviceUrl}`, this.state, {
-        headers: headers
+        headers
       })
       .then(response => {
         this._refreshGroups();
@@ -133,7 +133,7 @@ class GroupResult extends Component {
 
     axios
       .post(`${this.state.addUserUrl}`, this.state, {
-        headers: headers
+        headers
       })
       .then(response => {
         this._refreshGroups();
@@ -210,7 +210,10 @@ class GroupResult extends Component {
   _refreshGroups() {
     axios
       .get(`${this.state.apiUrl}`)
-      .then(response => this.setState({ groups: response.data }))
+      .then(response => {
+        const groupData = response.data.reverse();
+        this.setState({ groups: groupData });
+      })
       .catch(error => this.setState({ error: error.response.data }));
   }
 
@@ -470,7 +473,7 @@ class GroupResult extends Component {
                         <CircularProgress size={26} />
                       ) : (
                         <Button size="small" onClick={this.onSubmitDevice}>
-                          add User
+                          add Device
                         </Button>
                       )}
                     </div>

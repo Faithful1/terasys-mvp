@@ -74,9 +74,9 @@ const Header = ({ classes, isSidebarOpened, toggleSidebar, ...props }) => (
             className={classes.profileMenuLink}
             component="a"
             color="primary"
-            href="https://flatlogic.com"
+            href="http://Terasysltd.com"
           >
-            Flalogic.com
+            TerasysLtd.com
           </Typography>
         </div>
         <MenuItem

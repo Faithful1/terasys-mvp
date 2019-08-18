@@ -44,7 +44,6 @@ class GenerateDeviceKey extends Component {
 
   submitHandler = e => {
     e.preventDefault();
-    console.log(this.state);
     axios
       .post(`${this.state.apiurl}/:${this.state.searchText}`)
       .then(response => this.setState({ key: response.data }))

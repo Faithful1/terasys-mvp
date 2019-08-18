@@ -84,7 +84,10 @@ class DeviceResults extends Component {
   _refreshDevices() {
     axios
       .get(`${this.state.getApiUrl}`)
-      .then(response => this.setState({ devices: response.data }))
+      .then(response => {
+        const deviceData = response.data.reverse();
+        this.setState({ devices: deviceData });
+      })
       .catch(error => this.setState({ error: error.response.data }));
   }
 
