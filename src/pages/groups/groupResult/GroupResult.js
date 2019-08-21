@@ -52,7 +52,7 @@ class GroupResult extends Component {
     },
     location: [],
 
-    password: " ",
+    password: "",
     password_confirm: "",
     profile: {
       firstname: "",
