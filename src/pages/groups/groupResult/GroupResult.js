@@ -34,6 +34,8 @@ class GroupResult extends Component {
     groups: [],
     groupName: "",
     error: "",
+    deviceError: "",
+    userError: "",
     success: "",
 
     editGroupData: {
@@ -121,7 +123,7 @@ class GroupResult extends Component {
       .then(response => {
         this._refreshGroups();
       })
-      .catch(error => this.setState({ errors: error.response.data }));
+      .catch(error => this.setState({ deviceError: error.response.data }));
   };
 
   onSubmitUser = e => {
@@ -150,7 +152,7 @@ class GroupResult extends Component {
           admin: false
         })
       )
-      .catch(error => this.setState({ error: error.response.data }));
+      .catch(error => this.setState({ userError: error.response.data }));
   };
 
   /* handle update binds from form */
@@ -226,6 +228,8 @@ class GroupResult extends Component {
       groups,
       success,
       error,
+      userError,
+      deviceError,
       isLoading,
 
       mac,
@@ -461,7 +465,7 @@ class GroupResult extends Component {
                           </p>
                         ) : (
                           <p className="error" variant="h5">
-                            {error}
+                            {deviceError}
                           </p>
                         )}
                       </div>
@@ -503,9 +507,9 @@ class GroupResult extends Component {
                   Add User to group
                 </Typography>
 
-                {error ? (
+                {userError ? (
                   <Typography color="secondary" className="errorMessage">
-                    {error}
+                    {userError}
                   </Typography>
                 ) : (
                   <Typography color="primary" className="successMessage">
