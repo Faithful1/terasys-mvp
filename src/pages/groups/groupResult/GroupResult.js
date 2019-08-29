@@ -227,7 +227,6 @@ class GroupResult extends Component {
       openModalForAddUser,
       groups,
       success,
-      error,
       userError,
       deviceError,
       isLoading,

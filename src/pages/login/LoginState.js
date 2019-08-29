@@ -57,23 +57,25 @@ export const loginUser = (login, password) => dispatch => {
 
   axios
     .post(loginUrl, authData, headers)
+
     .then(response => {
       const token = response.data;
+      setTimeout(() => {
+        const decodedToken = jwt.decode(token);
 
-      const decodedToken = jwt.decode(token);
+        localStorage.setItem("jwtToken", token);
+        setAuthorizationToken(token);
+        dispatch(loginSuccess(token));
+        dispatch(setCurrentUser(decodedToken));
+      }, 2000);
 
-      localStorage.setItem("jwtToken", token);
-      setAuthorizationToken(token);
-      dispatch(loginSuccess(token));
-      dispatch(setCurrentUser(decodedToken));
+      // const exp = decodedToken.exp;
+      // const current_time = Date.now() / 1000;
 
-      const exp = decodedToken.exp;
-      const current_time = Date.now() / 1000;
-
-      if (current_time > exp) {
-        localStorage.clear();
-        dispatch(signOutSuccess());
-      }
+      // if (current_time > exp) {
+      //   localStorage.clear();
+      //   dispatch(signOutSuccess());
+      // }
     })
 
     .catch(error => {
