@@ -23,7 +23,7 @@ const DeviceStat = ({ classes, theme, ...props }) => {
           bodyClass={classes.mainChartBody}
           header={
             <div className={classes.mainChartHeader}>
-              <Typography variant="headline" color="textSecondary">
+              <Typography variant="h5" color="textSecondary">
                 View Live Data
               </Typography>
             </div>
