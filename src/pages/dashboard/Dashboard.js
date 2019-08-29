@@ -148,7 +148,7 @@ class Dashboard extends Component {
                 <form>
                   {error ? (
                     <Typography color="secondary" className="errors">
-                      {error}
+                      Login with an admin account to view details
                     </Typography>
                   ) : null}
 
