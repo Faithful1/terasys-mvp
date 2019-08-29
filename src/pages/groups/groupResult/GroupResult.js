@@ -262,6 +262,7 @@ class GroupResult extends Component {
                     <Typography variant="h5" component="h2">
                       {group.name}
                     </Typography>
+                    <br />
                     <Typography variant="body2" component="p">
                       Description: {group.description}
                     </Typography>
@@ -274,6 +275,16 @@ class GroupResult extends Component {
                         </ListItem>
                       </List>
                     ))}
+                    <br />
+                    Users:
+                    {group.users.map((user, index) => (
+                      <List key={index}>
+                        <ListItem>
+                          <ListItemText>{user}</ListItemText>
+                        </ListItem>
+                      </List>
+                    ))}
+                    <br />
                     Devices:
                     {group.devices.map((device, index) => (
                       <List key={index}>
