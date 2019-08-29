@@ -39,15 +39,7 @@ class AddGroup extends Component {
   };
 
   render() {
-    const {
-      name,
-      description,
-      admins,
-      users,
-      devices,
-      success,
-      error
-    } = this.state;
+    const { name, description, success, error } = this.state;
 
     return (
       <React.Fragment>
@@ -74,33 +66,6 @@ class AddGroup extends Component {
                           value={description}
                           onChange={this.changeHandler}
                           placeholder="description"
-                          margin="normal"
-                        />
-                      </div>
-                      <div>
-                        <TextField
-                          name="admins"
-                          value={admins}
-                          onChange={this.changeHandler}
-                          placeholder="admins"
-                          margin="normal"
-                        />
-                      </div>
-                      <div>
-                        <TextField
-                          name="users"
-                          value={users}
-                          onChange={this.changeHandler}
-                          placeholder="users"
-                          margin="normal"
-                        />
-                      </div>
-                      <div>
-                        <TextField
-                          name="devices"
-                          value={devices}
-                          onChange={this.changeHandler}
-                          placeholder="devices"
                           margin="normal"
                         />
                       </div>
